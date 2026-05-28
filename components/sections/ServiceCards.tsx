@@ -1,5 +1,5 @@
 import { ChevronRight } from 'lucide-react';
-import { TargetIcon, GlobeGroupIcon, StarIcon, ClockIcon } from '@/components/ui/ServiceIcons';
+import Image from 'next/image';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 const services = [
   {
-    Icon: GlobeGroupIcon,
+    icon: '/icons/icon_kozosseg.png',
     badge: 'Kiscsoportos',
     title: 'Havi Mentorprogram',
     subtitle: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇮🇹 🇪🇸 🇨🇳',
@@ -16,7 +16,7 @@ const services = [
     badgeVariant: 'blue' as const,
   },
   {
-    Icon: StarIcon,
+    icon: '/icons/icon_mentorales.png',
     badge: 'Privát',
     title: 'Havi Mentorprogram',
     subtitle: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇮🇹 🇪🇸 🇨🇳',
@@ -26,7 +26,7 @@ const services = [
     popular: true,
   },
   {
-    Icon: TargetIcon,
+    icon: '/icons/icon_celok.png',
     badge: 'Magabiztosan Angolul',
     title: 'Kurzus Május',
     subtitle: '🎯',
@@ -35,7 +35,7 @@ const services = [
     badgeVariant: 'coral' as const,
   },
   {
-    Icon: ClockIcon,
+    icon: '/icons/icon_strategia.png',
     badge: 'Stratégia Neked',
     title: 'Nyelvtanulási Tanácsadás',
     subtitle: '✅',
@@ -58,50 +58,53 @@ export function ServiceCards() {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {services.map((service, i) => {
-          const { Icon } = service;
-          return (
-            <Link key={service.badge} href={service.href} className="group">
-              <Card
-                hover
-                className={[
-                  'h-full relative animate-fade-in',
-                  `stagger-${i + 1}`,
-                  service.popular ? 'border-brand-purple ring-2 ring-brand-purple/20' : '',
-                ].join(' ')}
-              >
-                {service.popular && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-purple text-white text-xs font-semibold px-3 py-1 rounded-full font-sans">
-                    Népszerű
-                  </span>
-                )}
+        {services.map((service, i) => (
+          <Link key={service.badge} href={service.href} className="group">
+            <Card
+              hover
+              className={[
+                'h-full relative animate-fade-in',
+                `stagger-${i + 1}`,
+                service.popular ? 'border-brand-purple ring-2 ring-brand-purple/20' : '',
+              ].join(' ')}
+            >
+              {service.popular && (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-purple text-white text-xs font-semibold px-3 py-1 rounded-full font-sans">
+                  Népszerű
+                </span>
+              )}
 
-                <div className="flex flex-col gap-4">
-                  <Icon size={64} />
+              <div className="flex flex-col gap-4">
+                <Image
+                  src={service.icon}
+                  alt={service.badge}
+                  width={64}
+                  height={64}
+                  className="w-16 h-16"
+                />
 
-                  <div>
-                    <Badge variant={service.badgeVariant} className="mb-2">
-                      {service.badge}
-                    </Badge>
-                    <h3 className="font-display text-lg font-bold text-brand-blue mt-1">
-                      {service.title}
-                    </h3>
-                    <p className="text-base mt-0.5">{service.subtitle}</p>
-                  </div>
-
-                  <p className="font-sans text-sm text-brand-muted leading-relaxed flex-1">
-                    {service.description}
-                  </p>
-
-                  <div className="flex items-center gap-1 text-brand-purple font-sans text-sm font-medium group-hover:gap-2 transition-all">
-                    Részletek
-                    <ChevronRight size={14} />
-                  </div>
+                <div>
+                  <Badge variant={service.badgeVariant} className="mb-2">
+                    {service.badge}
+                  </Badge>
+                  <h3 className="font-display text-lg font-bold text-brand-blue mt-1">
+                    {service.title}
+                  </h3>
+                  <p className="text-base mt-0.5">{service.subtitle}</p>
                 </div>
-              </Card>
-            </Link>
-          );
-        })}
+
+                <p className="font-sans text-sm text-brand-muted leading-relaxed flex-1">
+                  {service.description}
+                </p>
+
+                <div className="flex items-center gap-1 text-brand-purple font-sans text-sm font-medium group-hover:gap-2 transition-all">
+                  Részletek
+                  <ChevronRight size={14} />
+                </div>
+              </div>
+            </Card>
+          </Link>
+        ))}
       </div>
     </SectionWrapper>
   );
