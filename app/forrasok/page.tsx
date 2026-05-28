@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Download, ShoppingCart, Check, Lock, Mail } from 'lucide-react';
+import Image from 'next/image';
 
 const categories = ['Összes', 'Ingyenes', 'Premium', 'Tanulási stratégia', 'Szókincs'];
 
@@ -21,7 +22,7 @@ const resources = [
     category: 'Ingyenes',
     type: 'free' as const,
     tags: ['Szókincs', 'PDF'],
-    emoji: '📚',
+    emoji: '/images/icon_konyv.png',
   },
   {
     id: 'free-strategy',
@@ -30,7 +31,7 @@ const resources = [
     category: 'Ingyenes',
     type: 'free' as const,
     tags: ['Tanulási stratégia', 'PDF'],
-    emoji: '🧠',
+    emoji: '/images/icon_agy.png',
   },
   {
     id: 'premium-interview',
@@ -40,7 +41,7 @@ const resources = [
     type: 'premium' as const,
     price: 4990,
     tags: ['Premium', 'PDF'],
-    emoji: '💼',
+    emoji: '/images/icon_koffer.png',
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_INTERVIEW_PRICE_ID,
   },
   {
@@ -51,7 +52,7 @@ const resources = [
     type: 'premium' as const,
     price: 3490,
     tags: ['Premium', 'Szókincs', 'PDF'],
-    emoji: '💬',
+    emoji: '/images/icon_chat.png',
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PHRASES_PRICE_ID,
   },
 ];
@@ -108,8 +109,8 @@ function ResourceCard({ resource }: { resource: ResourceType }) {
   return (
     <Card className="flex flex-col gap-4">
       <div className="flex items-start justify-between">
-        <div className="w-12 h-12 bg-brand-purple-light rounded-2xl flex items-center justify-center text-2xl">
-          {resource.emoji}
+        <div className="w-12 h-12 bg-brand-purple-light rounded-2xl flex items-center justify-center">
+          <Image src={resource.emoji} alt={resource.title} width={32} height={32} className="w-8 h-8" />
         </div>
         <Badge variant={resource.type === 'free' ? 'teal' : 'coral'}>
           {resource.type === 'free' ? 'Ingyenes' : `${resource.price?.toLocaleString('hu-HU')} Ft`}

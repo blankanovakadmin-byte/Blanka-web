@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Cookie, ChevronDown, ChevronUp, Check } from 'lucide-react';
+import { ChevronDown, ChevronUp, Check } from 'lucide-react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 
 interface CookieConsent {
@@ -104,11 +105,11 @@ export function CookieBanner() {
           <div className="p-5 md:p-6">
             <div className="flex items-start gap-3 mb-4">
               <div className="w-10 h-10 bg-brand-purple-light rounded-xl flex items-center justify-center shrink-0 mt-0.5">
-                <Cookie size={20} className="text-brand-purple" />
+                <Image src="/images/icon_cookie.png" alt="süti" width={20} height={20} className="w-5 h-5" />
               </div>
               <div className="flex-1">
                 <h3 className="font-display text-lg font-bold text-brand-blue mb-1">
-                  Sütiket használunk 🍪
+                  Sütiket használunk
                 </h3>
                 <p className="font-sans text-sm text-brand-muted leading-relaxed">
                   A weboldal működéséhez szükséges sütik mindig aktívak. Analitikai sütiket csak hozzájárulásod alapján alkalmazzuk.{' '}

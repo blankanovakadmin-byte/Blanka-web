@@ -5,6 +5,7 @@ import { Footer } from '@/components/sections/Footer';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { Button } from '@/components/ui/Button';
 import { ArrowRight, BookOpen, FlaskConical, Globe, Heart } from 'lucide-react';
+import Image from 'next/image';
 
 export const metadata: Metadata = { title: 'Rólam' };
 
@@ -69,9 +70,15 @@ export default function RolamPage() {
                 van szükség.
               </p>
               <div className="flex flex-wrap gap-3 pt-2">
-                {['🏴󠁧󠁢󠁥󠁮󠁧󠁿 Angol', '🇮🇹 Olasz', '🇪🇸 Spanyol', '🇨🇳 Mandarin'].map(lang => (
-                  <span key={lang} className="font-sans text-sm bg-white border border-brand-border px-3 py-1.5 rounded-full text-brand-blue">
-                    {lang}
+                {[
+                  { flag: '/images/flag_en.png', label: 'Angol' },
+                  { flag: '/images/flag_it.png', label: 'Olasz' },
+                  { flag: '/images/flag_es.png', label: 'Spanyol' },
+                  { flag: '/images/flag_cn.png', label: 'Mandarin' },
+                ].map(({ flag, label }) => (
+                  <span key={label} className="flex items-center gap-1.5 font-sans text-sm bg-white border border-brand-border px-3 py-1.5 rounded-full text-brand-blue">
+                    <Image src={flag} alt={label} width={18} height={18} className="w-[18px] h-[18px]" />
+                    {label}
                   </span>
                 ))}
               </div>

@@ -8,6 +8,22 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { getUpcomingWebinars } from '@/lib/airtable';
 import { Calendar, Clock, Users, Check, ArrowRight, Star } from 'lucide-react';
+import Image from 'next/image';
+
+function FlagRow() {
+  return (
+    <div className="flex items-center gap-1.5 mt-1">
+      {[
+        { src: '/images/flag_en.png', alt: 'EN' },
+        { src: '/images/flag_it.png', alt: 'IT' },
+        { src: '/images/flag_es.png', alt: 'ES' },
+        { src: '/images/flag_cn.png', alt: 'CN' },
+      ].map(f => (
+        <Image key={f.alt} src={f.src} alt={f.alt} width={22} height={22} className="w-[22px] h-[22px]" />
+      ))}
+    </div>
+  );
+}
 
 export const metadata: Metadata = { title: 'Programok' };
 
@@ -17,7 +33,7 @@ const courses = [
     badge: 'Kiscsoportos',
     badgeVariant: 'blue' as const,
     title: 'Havi Kiscsoportos Mentorprogram',
-    languages: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇮🇹 🇪🇸 🇨🇳',
+    languages: 'flags',
     price: '29 900 Ft / hó',
     description: 'Kis létszámú (max. 6 fő) csoportban tanulhatsz, ahol mindenki személyes figyelmet kap. Heti rendszeres élő alkalmakkal, közösségi támogatással.',
     features: ['Max. 6 fő / csoport', 'Heti élő alkalom', 'Privát csoport chat', 'Személyre szabott anyagok', 'Havi haladásjelentés'],
@@ -29,7 +45,7 @@ const courses = [
     badge: 'Privát',
     badgeVariant: 'purple' as const,
     title: 'Havi Privát Mentorprogram',
-    languages: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇮🇹 🇪🇸 🇨🇳',
+    languages: 'flags',
     price: '69 000 Ft / hó',
     description: 'Teljes figyelemmel csak rád fókuszálok. Saját tempód, saját céljaid — 1-1 foglalkozások személyre szabott tervvel.',
     features: ['4 × 60 perces 1-1 alkalom', 'Egyéni tanulási terv', 'WhatsApp/Telegram elérhetőség', 'Házi feladat visszajelzés', 'Neked szóló anyagok'],
@@ -96,7 +112,7 @@ export default async function ProgramokPage() {
                 <div className="flex-1">
                   <Badge variant={course.badgeVariant} className="mb-3">{course.badge}</Badge>
                   <h3 className="font-display text-xl font-bold text-brand-blue mb-1">{course.title}</h3>
-                  <p className="text-lg mb-3">{course.languages}</p>
+                  {course.languages === 'flags' ? <FlagRow /> : <p className="text-lg mb-3">{course.languages}</p>}
                   <p className="font-sans text-brand-muted text-sm mb-4 leading-relaxed">{course.description}</p>
                   <ul className="space-y-2 mb-6">
                     {course.features.map(f => (

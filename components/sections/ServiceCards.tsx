@@ -5,12 +5,29 @@ import { Badge } from '@/components/ui/Badge';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import Link from 'next/link';
 
+const FLAGS = [
+  { src: '/images/flag_en.png', alt: 'EN' },
+  { src: '/images/flag_it.png', alt: 'IT' },
+  { src: '/images/flag_es.png', alt: 'ES' },
+  { src: '/images/flag_cn.png', alt: 'CN' },
+];
+
+function FlagRow() {
+  return (
+    <div className="flex items-center gap-1.5 mt-0.5">
+      {FLAGS.map(f => (
+        <Image key={f.alt} src={f.src} alt={f.alt} width={22} height={22} className="w-[22px] h-[22px]" />
+      ))}
+    </div>
+  );
+}
+
 const services = [
   {
     icon: '/icons/icon_kozosseg.png',
     badge: 'Kiscsoportos',
     title: 'Havi Mentorprogram',
-    subtitle: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇮🇹 🇪🇸 🇨🇳',
+    subtitle: <FlagRow />,
     description: 'Nyelvtanulás, tervezés, támogatás és közösség kis létszámú csoportban.',
     href: '/programok#kiscsoportos',
     badgeVariant: 'blue' as const,
@@ -19,7 +36,7 @@ const services = [
     icon: '/icons/icon_mentorales.png',
     badge: 'Privát',
     title: 'Havi Mentorprogram',
-    subtitle: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇮🇹 🇪🇸 🇨🇳',
+    subtitle: <FlagRow />,
     description: 'Személyre szabott mentorálás és nyelvtanulás teljes figyelemmel rád szabva.',
     href: '/programok#privat',
     badgeVariant: 'purple' as const,
@@ -29,7 +46,7 @@ const services = [
     icon: '/icons/icon_celok.png',
     badge: 'Magabiztosan Angolul',
     title: 'Kurzus Május',
-    subtitle: '🎯',
+    subtitle: null,
     description: 'Fejleszd az önbizalmad angolul, és szólalj meg magabiztosan minden helyzetben.',
     href: '/programok#kurzus',
     badgeVariant: 'coral' as const,
@@ -38,7 +55,9 @@ const services = [
     icon: '/icons/icon_strategia.png',
     badge: 'Stratégia Neked',
     title: 'Nyelvtanulási Tanácsadás',
-    subtitle: '✅',
+    subtitle: (
+      <Image src="/images/icon_check.png" alt="check" width={22} height={22} className="w-[22px] h-[22px] mt-0.5" />
+    ),
     description: 'Egyéni stratégia a hatékonyabb tanulásért és gyorsabb nyelvtudásért.',
     href: '/programok#strategia',
     badgeVariant: 'teal' as const,
@@ -75,27 +94,15 @@ export function ServiceCards() {
               )}
 
               <div className="flex flex-col gap-4">
-                <Image
-                  src={service.icon}
-                  alt={service.badge}
-                  width={64}
-                  height={64}
-                  className="w-16 h-16"
-                />
+                <Image src={service.icon} alt={service.badge} width={64} height={64} className="w-16 h-16" />
 
                 <div>
-                  <Badge variant={service.badgeVariant} className="mb-2">
-                    {service.badge}
-                  </Badge>
-                  <h3 className="font-display text-lg font-bold text-brand-blue mt-1">
-                    {service.title}
-                  </h3>
-                  <p className="text-base mt-0.5">{service.subtitle}</p>
+                  <Badge variant={service.badgeVariant} className="mb-2">{service.badge}</Badge>
+                  <h3 className="font-display text-lg font-bold text-brand-blue mt-1">{service.title}</h3>
+                  {service.subtitle}
                 </div>
 
-                <p className="font-sans text-sm text-brand-muted leading-relaxed flex-1">
-                  {service.description}
-                </p>
+                <p className="font-sans text-sm text-brand-muted leading-relaxed flex-1">{service.description}</p>
 
                 <div className="flex items-center gap-1 text-brand-purple font-sans text-sm font-medium group-hover:gap-2 transition-all">
                   Részletek

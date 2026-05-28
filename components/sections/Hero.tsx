@@ -1,4 +1,5 @@
 import { ArrowRight, BookOpen, Download } from 'lucide-react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 
 export function Hero() {
@@ -78,7 +79,7 @@ export function Hero() {
               {/* Floating badge */}
               <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg p-4 flex items-center gap-3 border border-brand-border animate-float stagger-5">
                 <div className="w-10 h-10 bg-brand-purple-light rounded-xl flex items-center justify-center">
-                  <span className="text-xl">🌍</span>
+                  <Image src="/images/icon_vilag.png" alt="világ" width={24} height={24} className="w-6 h-6" />
                 </div>
                 <div>
                   <p className="font-sans font-bold text-brand-blue text-sm">4 nyelv</p>
