@@ -1,4 +1,5 @@
-import { Globe, Star, Target, Compass, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
+import { TargetIcon, GlobeGroupIcon, StarIcon, ClockIcon } from '@/components/ui/ServiceIcons';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
@@ -6,7 +7,7 @@ import Link from 'next/link';
 
 const services = [
   {
-    icon: Globe,
+    Icon: GlobeGroupIcon,
     badge: 'Kiscsoportos',
     title: 'Havi Mentorprogram',
     subtitle: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇮🇹 🇪🇸 🇨🇳',
@@ -15,7 +16,7 @@ const services = [
     badgeVariant: 'blue' as const,
   },
   {
-    icon: Star,
+    Icon: StarIcon,
     badge: 'Privát',
     title: 'Havi Mentorprogram',
     subtitle: '🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇮🇹 🇪🇸 🇨🇳',
@@ -25,16 +26,16 @@ const services = [
     popular: true,
   },
   {
-    icon: Target,
+    Icon: TargetIcon,
     badge: 'Magabiztosan Angolul',
-    title: 'Kurzus Májustól',
+    title: 'Kurzus Május',
     subtitle: '🎯',
     description: 'Fejleszd az önbizalmad angolul, és szólalj meg magabiztosan minden helyzetben.',
     href: '/programok#kurzus',
     badgeVariant: 'coral' as const,
   },
   {
-    icon: Compass,
+    Icon: ClockIcon,
     badge: 'Stratégia Neked',
     title: 'Nyelvtanulási Tanácsadás',
     subtitle: '✅',
@@ -58,9 +59,9 @@ export function ServiceCards() {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {services.map((service, i) => {
-          const Icon = service.icon;
+          const { Icon } = service;
           return (
-            <Link key={service.title + service.badge} href={service.href} className="group">
+            <Link key={service.badge} href={service.href} className="group">
               <Card
                 hover
                 className={[
@@ -76,12 +77,7 @@ export function ServiceCards() {
                 )}
 
                 <div className="flex flex-col gap-4">
-                  <div className="w-12 h-12 bg-brand-purple-light rounded-2xl flex items-center justify-center group-hover:bg-brand-purple transition-colors duration-300">
-                    <Icon
-                      size={22}
-                      className="text-brand-purple group-hover:text-white transition-colors duration-300"
-                    />
-                  </div>
+                  <Icon size={64} />
 
                   <div>
                     <Badge variant={service.badgeVariant} className="mb-2">
