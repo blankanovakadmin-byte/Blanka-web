@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { InstagramIcon, LinkedinIcon, TiktokIcon } from '@/components/ui/SocialIcons';
+import { CookieSettingsButton } from '@/components/CookieBanner';
 
 const navLinks = [
   { href: '/',          label: 'Kezdőlap' },
@@ -7,6 +8,11 @@ const navLinks = [
   { href: '/forrasok',  label: 'Források' },
   { href: '/rolam',     label: 'Rólam' },
   { href: '/kapcsolat', label: 'Kapcsolat' },
+];
+
+const legalLinks = [
+  { href: '/aszf',        label: 'ÁSZF' },
+  { href: '/adatvedelem', label: 'Adatvédelmi Tájékoztató' },
 ];
 
 const socialLinks = [
@@ -18,14 +24,14 @@ export function Footer() {
   return (
     <footer className="bg-brand-blue text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8 mb-8">
+        <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
-          <div>
+          <div className="md:col-span-1">
             <div className="flex items-center gap-1 mb-3">
               <span className="font-display text-2xl font-bold text-white">blanka</span>
               <span className="font-display text-2xl text-brand-purple italic">novak</span>
             </div>
-            <p className="font-sans text-white/60 text-sm leading-relaxed max-w-xs">
+            <p className="font-sans text-white/60 text-sm leading-relaxed">
               Biológus, doktorandusz, nyelvtanár — segítek angolul magabiztosan megszólalni.
             </p>
           </div>
@@ -38,14 +44,30 @@ export function Footer() {
             <ul className="space-y-2">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="font-sans text-sm text-white/60 hover:text-white transition-colors"
-                  >
+                  <Link href={link.href} className="font-sans text-sm text-white/60 hover:text-white transition-colors">
                     {link.label}
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="font-sans font-semibold text-white/80 text-xs uppercase tracking-widest mb-4">
+              Jogi
+            </h3>
+            <ul className="space-y-2">
+              {legalLinks.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="font-sans text-sm text-white/60 hover:text-white transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <CookieSettingsButton />
+              </li>
             </ul>
           </div>
 
@@ -87,10 +109,7 @@ export function Footer() {
           <p className="font-sans text-xs text-white/40">
             © 2026 Lybskin Kft. (Novák Blanka). Minden jog fenntartva.
           </p>
-          <Link
-            href="/admin"
-            className="font-sans text-xs text-white/20 hover:text-white/40 transition-colors"
-          >
+          <Link href="/admin" className="font-sans text-xs text-white/20 hover:text-white/40 transition-colors">
             Admin
           </Link>
         </div>
