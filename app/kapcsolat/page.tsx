@@ -14,7 +14,7 @@ import { Mail, Check, Send, Calendar } from 'lucide-react';
 const socialLinks = [
   { href: 'https://instagram.com/blankanovak_', icon: InstagramIcon, label: 'Instagram', handle: '@blankanovak_' },
   { href: 'https://youtube.com/@novakblanka',  icon: YoutubeIcon,   label: 'YouTube',   handle: '@novakblanka' },
-  { href: 'https://linkedin.com/in/blankanov', icon: LinkedinIcon, label: 'LinkedIn',  handle: 'Novák Blanka' },
+  { href: 'https://www.linkedin.com/in/blanka-nov%C3%A1k/', icon: LinkedinIcon, label: 'LinkedIn',  handle: 'Novák Blanka' },
 ];
 
 export default function KapcsolatPage() {

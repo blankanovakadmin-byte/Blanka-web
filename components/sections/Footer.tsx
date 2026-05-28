@@ -17,7 +17,7 @@ const legalLinks = [
 
 const socialLinks = [
   { href: 'https://instagram.com/blankanovak_', icon: InstagramIcon, label: 'Instagram' },
-  { href: 'https://linkedin.com/in/blankanov', icon: LinkedinIcon, label: 'LinkedIn' },
+  { href: 'https://www.linkedin.com/in/blanka-nov%C3%A1k/', icon: LinkedinIcon, label: 'LinkedIn' },
 ];
 
 export function Footer() {
