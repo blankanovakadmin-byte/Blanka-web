@@ -17,7 +17,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Novák Blanka — Magabiztosan Angolul',
+    default: 'Novák Blanka | Magabiztosan Angolul',
     template: '%s | Novák Blanka',
   },
   description:

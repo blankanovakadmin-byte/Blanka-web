@@ -25,7 +25,7 @@ export function FeaturedCourse() {
           </h2>
           <p className="font-sans text-brand-muted text-lg leading-relaxed">
             Fejleszd az önbizalmad angolul, és szólalj meg magabiztosan minden
-            helyzetben — az állásinterjútól a külföldi utazásig.
+            helyzetben, az állásinterjútól a külföldi utazásig.
           </p>
 
           <ul className="grid grid-cols-2 gap-3">

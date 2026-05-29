@@ -47,7 +47,7 @@ const courses = [
     title: 'Havi Privát Mentorprogram',
     languages: 'flags',
     price: '69 000 Ft / hó',
-    description: 'Teljes figyelemmel csak rád fókuszálok. Saját tempód, saját céljaid — 1-1 foglalkozások személyre szabott tervvel.',
+    description: 'Teljes figyelemmel csak rád fókuszálok. Saját tempód, saját céljaid, 1-1 foglalkozások személyre szabott tervvel.',
     features: ['4 × 60 perces 1-1 alkalom', 'Egyéni tanulási terv', 'WhatsApp/Telegram elérhetőség', 'Házi feladat visszajelzés', 'Neked szóló anyagok'],
     calLink: 'https://cal.com/novakblanka/privat',
     status: 'active' as const,
@@ -86,7 +86,7 @@ export default async function ProgramokPage() {
               Válassz <span className="text-brand-purple italic">programot</span>
             </h1>
             <p className="font-sans text-brand-muted text-lg">
-              Minden tanulónak más célja van — találjuk meg együtt a számodra legjobb utat.
+              Minden tanulónak más célja van, találjuk meg együtt a számodra legjobb utat.
             </p>
           </div>
         </SectionWrapper>
@@ -143,7 +143,7 @@ export default async function ProgramokPage() {
             </h2>
             <p className="font-sans text-brand-muted text-lg mb-6 leading-relaxed">
               8 hetes strukturált csoportos kurzus azoknak, akik szeretnének végre magabiztosan angolul
-              megszólalni — az állásinterjútól a külföldi utazásig.
+              megszólalni, az állásinterjútól a külföldi utazásig.
             </p>
             <div className="flex items-center gap-1 mb-6">
               {[1,2,3,4,5].map(i => <Star key={i} size={16} fill="#B06AD9" className="text-brand-purple" />)}

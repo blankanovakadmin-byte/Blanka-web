@@ -72,7 +72,7 @@ export function ServiceCards() {
           Válassz programot
         </h2>
         <p className="font-sans text-brand-muted text-lg max-w-xl mx-auto">
-          Minden tanulónak más stílus illik — találd meg a tiedet.
+          Minden tanulónak más stílus illik, találd meg a tiedet.
         </p>
       </div>
 

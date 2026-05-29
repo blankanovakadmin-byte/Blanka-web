@@ -5,7 +5,7 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { getAllWebinars } from '@/lib/airtable';
 
-export const metadata: Metadata = { title: 'Webinárok — Admin' };
+export const metadata: Metadata = { title: 'Webinárok | Admin' };
 
 export default async function AdminWebinarokPage() {
   let webinars: Awaited<ReturnType<typeof getAllWebinars>> = [];
@@ -27,7 +27,7 @@ export default async function AdminWebinarokPage() {
           <div>
             <h1 className="font-display text-xl font-bold text-brand-blue">Webinárok (Airtable)</h1>
             <p className="font-sans text-xs text-brand-muted mt-0.5">
-              Szerkesztés az Airtable-ben történik — itt csak előnézet látható.
+              Szerkesztés az Airtable-ben történik, itt csak előnézet látható.
             </p>
           </div>
         </div>

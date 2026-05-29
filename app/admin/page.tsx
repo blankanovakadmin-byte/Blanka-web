@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Package, Radio, FileText, LogOut } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 
-export const metadata: Metadata = { title: 'Admin — Novák Blanka' };
+export const metadata: Metadata = { title: 'Admin | Novák Blanka' };
 
 const sections = [
   {
@@ -33,7 +33,7 @@ export default function AdminDashboardPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="font-display text-2xl font-bold text-brand-blue">Admin felület</h1>
-            <p className="font-sans text-brand-muted text-sm">Novák Blanka — rendszerkezelés</p>
+            <p className="font-sans text-brand-muted text-sm">Novák Blanka, rendszerkezelés</p>
           </div>
           <form action="/api/admin/logout" method="POST">
             <button

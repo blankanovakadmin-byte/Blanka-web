@@ -107,10 +107,10 @@ export default function AdatvedelemPage() {
 
           <Section title="3. Adatkezelési tevékenységek">
             <div className="space-y-4">
-              <SubSection title="3.1 Weboldal látogatása — technikai naplófájlok">
+              <SubSection title="3.1 Weboldal látogatása: technikai naplófájlok">
                 <DataRow label="Kezelt adatok" value="IP-cím, böngésző típusa, operációs rendszer, látogatás időpontja, megtekintett oldalak, hivatkozó URL" />
                 <DataRow label="Cél" value="A weboldal biztonságos és zavartalan működésének biztosítása, hibák azonosítása" />
-                <DataRow label="Jogalap" value="GDPR 6. cikk (1) bek. f) pont — jogos érdek" />
+                <DataRow label="Jogalap" value="GDPR 6. cikk (1) bek. f) pont: jogos érdek" />
                 <DataRow label="Megőrzési idő" value="30 nap" />
                 <DataRow label="Adatfeldolgozók" value="Vercel Inc. (USA, EU-US DPF); Cloudflare Inc." />
               </SubSection>
@@ -126,7 +126,7 @@ export default function AdatvedelemPage() {
               <SubSection title="3.3 Hírlevél-feliratkozás">
                 <DataRow label="Kezelt adatok" value="E-mail cím, feliratkozás forrása (tag), feliratkozás időpontja, nyitási és kattintási statisztikák" />
                 <DataRow label="Cél" value="Rendszeres elektronikus hírlevél küldése" />
-                <DataRow label="Jogalap" value="GDPR 6. cikk (1) bek. a) pont — az érintett hozzájárulása (kötelező checkbox bepipálásával adott, előre nem kipipált)" />
+                <DataRow label="Jogalap" value="GDPR 6. cikk (1) bek. a) pont: az érintett hozzájárulása (kötelező checkbox bepipálásával adott, előre nem kipipált)" />
                 <DataRow label="Megőrzési idő" value="A leiratkozásig" />
                 <DataRow label="Leiratkozás" value="Az e-mailek alján elhelyezett leiratkozási linkre kattintással, vagy hello@novakblanka.hu e-mail küldésével bármikor" />
                 <DataRow label="Adatfeldolgozók" value="Systeme.io SAS (Franciaország, GDPR hatálya alatt); Resend, Inc. (USA, SCC)" />
@@ -134,7 +134,7 @@ export default function AdatvedelemPage() {
 
               <SubSection title="3.4 Ingyenes letöltés (lead magnet)">
                 <DataRow label="Kezelt adatok" value="E-mail cím, letöltött tartalom azonosítója, letöltés időpontja" />
-                <DataRow label="Cél" value="Az ingyenes digitális tartalom eljuttatása, és — külön hozzájárulással — hírlevél küldése" />
+                <DataRow label="Cél" value="Az ingyenes digitális tartalom eljuttatása, külön hozzájárulással hírlevél küldése" />
                 <DataRow label="Jogalap" value="GDPR 6. cikk (1) bek. b) pont; hírlevélhez: a) pont" />
                 <DataRow label="Megőrzési idő" value="2 év, vagy leiratkozásig (hírlevél esetén)" />
                 <DataRow label="Adatfeldolgozók" value="Systeme.io SAS; Vercel Inc.; Resend, Inc." />
@@ -143,7 +143,7 @@ export default function AdatvedelemPage() {
               <SubSection title="3.5 Webinár-regisztráció">
                 <DataRow label="Kezelt adatok" value="Teljes név, e-mail cím, regisztráció időpontja, webinár azonosítója" />
                 <DataRow label="Cél" value="A webinárhoz való hozzáférés biztosítása, emlékeztető e-mailek küldése" />
-                <DataRow label="Jogalap" value="GDPR 6. cikk (1) bek. b) pont — a szerződés teljesítéséhez szükséges" />
+                <DataRow label="Jogalap" value="GDPR 6. cikk (1) bek. b) pont: a szerződés teljesítéséhez szükséges" />
                 <DataRow label="Megőrzési idő" value="A webinárt követő 1 évig" />
                 <DataRow label="Adatfeldolgozók" value="Systeme.io SAS; Resend, Inc.; Airtable, Inc. (USA, SCC)" />
                 <p className="text-xs text-brand-muted mt-2">A webinár Zoom platformon kerül megrendezésre. A Zoom saját adatkezelési szabályzata érvényes (zoom.us/privacy).</p>
@@ -256,7 +256,7 @@ export default function AdatvedelemPage() {
               {[
                 ['Tájékoztatáshoz és hozzáféréshez való jog (GDPR 15. cikk)', 'Tájékoztatást kérhet arról, hogy adatait kezeljük-e, és ha igen, milyen célból, milyen adatokat, mennyi ideig.'],
                 ['Helyesbítéshez való jog (GDPR 16. cikk)', 'Kérheti a pontatlan személyes adatok helyesbítését.'],
-                ['Törléshez való jog — az elfeledtetéshez való jog (GDPR 17. cikk)', 'Kérheti adatai törlését, ha az adatokra már nincs szükség az eredeti célhoz, a hozzájárulást visszavonta, vagy az adatkezelés jogellenes volt. Jogszabályi kötelezettség (pl. számlázás) esetén a törlési kérés csak a jogszabályi időszak lejárta után teljesíthető.'],
+                ['Törléshez való jog, az elfeledtetéshez való jog (GDPR 17. cikk)', 'Kérheti adatai törlését, ha az adatokra már nincs szükség az eredeti célhoz, a hozzájárulást visszavonta, vagy az adatkezelés jogellenes volt. Jogszabályi kötelezettség (pl. számlázás) esetén a törlési kérés csak a jogszabályi időszak lejárta után teljesíthető.'],
                 ['Az adatkezelés korlátozásához való jog (GDPR 18. cikk)', 'Kérheti az adatkezelés korlátozását pl. az adatok pontosságának vitatása esetén.'],
                 ['Adathordozhatósághoz való jog (GDPR 20. cikk)', 'Jogosult az általa megadott adatokat géppel olvasható formátumban megkapni, és más adatkezelőhöz továbbítani.'],
                 ['Tiltakozáshoz való jog (GDPR 21. cikk)', 'Tiltakozhat az adatkezelés ellen, ha az jogos érdeken alapul. Hírlevél küldése esetén a tiltakozás azonnali hatályú.'],
@@ -270,7 +270,7 @@ export default function AdatvedelemPage() {
             </div>
           </Section>
 
-          <Section title="7. Joggyakorlás — hogyan kell kérni?">
+          <Section title="7. Joggyakorlás: hogyan kell kérni?">
             <div className="bg-brand-purple-light rounded-xl border border-brand-purple/20 p-5">
               <p className="font-semibold text-brand-blue mb-3">Kapcsolat</p>
               <p className="text-sm text-brand-muted mb-1"><strong>E-mail:</strong> hello@novakblanka.hu</p>
@@ -280,7 +280,7 @@ export default function AdatvedelemPage() {
             <p>A joggyakorlás <strong>ingyenes</strong>. Az azonosítás érdekében kérhetjük az érintett személyazonosságának igazolását.</p>
 
             <div className="bg-white rounded-xl border border-brand-border p-5">
-              <p className="font-semibold text-brand-blue mb-2 text-sm">Panasztétel — NAIH elérhetőségei</p>
+              <p className="font-semibold text-brand-blue mb-2 text-sm">Panasztétel: NAIH elérhetőségei</p>
               <p className="text-sm text-brand-muted">Nemzeti Adatvédelmi és Információszabadság Hatóság (NAIH)</p>
               <p className="text-sm text-brand-muted">Cím: 1055 Budapest, Falk Miksa utca 9-11. · Tel: +36 1 391 1400</p>
               <p className="text-sm text-brand-muted">E-mail: ugyfelszolgalat@naih.hu · Web: naih.hu</p>
@@ -293,7 +293,7 @@ export default function AdatvedelemPage() {
                 ['HTTPS / TLS titkosítás', 'A weboldal és az API kommunikáció titkosított'],
                 ['Signed URL-ek', 'A letölthető fájlok időkorlátosan és egyedi linkeken érhetők el (72 óra)'],
                 ['Hozzáférés-korlátozás', 'Az adatokhoz kizárólag az arra feljogosított személyek férnek hozzá'],
-                ['Stripe PCI DSS', 'Fizetési adatokat kizárólag a Stripe kezeli — bankkártyaadathoz a Szolgáltató nem fér hozzá'],
+                ['Stripe PCI DSS', 'Fizetési adatokat kizárólag a Stripe kezeli, bankkártyaadathoz a Szolgáltató nem fér hozzá'],
                 ['Rendszeres frissítések', 'A Weboldal szoftvereinek naprakészen tartása'],
                 ['72 órás NAIH értesítés', 'Adatvédelmi incidens esetén a Szolgáltató 72 órán belül értesíti a NAIH-t'],
               ].map(([title, desc]) => (
@@ -315,7 +315,7 @@ export default function AdatvedelemPage() {
 
           <div className="bg-brand-purple-light rounded-2xl border border-brand-purple/20 p-6 text-center">
             <p className="font-sans text-brand-muted text-sm">
-              Eger, 2026. május 28. · <strong className="text-brand-blue">Lybskin Kft. — Novák Blanka, ügyvezető</strong>
+              Eger, 2026. május 28. · <strong className="text-brand-blue">Lybskin Kft., Novák Blanka, ügyvezető</strong>
             </p>
           </div>
         </div>

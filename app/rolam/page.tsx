@@ -18,7 +18,7 @@ const values = [
   {
     icon: Heart,
     title: 'Személyes kapcsolat',
-    text: 'Nem sablonos módszereket követek — minden tanulómhoz személyesen alkalmazkodom, hogy valódi haladást érhessünk el.',
+    text: 'Nem sablonos módszereket követek, minden tanulómhoz személyesen alkalmazkodom, hogy valódi haladást érhessünk el.',
   },
   {
     icon: FlaskConical,
@@ -28,7 +28,7 @@ const values = [
   {
     icon: BookOpen,
     title: 'Folyamatos fejlődés',
-    text: '4 nyelven kommunikálok — a tanulás sosem áll meg. Saját tapasztalataimat is felhasználom a módszertanom finomításához.',
+    text: '4 nyelven kommunikálok, a tanulás sosem áll meg. Saját tapasztalataimat is felhasználom a módszertanom finomításához.',
   },
 ];
 
@@ -60,7 +60,7 @@ export default function RolamPage() {
                 Novák <span className="text-brand-purple italic">Blanka</span>
               </h1>
               <p className="font-sans text-lg text-brand-muted leading-relaxed">
-                Biológus, doktorandusz, nyelvtanár — és szenvedélyes kommunikátor. Az évek alatt
+                Biológus, doktorandusz, nyelvtanár és szenvedélyes kommunikátor. Az évek alatt
                 rájöttem, hogy a nyelvtanulás legnagyobb akadálya nem a grammatika, hanem az
                 önbizalom hiánya.
               </p>
@@ -101,7 +101,7 @@ export default function RolamPage() {
               <p>
                 Az angoltanulás az életem természetes részévé vált: tudományos konferenciákon,
                 külföldi kutatócsapatokban, nemzetközi publikációkban. De a valódi áttörés akkor
-                jött, amikor elkezdtem <em>tudatosan</em> tanulni — nem csak szavakat memorizálni,
+                jött, amikor elkezdtem <em>tudatosan</em> tanulni, nem csak szavakat memorizálni,
                 hanem a gondolkodásmódot megérteni.
               </p>
               <p>
@@ -146,7 +146,7 @@ export default function RolamPage() {
               Csatlakozz a közösséghez!
             </h2>
             <p className="font-sans text-brand-muted mb-8 max-w-lg mx-auto">
-              Indulj el velem a nyelvtanulás útján — válasd ki a számodra legjobb programot.
+              Indulj el velem a nyelvtanulás útján, válaszd ki a számodra legjobb programot.
             </p>
             <Button href="/programok" size="lg">
               Programok megtekintése <ArrowRight size={18} />

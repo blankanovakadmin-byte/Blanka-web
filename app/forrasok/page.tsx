@@ -18,7 +18,7 @@ const resources = [
   {
     id: 'free-vocab',
     title: '500 legfontosabb angol szó',
-    description: 'A leggyakoribb 500 angol szó és használatuk — ideális kezdőknek és haladóknak egyaránt.',
+    description: 'A leggyakoribb 500 angol szó és használatuk, ideális kezdőknek és haladóknak egyaránt.',
     category: 'Ingyenes',
     type: 'free' as const,
     tags: ['Szókincs', 'PDF'],
@@ -36,7 +36,7 @@ const resources = [
   {
     id: 'premium-interview',
     title: 'Állásinterjú angolul csomag',
-    description: '50 leggyakoribb állásinterjú kérdés és minta válasz — azonnali letöltés.',
+    description: '50 leggyakoribb állásinterjú kérdés és minta válasz, azonnali letöltés.',
     category: 'Premium',
     type: 'premium' as const,
     price: 4990,
@@ -136,7 +136,7 @@ function ResourceCard({ resource }: { resource: ResourceType }) {
           className="w-full justify-center"
         >
           <ShoppingCart size={14} />
-          Megveszem — {resource.price?.toLocaleString('hu-HU')} Ft
+          Megveszem: {resource.price?.toLocaleString('hu-HU')} Ft
           <Lock size={12} className="opacity-60" />
         </Button>
       )}

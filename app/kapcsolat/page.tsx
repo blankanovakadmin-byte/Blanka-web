@@ -130,7 +130,7 @@ export default function KapcsolatPage() {
                       Foglalj időpontot
                     </h3>
                     <p className="font-sans text-sm text-brand-muted mb-3">
-                      Ingyenes 30 perces bevezető konzultáció — nézzük meg együtt, mi illik hozzád.
+                      Ingyenes 30 perces bevezető konzultáció, nézzük meg együtt, mi illik hozzád.
                     </p>
                     <Button href="https://cal.com/novakblanka" external size="sm">
                       Időpontfoglalás

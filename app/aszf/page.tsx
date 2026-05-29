@@ -97,7 +97,7 @@ export default function AszfPage() {
 
           <Section title="3. A Szolgáltató által nyújtott szolgáltatások">
             {[
-              ['3.1 Online webinár', 'Előre meghatározott időpontban, élőben tartott online előadás (Zoom platformon keresztül). A webináron való részvétel regisztrációhoz és — fizetős webinár esetén — díjfizetéshez kötött.'],
+              ['3.1 Online webinár', 'Előre meghatározott időpontban, élőben tartott online előadás (Zoom platformon keresztül). A webináron való részvétel regisztrációhoz, fizetős webinár esetén díjfizetéshez kötött.'],
               ['3.2 Csoportos online kurzus', 'Meghatározott tematika szerint, előre egyeztetett időbeosztásban tartott, több alkalomból álló online képzés. A kurzushoz való hozzáférés a Systeme.io platformon keresztül biztosított.'],
               ['3.3 Önütemezett online kurzus', 'Előre felvett videóanyagokból, PDF-ekből és egyéb digitális tartalmakból álló, a Felhasználó által saját ütemben elvégezhető képzés. A tartalom a Systeme.io platformon érhető el.'],
               ['3.4 Letölthető digitális termékek', 'Nem tárgyi adathordozón nyújtott digitális tartalom (e-book, munkafüzet, hanganyag, sabloncsomag stb.), amelyet a Felhasználó a vásárlást követően, időkorlátosan (72 órán belül lejáró) letöltési linken keresztül tölthet le.'],
@@ -128,7 +128,7 @@ export default function AszfPage() {
             <p><strong>5.4</strong> Előfizetéses (ismétlődő) szolgáltatások esetén a díjat a Stripe a következő számlázási időszak kezdetén automatikusan terheli. Az előfizetés a Felhasználó által bármikor lemondható.</p>
           </Section>
 
-          <Section title="6. Teljesítés — digitális tartalmak és szolgáltatások">
+          <Section title="6. Teljesítés: digitális tartalmak és szolgáltatások">
             <Warning>
               <strong>Fontos a digitális tartalom vásárlóinak:</strong> A 45/2014. (II. 26.) Korm. rendelet 29. § (1) bekezdés m) pontja alapján a Felhasználó a megrendelés véglegesítésekor kifejezett, előzetes beleegyezését adja ahhoz, hogy a Szolgáltató a 14 napos elállási határidő lejárta előtt megkezdje a teljesítést. A Felhasználó egyidejűleg tudomásul veszi, hogy e beleegyezésével <strong>elveszíti a 14 napos elállási jogát</strong>. Ezt a kötelező jelölőnégyzettel kell megerősíteni a vásárlás során.
             </Warning>
@@ -141,17 +141,17 @@ export default function AszfPage() {
 
           <Section title="7. Elállási jog">
             <p><strong>7.1 A főszabály:</strong> A 45/2014. (II. 26.) Korm. rendelet értelmében a fogyasztónak minősülő Felhasználónak a szerződés megkötésétől számított <strong>14 naptári napon belül</strong> joga van indokolás nélkül elállni a szerződéstől.</p>
-            <p><strong>7.2 Elállás kizárása — digitális tartalom:</strong> Letölthető digitális termékek és önütemezett online kurzusok esetén, ha a Felhasználó a vásárlás során kifejezetten beleegyezett a teljesítés azonnali megkezdésébe, és egyidejűleg nyilatkozott arról, hogy ezzel elveszíti elállási jogát.</p>
+            <p><strong>7.2 Elállás kizárása, digitális tartalom:</strong> Letölthető digitális termékek és önütemezett online kurzusok esetén, ha a Felhasználó a vásárlás során kifejezetten beleegyezett a teljesítés azonnali megkezdésébe, és egyidejűleg nyilatkozott arról, hogy ezzel elveszíti elállási jogát.</p>
 
             <div className="space-y-3">
               {[
                 ['Webinár', 'A regisztrációtól számított 14 napon belül, de legkésőbb a webinár kezdete előtt 24 órával: 100% visszatérítés.'],
-                ['Csoportos kurzus — 7+ nappal előtte', '100% visszatérítés'],
-                ['Csoportos kurzus — 3–6 nappal előtte', '50% visszatérítés'],
-                ['Csoportos kurzus — 48 órán belül / utána', 'Nincs visszatérítés'],
-                ['1-1 mentorálás — 48+ órával előtte', '100% visszatérítés'],
-                ['1-1 mentorálás — 24–48 órával előtte', '50% visszatérítés'],
-                ['1-1 mentorálás — 24 órán belül / nem megjelenés', 'Nincs visszatérítés'],
+                ['Csoportos kurzus,7+ nappal előtte', '100% visszatérítés'],
+                ['Csoportos kurzus,3–6 nappal előtte', '50% visszatérítés'],
+                ['Csoportos kurzus,48 órán belül / utána', 'Nincs visszatérítés'],
+                ['1-1 mentorálás,48+ órával előtte', '100% visszatérítés'],
+                ['1-1 mentorálás,24–48 órával előtte', '50% visszatérítés'],
+                ['1-1 mentorálás,24 órán belül / nem megjelenés', 'Nincs visszatérítés'],
               ].map(([label, value]) => (
                 <div key={label} className="flex justify-between items-center bg-white rounded-lg border border-brand-border px-4 py-2.5 text-sm">
                   <span className="text-brand-blue font-medium">{label}</span>
@@ -169,7 +169,7 @@ export default function AszfPage() {
 
           <Section title="8. Kellékszavatosság és jótállás">
             <p><strong>8.1</strong> A Szolgáltató szavatol azért, hogy a nyújtott digitális tartalom és digitális szolgáltatás megfelel a jogszabályi és a szerződéses követelményeknek.</p>
-            <p><strong>8.2</strong> Kellékszavatossági igény esetén a Felhasználó kérheti a hiba kijavítását, megfelelő árleszállítást vagy — ha a kijavítás nem lehetséges — elállhat a szerződéstől.</p>
+            <p><strong>8.2</strong> Kellékszavatossági igény esetén a Felhasználó kérheti a hiba kijavítását, megfelelő árleszállítást, vagy, ha a kijavítás nem lehetséges, elállhat a szerződéstől.</p>
             <p><strong>8.3</strong> A kellékszavatossági igényt a hiba felfedezésétől számított <strong>2 éven belül</strong> lehet érvényesíteni (Ptk. 6:163. §).</p>
             <p><strong>8.5</strong> Jelen ÁSZF alapján nyújtott szolgáltatásokra kötelező jótállás nem vonatkozik.</p>
           </Section>
@@ -206,7 +206,7 @@ export default function AszfPage() {
 
           <div className="bg-brand-purple-light rounded-2xl border border-brand-purple/20 p-6 text-center">
             <p className="font-sans text-brand-muted text-sm">
-              Eger, 2026. május 28. · <strong className="text-brand-blue">Lybskin Kft. — Novák Blanka, ügyvezető</strong>
+              Eger, 2026. május 28. · <strong className="text-brand-blue">Lybskin Kft., Novák Blanka, ügyvezető</strong>
             </p>
           </div>
         </div>

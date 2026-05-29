@@ -140,7 +140,7 @@ export function CookieBanner() {
                   },
                   {
                     label: 'Analitikai sütik',
-                    desc: 'Névtelen látogatottsági statisztika (Vercel Analytics) — segít a weboldal fejlesztésében.',
+                    desc: 'Névtelen látogatottsági statisztika (Vercel Analytics), segít a weboldal fejlesztésében.',
                     checked: analytics,
                     disabled: false,
                     onChange: setAnalytics,
