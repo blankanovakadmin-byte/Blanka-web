@@ -55,9 +55,7 @@ const services = [
     icon: '/icons/icon_strategia.png',
     badge: 'Stratégia Neked',
     title: 'Nyelvtanulási Tanácsadás',
-    subtitle: (
-      <Image src="/images/icon_check.png" alt="check" width={22} height={22} className="w-[22px] h-[22px] mt-0.5" />
-    ),
+    subtitle: null,
     description: 'Egyéni stratégia a hatékonyabb tanulásért és gyorsabb nyelvtudásért.',
     href: '/programok#strategia',
     badgeVariant: 'teal' as const,
@@ -94,7 +92,7 @@ export function ServiceCards() {
               )}
 
               <div className="flex flex-col gap-4">
-                <Image src={service.icon} alt={service.badge} width={64} height={64} className="w-16 h-16" />
+                <Image src={service.icon} alt={service.badge} width={64} height={64} className="w-16 h-16 mix-blend-multiply" />
 
                 <div>
                   <Badge variant={service.badgeVariant} className="mb-2">{service.badge}</Badge>

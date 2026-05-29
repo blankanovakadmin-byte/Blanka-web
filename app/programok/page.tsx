@@ -58,7 +58,7 @@ const courses = [
     badge: 'Stratégia',
     badgeVariant: 'teal' as const,
     title: 'Nyelvtanulási Stratégiai Tanácsadás',
-    languages: '✅',
+    languages: null,
     price: '24 900 Ft',
     description: 'Egyszeri 90 perces intenzív session, ahol megkapod a személyre szabott, részletes tanulási tervedet a következő 3-6 hónapra.',
     features: ['90 perces online session', 'Személyes tanulási terv', '3-6 hónapos roadmap', '2 hétig email támogatás', 'Ajánlott forrástár'],
@@ -112,7 +112,7 @@ export default async function ProgramokPage() {
                 <div className="flex-1">
                   <Badge variant={course.badgeVariant} className="mb-3">{course.badge}</Badge>
                   <h3 className="font-display text-xl font-bold text-brand-blue mb-1">{course.title}</h3>
-                  {course.languages === 'flags' ? <FlagRow /> : <p className="text-lg mb-3">{course.languages}</p>}
+                  {course.languages === 'flags' ? <FlagRow /> : course.languages ? <p className="text-lg mb-3">{course.languages}</p> : null}
                   <p className="font-sans text-brand-muted text-sm mb-4 leading-relaxed">{course.description}</p>
                   <ul className="space-y-2 mb-6">
                     {course.features.map(f => (
@@ -139,7 +139,7 @@ export default async function ProgramokPage() {
           <div className="max-w-2xl">
             <Badge variant="coral" className="mb-4">Kiemelt kurzus</Badge>
             <h2 className="font-display text-3xl font-bold text-brand-blue mb-3">
-              Magabiztosan Angolul 🎯
+              Magabiztosan Angolul
             </h2>
             <p className="font-sans text-brand-muted text-lg mb-6 leading-relaxed">
               8 hetes strukturált csoportos kurzus azoknak, akik szeretnének végre magabiztosan angolul

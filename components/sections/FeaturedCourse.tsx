@@ -21,8 +21,7 @@ export function FeaturedCourse() {
           <Badge variant="coral">Kiemelt kurzus</Badge>
           <h2 className="font-display text-4xl font-bold text-brand-blue leading-tight">
             Magabiztosan{' '}
-            <span className="text-brand-purple italic">Angolul</span>{' '}
-            <span className="text-2xl">🎯</span>
+            <span className="text-brand-purple italic">Angolul</span>
           </h2>
           <p className="font-sans text-brand-muted text-lg leading-relaxed">
             Fejleszd az önbizalmad angolul, és szólalj meg magabiztosan minden
