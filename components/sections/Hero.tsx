@@ -78,7 +78,6 @@ export function Hero() {
 
               {/* Floating badge */}
               <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg p-4 border border-brand-border animate-float stagger-5">
-                <p className="font-sans font-bold text-brand-blue text-xs mb-2">4 nyelv</p>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
                   {[
                     { src: '/images/flag_en.png', label: 'Angol' },
@@ -94,15 +93,6 @@ export function Hero() {
                 </div>
               </div>
 
-              {/* Floating rating */}
-              <div className="absolute -top-4 -right-4 bg-white rounded-2xl shadow-lg p-3 border border-brand-border animate-float stagger-3">
-                <div className="flex items-center gap-1">
-                  {[1,2,3,4,5].map(i => (
-                    <span key={i} className="text-yellow-400 text-sm">★</span>
-                  ))}
-                </div>
-                <p className="font-sans text-xs text-brand-muted mt-0.5">500+ tanuló</p>
-              </div>
             </div>
           </div>
         </div>
