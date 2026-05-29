@@ -41,7 +41,7 @@ const services = [
     subtitle: <FlagRow />,
     description: 'Személyre szabott mentorálás és nyelvtanulás teljes figyelemmel rád szabva.',
     href: '/programok#privat',
-    badgeVariant: 'purple' as const,
+    badgeVariant: 'blue' as const,
     popular: true,
   },
   {
@@ -51,7 +51,7 @@ const services = [
     subtitle: null,
     description: 'Fejleszd az önbizalmad angolul, és szólalj meg magabiztosan minden helyzetben.',
     href: '/programok#kurzus',
-    badgeVariant: 'coral' as const,
+    badgeVariant: 'blue' as const,
   },
   {
     spritePos: '100% 100%',
@@ -60,7 +60,7 @@ const services = [
     subtitle: null,
     description: 'Egyéni stratégia a hatékonyabb tanulásért és gyorsabb nyelvtudásért.',
     href: '/programok#strategia',
-    badgeVariant: 'teal' as const,
+    badgeVariant: 'blue' as const,
   },
 ];
 

@@ -112,7 +112,7 @@ function ResourceCard({ resource }: { resource: ResourceType }) {
         <div className="w-12 h-12 flex items-center justify-center">
           <Image src={resource.emoji} alt={resource.title} width={48} height={48} className="w-12 h-12 object-contain" />
         </div>
-        <Badge variant={resource.type === 'free' ? 'teal' : 'coral'}>
+        <Badge variant={resource.type === 'free' ? 'green' : 'blue'}>
           {resource.type === 'free' ? 'Ingyenes' : `${resource.price?.toLocaleString('hu-HU')} Ft`}
         </Badge>
       </div>
