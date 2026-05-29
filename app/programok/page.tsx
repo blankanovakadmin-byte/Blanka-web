@@ -43,7 +43,7 @@ const courses = [
   {
     id: 'privat',
     badge: 'Privát',
-    badgeVariant: 'purple' as const,
+    badgeVariant: 'blue' as const,
     title: 'Havi Privát Mentorprogram',
     languages: 'flags',
     price: '69 000 Ft / hó',
@@ -56,7 +56,7 @@ const courses = [
   {
     id: 'strategia',
     badge: 'Stratégia',
-    badgeVariant: 'teal' as const,
+    badgeVariant: 'blue' as const,
     title: 'Nyelvtanulási Stratégiai Tanácsadás',
     languages: null,
     price: '24 900 Ft',
@@ -137,7 +137,7 @@ export default async function ProgramokPage() {
         {/* Featured course */}
         <SectionWrapper bg="default" id="kurzus">
           <div className="max-w-2xl">
-            <Badge variant="coral" className="mb-4">Kiemelt kurzus</Badge>
+            <Badge variant="blue" className="mb-4">Kiemelt kurzus</Badge>
             <h2 className="font-display text-3xl font-bold text-brand-blue mb-3">
               Magabiztosan Angolul
             </h2>
@@ -203,7 +203,7 @@ function WebinarCard({ webinar }: { webinar: { id: string; title: string; date: 
     <Card id={`webinar-${webinar.id}`} className="flex flex-col md:flex-row md:items-center justify-between gap-4">
       <div className="flex-1">
         <div className="flex items-center gap-2 mb-1">
-          <Badge variant="purple">Webinár</Badge>
+          <Badge variant="blue">Webinár</Badge>
           {webinar.registrationOpen && (
             <span className="flex items-center gap-1 text-green-600 text-xs font-sans">
               <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
