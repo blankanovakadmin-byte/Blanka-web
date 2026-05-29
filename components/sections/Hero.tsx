@@ -37,7 +37,7 @@ export function Hero() {
               {[
                 { value: '500+', label: 'elégedett tanuló' },
                 { value: '8 év', label: 'tapasztalat' },
-                { value: '13k+', label: 'közösségi követő' },
+                { value: '25k+', label: 'közösségi követő' },
               ].map((stat) => (
                 <div key={stat.label} className="flex flex-col">
                   <span className="font-display text-2xl font-bold text-brand-blue">
