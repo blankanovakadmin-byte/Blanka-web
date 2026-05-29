@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/Badge';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import Link from 'next/link';
 
-const SPRITE = '/icons/Gemini_Generated_Image_pyxkrwpyxkrwpyxk.png';
+const SPRITE = '/icons/Gemini_Generated_Image_bhlxbnbhlxbnbhlx.png';
 
 const FLAGS = [
   { src: '/images/flag_en.png', alt: 'EN' },
