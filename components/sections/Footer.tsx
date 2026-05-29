@@ -22,14 +22,14 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-brand-blue text-white">
+    <footer className="bg-[#2D0E52] text-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-1 mb-3">
               <span className="font-display text-2xl font-bold text-white">blanka</span>
-              <span className="font-display text-2xl text-brand-purple italic">novak</span>
+              <span className="font-display text-2xl text-white/80 italic">novak</span>
             </div>
             <p className="font-sans text-white/60 text-sm leading-relaxed">
               Biológus, doktorandusz, nyelvtanár — segítek angolul magabiztosan megszólalni.
@@ -84,7 +84,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-brand-purple transition-colors"
+                  className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
                 >
                   <Icon size={18} />
                 </a>
@@ -94,7 +94,7 @@ export function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok"
-                className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-brand-purple transition-colors"
+                className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
               >
                 <TiktokIcon size={18} />
               </a>
