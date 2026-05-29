@@ -109,8 +109,8 @@ function ResourceCard({ resource }: { resource: ResourceType }) {
   return (
     <Card className="flex flex-col gap-4">
       <div className="flex items-start justify-between">
-        <div className="w-12 h-12 bg-brand-purple-light rounded-2xl flex items-center justify-center">
-          <Image src={resource.emoji} alt={resource.title} width={32} height={32} className="w-8 h-8 mix-blend-multiply" />
+        <div className="w-12 h-12 flex items-center justify-center">
+          <Image src={resource.emoji} alt={resource.title} width={48} height={48} className="w-12 h-12 object-contain" />
         </div>
         <Badge variant={resource.type === 'free' ? 'teal' : 'coral'}>
           {resource.type === 'free' ? 'Ingyenes' : `${resource.price?.toLocaleString('hu-HU')} Ft`}
