@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/Badge';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import Link from 'next/link';
 
+const SPRITE = '/icons/Gemini_Generated_Image_pyxkrwpyxkrwpyxk.png';
+
 const FLAGS = [
   { src: '/images/flag_en.png', alt: 'EN' },
   { src: '/images/flag_it.png', alt: 'IT' },
@@ -24,7 +26,7 @@ function FlagRow() {
 
 const services = [
   {
-    icon: '/icons/icon_kozosseg.png',
+    spritePos: '100% 0%',
     badge: 'Kiscsoportos',
     title: 'Havi Mentorprogram',
     subtitle: <FlagRow />,
@@ -33,7 +35,7 @@ const services = [
     badgeVariant: 'blue' as const,
   },
   {
-    icon: '/icons/icon_mentorales.png',
+    spritePos: '0% 100%',
     badge: 'Privát',
     title: 'Havi Mentorprogram',
     subtitle: <FlagRow />,
@@ -43,7 +45,7 @@ const services = [
     popular: true,
   },
   {
-    icon: '/icons/icon_celok.png',
+    spritePos: '0% 0%',
     badge: 'Magabiztosan Angolul',
     title: 'Kurzus Május',
     subtitle: null,
@@ -52,7 +54,7 @@ const services = [
     badgeVariant: 'coral' as const,
   },
   {
-    icon: '/icons/icon_strategia.png',
+    spritePos: '100% 100%',
     badge: 'Stratégia Neked',
     title: 'Nyelvtanulási Tanácsadás',
     subtitle: null,
@@ -92,7 +94,14 @@ export function ServiceCards() {
               )}
 
               <div className="flex flex-col gap-4">
-                <Image src={service.icon} alt={service.badge} width={64} height={64} className="w-16 h-16 mix-blend-multiply" />
+                <div
+                  className="w-16 h-16 rounded-full shrink-0"
+                  style={{
+                    backgroundImage: `url('${SPRITE}')`,
+                    backgroundSize: '200% 200%',
+                    backgroundPosition: service.spritePos,
+                  }}
+                />
 
                 <div>
                   <Badge variant={service.badgeVariant} className="mb-2">{service.badge}</Badge>
