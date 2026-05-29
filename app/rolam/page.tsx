@@ -105,7 +105,7 @@ export default function RolamPage() {
                 hanem a gondolkodásmódot megérteni.
               </p>
               <p>
-                Mára 13 000+ embert inspirálok a közösségi médiában, és 500+ tanulónak segítettem
+                Mára 25 000+ embert inspirálok a közösségi médiában, és 500+ tanulónak segítettem
                 elérni a célját. Minden tanítványom megerősíti: az önbizalom visszaszerzése az igazi
                 eredmény, a jobb angol csak következménye.
               </p>

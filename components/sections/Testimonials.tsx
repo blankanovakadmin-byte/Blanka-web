@@ -40,7 +40,7 @@ export function Testimonials() {
           Mit mondanak a tanulóim?
         </h2>
         <p className="font-sans text-brand-muted">
-          <span className="font-bold text-brand-purple">13 000+</span> organikus követő,{' '}
+          <span className="font-bold text-brand-purple">25 000+</span> organikus követő,{' '}
           <span className="font-bold text-brand-purple">500+</span> elégedett tanuló
         </p>
       </div>
