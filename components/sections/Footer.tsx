@@ -32,7 +32,7 @@ export function Footer() {
               <span className="font-display text-2xl text-white/80 italic">novak</span>
             </div>
             <p className="font-sans text-white/60 text-sm leading-relaxed">
-              Biológus, doktorandusz, nyelvtanár — segítek angolul magabiztosan megszólalni.
+              Biológus, doktorandusz, nyelvtanár.
             </p>
           </div>
 

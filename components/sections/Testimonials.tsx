@@ -13,7 +13,7 @@ const testimonials = [
   {
     name: 'Tóth Péter',
     role: 'Szoftverfejlesztő',
-    text: 'A személyre szabott megközelítés volt a kulcs. Blanka pontosan tudta, mire van szükségem a munkámhoz — technikai angolra és tárgyalási technikákra.',
+    text: 'A személyre szabott megközelítés volt a kulcs. Blanka pontosan tudta, mire van szükségem a munkámhoz: technikai angolra és tárgyalási technikákra.',
     stars: 5,
     avatar: 'TP',
   },
