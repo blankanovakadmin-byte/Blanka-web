@@ -77,13 +77,20 @@ export function Hero() {
               </div>
 
               {/* Floating badge */}
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg p-4 flex items-center gap-3 border border-brand-border animate-float stagger-5">
-                <div className="w-10 h-10 bg-brand-purple-light rounded-xl flex items-center justify-center">
-                  <Image src="/images/icon_vilag.png" alt="világ" width={24} height={24} className="w-6 h-6 mix-blend-multiply" />
-                </div>
-                <div>
-                  <p className="font-sans font-bold text-brand-blue text-sm">4 nyelv</p>
-                  <p className="font-sans text-xs text-brand-muted">angolul, olaszul...</p>
+              <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg p-4 border border-brand-border animate-float stagger-5">
+                <p className="font-sans font-bold text-brand-blue text-xs mb-2">4 nyelv</p>
+                <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
+                  {[
+                    { src: '/images/flag_en.png', label: 'Angol' },
+                    { src: '/images/flag_it.png', label: 'Olasz' },
+                    { src: '/images/flag_es.png', label: 'Spanyol' },
+                    { src: '/images/flag_cn.png', label: 'Kínai' },
+                  ].map(f => (
+                    <div key={f.label} className="flex items-center gap-1.5">
+                      <Image src={f.src} alt={f.label} width={20} height={20} className="w-5 h-5" />
+                      <span className="font-sans text-xs text-brand-text">{f.label}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
 
