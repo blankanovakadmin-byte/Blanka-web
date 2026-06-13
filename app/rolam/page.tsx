@@ -7,28 +7,28 @@ import { Button } from '@/components/ui/Button';
 import { ArrowRight, Globe, FlaskConical, BookOpen, Lightbulb } from 'lucide-react';
 import Image from 'next/image';
 
-export const metadata: Metadata = { title: 'Rolam' };
+export const metadata: Metadata = { title: 'Rólam' };
 
 const values = [
   {
     icon: Globe,
-    title: 'A nyelv kapu, nem cel',
-    text: 'A nyelvtudas onmagaban nem cel. Sokkal inkabb eszkoz arra, hogy kapcsolatokat epitsunk, uj kulturakat ismerjunk meg, es olyan lehetosegekhez ferjunk hozza, amelyek kepesek uj iranyt adni egy eletnek.',
+    title: 'A nyelv kapu, nem cél',
+    text: 'A nyelvtudás önmagában nem cél. Sokkal inkább eszköz arra, hogy kapcsolatokat építsünk, új kultúrákat ismerjünk meg, és olyan lehetőségekhezférjünk hozzá, amelyek képesek új irányt adni egy életnek.',
   },
   {
     icon: FlaskConical,
-    title: 'Tudomanyos hatter',
-    text: 'PhD-hallgatokent es egyetemi oktatokent biokemiat, biologiat es szintetikus biologiat tanitok. A digitalis pedagogia, a STEM-motivacio es az onhatekonysag teruleten kutatok.',
+    title: 'Tudományos háttér',
+    text: 'PhD-hallgatóként és egyetemi oktatóként biokémiát, biológiát és szintetikus biológiát tanítok. A digitális pedagógia, a STEM-motiváció és az önhatékonyság területén kutatok.',
   },
   {
     icon: BookOpen,
     title: 'Személyiségtípus-alapú módszertan',
-    text: '7 nyelven szerzett tapasztalataim alapjan megtanultam: a siker rítkan pusztan tehetseg kerdese. Sokkal inkabb a megfelelő modszereké és szemlélété.',
+    text: '7 nyelven szerzett tapasztalataim alapján megtanultam: a siker ritkán pusztán tehetség kérdése. Sokkal inkább a megfelelő módszereké és szemléleté.',
   },
   {
     icon: Lightbulb,
-    title: 'Demokratikus tudas',
-    text: 'Celom, hogy a kulföldi programok, kutatasi lehetosegek es a tobbnyelvuseg ne egy szuk kor kiváltsaga legyen. A megfelelo informacioval ezek az utak barki elott megnyilhatnak.',
+    title: 'Demokratikus tudás',
+    text: 'Célom, hogy a külföldi programok, kutatási lehetőségek és a többnyelvűség ne egy szűk kör kiváltsága legyen. A megfelelő információval ezek az utak bárki előtt megnyílhatnak.',
   },
 ];
 
@@ -45,7 +45,7 @@ export default function RolamPage() {
               <div className="w-72 h-80 lg:w-96 lg:h-[480px] rounded-3xl overflow-hidden border-2 border-brand-border relative">
                 <Image
                   src="/images/blanka-hero.jpg"
-                  alt="Novak Blanka"
+                  alt="Novák Blanka"
                   fill
                   className="object-cover object-top"
                 />
@@ -57,9 +57,9 @@ export default function RolamPage() {
                 Szia, <span className="text-brand-purple italic">Blanka</span> vagyok.
               </h1>
               <p className="font-sans text-lg text-brand-muted leading-relaxed">
-                Tizevesen, remego labakkal leptem be az elso angloramra. A tanarom elovette a
-                gitarjat, es ahelyett, hogy nyelvtani szabalyokat magyarazott volna, egyutt
-                irtunk egy dalt. Ekkor tanultam meg, hogy a nyelvtanulas nem kotelezo feladat,
+                Tízévesen, remegő lábakkal léptem be az első angolórámra. A tanárom elővette a
+                gitárját, és ahelyett, hogy nyelvtani szabályokat magyarázott volna, együtt
+                írtunk egy dalt. Ekkor tanultam meg, hogy a nyelvtanulás nem kötelező feladat,
                 hanem kaland.
               </p>
               <div className="flex flex-wrap gap-2 pt-2">
@@ -86,30 +86,30 @@ export default function RolamPage() {
         <SectionWrapper bg="surface">
           <div className="max-w-3xl mx-auto space-y-5 font-sans text-brand-muted leading-relaxed">
             <p>
-              Ma het nyelven beszelek, kozuluk oton felsfokon, es kilenc nemzetkozi
-              nyelvvizsgaval rendelkezem. A nyelvek olyan lehetosegekhez juttattak, amelyek
-              korabban elkepzelhetetlennek tuntek: dolgoztam muszaki magyar-kinai tolmackent,
-              tanitottam tajvani, kinai es magyar diakokapt, majd a Perui Orvostudomanyi
+              Ma hét nyelven beszélek, közülük ötön felsőfokon, és kilenc nemzetközi
+              nyelvvizsgával rendelkezem. A nyelvek olyan lehetőségekhez juttattak, amelyek
+              korábban elképzelhetetlennek tűntek: dolgoztam műszaki magyar–kínai tolmácsként,
+              tanítottam tajvani, kínai és magyar diákokat, majd a Perui Orvostudományi
               Egyetemen spanyol nyelven oktattam.
             </p>
             <p>
-              Ezek az elmenyek megtanitottak arra, hogy a nyelvtudas onmagaban nem cel.
-              Sokkal inkabb eszkoz arra, hogy kapcsolatokat epitsunk, uj kulturakat ismerjunk
-              meg, es olyan nemzetkozi lehetosegekhez ferjunk hozza, amelyek kepesek teljesen
-              uj iranyt adni egy eletnak.
+              Ezek az élmények megtanítottak arra, hogy a nyelvtudás önmagában nem cél.
+              Sokkal inkább eszköz arra, hogy kapcsolatokat építsünk, új kultúrákat ismerjünk
+              meg, és olyan nemzetközi lehetőségekhez férjünk hozzá, amelyek képesek teljesen
+              új irányt adni egy életútnak.
             </p>
             <p>
-              A kivaltsagom vegul a kutatas fele vezetett. Tudomanyos munkam tobb hazai es
-              nemzetkozi elismerest hozott, es 18 evesen Magyarorszag delegaljakent reszt
-              vehettem a Nobel-dij-atado unnepsegen Stockholmban. Bar halas vagyok ezekert a
-              merfoldkovekert, szamomra mindig az volt a legizgalmasabb, hogyan lehet
-              embereket, tudast es lehetosegeket osszkapcsolni.
+              A kíváncsiságom végül a kutatás felé vezetett. Tudományos munkám több hazai és
+              nemzetközi elismerést hozott, és 18 évesen Magyarország delegáltjaként részt
+              vehettem a Nobel-díj-átadó ünnepségen Stockholmban. Bár hálás vagyok ezekért a
+              mérföldkövekért, számomra mindig az volt a legizgalmasabb, hogyan lehet
+              embereket, tudást és lehetőségeket összekapcsolni.
             </p>
             <p>
-              Jelenleg a digitalis pedagogia, a STEM-motivacio es az onhatekonysag teruleten
-              kutatok. PhD-hallgatokent es egyetemi oktatokent biokemiat, biologiat es
-              szintetikus biologiat tanitok, mikozben azt vizsgalom, hogyan lehet a tudomany
-              inspirallobbe, emberkozelebbre es elehetobbre tenni a kovetkezo generacio szamara.
+              Jelenleg a digitális pedagógia, a STEM-motiváció és az önhatékonyság területén
+              kutatok. PhD-hallgatóként és egyetemi oktatóként biokémiát, biológiát és
+              szintetikus biológiát tanítok, miközben azt vizsgálom, hogyan lehet a tudományt
+              inspirálóbbá, emberközelibbé és elérhetőbbé tenni a következő generáció számára.
             </p>
 
             <blockquote className="border-l-4 border-brand-purple pl-6 py-2 my-6">
@@ -121,10 +121,10 @@ export default function RolamPage() {
             </blockquote>
 
             <p>
-              A celom, hogy demokratizaljam a tudast. Mindazt, amit a nyelvtanulasrol, a
-              tudomanyrol, az osztondijjakrol es a nemzetkozi lehetosegekrol az evek soran
-              megtanultam, erthetobbe, emberkozelebbre es hozzaferhetobbe szeretnem tenni
-              masok szamara.
+              A célom, hogy demokratizáljam a tudást. Mindazt, amit a nyelvtanulásról, a
+              tudományról, az ösztöndíjakról és a nemzetközi lehetőségekről az évek során
+              megtanultam, érthetőbbé, emberközelibbé és hozzáférhetőbbé szeretném tenni
+              mások számára.
             </p>
           </div>
         </SectionWrapper>
@@ -156,13 +156,13 @@ export default function RolamPage() {
         <SectionWrapper bg="purple">
           <div className="text-center">
             <h2 className="font-display text-3xl font-bold text-brand-blue mb-4">
-              Dolgozzunk egyutt!
+              Dolgozzunk együtt!
             </h2>
             <p className="font-sans text-brand-muted mb-8 max-w-lg mx-auto">
-              Valaszd ki a szamadra legmegfelelobb programot, es kezdjuk el kozosen.
+              Válaszd ki a számodra legmegfelelőbb programot, és kezdjük el közösen.
             </p>
             <Button href="/programok" size="lg">
-              Programok megtekintese <ArrowRight size={18} />
+              Programok megtekintése <ArrowRight size={18} />
             </Button>
           </div>
         </SectionWrapper>
