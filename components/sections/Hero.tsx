@@ -44,7 +44,7 @@ export function Hero() {
           <div className="relative flex justify-center animate-scale-in stagger-2">
             <div className="relative w-80 h-96 lg:w-96 lg:h-[480px]">
               {/* Photo placeholder */}
-              <div className="w-full h-full rounded-3xl bg-brand-purple-light flex items-center justify-center border-2 border-brand-border overflow-hidden">
+              <div className="relative w-full h-full rounded-3xl border-2 border-brand-border overflow-hidden">
                 <Image
                   src="/images/blanka-hero.jpg"
                   alt="Novák Blanka"
