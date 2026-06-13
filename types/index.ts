@@ -18,6 +18,7 @@ export interface Product {
   blobKey?: string;
   active: boolean;
   stripePriceId?: string;
+  nextStart?: string;
 }
 
 

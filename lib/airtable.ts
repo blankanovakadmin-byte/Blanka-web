@@ -53,6 +53,7 @@ export async function getActiveProducts(): Promise<Product[]> {
     blobKey: r.fields['BlobKey'] ? String(r.fields['BlobKey']) : undefined,
     active: Boolean(r.fields['Active']),
     stripePriceId: r.fields['StripePriceId'] ? String(r.fields['StripePriceId']) : undefined,
+    nextStart: r.fields['NextStart'] ? String(r.fields['NextStart']) : undefined,
   }));
 }
 

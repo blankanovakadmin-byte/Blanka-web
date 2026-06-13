@@ -8,15 +8,21 @@ import { ServiceCards } from '@/components/sections/ServiceCards';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { NewsletterForm } from '@/components/sections/NewsletterForm';
 import { Footer } from '@/components/sections/Footer';
-import { getUpcomingWebinars } from '@/lib/airtable';
+import { getUpcomingWebinars, getActiveProducts } from '@/lib/airtable';
 
 export default async function HomePage() {
   let upcomingWebinar = null;
+  let featuredCourseNextStart: string | undefined;
   try {
-    const webinars = await getUpcomingWebinars();
+    const [webinars, products] = await Promise.all([
+      getUpcomingWebinars(),
+      getActiveProducts(),
+    ]);
     upcomingWebinar = webinars[0] ?? null;
+    const featured = products.find(p => p.title === 'Magabiztosan Angolul');
+    featuredCourseNextStart = featured?.nextStart;
   } catch {
-    // Airtable not configured yet — show page without webinar banner
+    // Airtable not configured yet
   }
 
   return (
@@ -26,7 +32,7 @@ export default async function HomePage() {
         <Hero />
         <MissionSection />
         {upcomingWebinar && <UpcomingWebinar webinar={upcomingWebinar} />}
-        <FeaturedCourse />
+        <FeaturedCourse nextStart={featuredCourseNextStart} />
         <ServiceCards />
         <Testimonials />
         <NewsletterForm />

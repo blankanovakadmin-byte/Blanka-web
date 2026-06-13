@@ -47,7 +47,7 @@ const services = [
   {
     spritePos: '0% 0%',
     badge: 'Magabiztosan Angolul',
-    title: 'Kurzus Május',
+    title: 'Online Kurzus',
     subtitle: null,
     description: 'Fejleszd az önbizalmad angolul, és szólalj meg magabiztosan minden helyzetben.',
     href: '/programok#kurzus',

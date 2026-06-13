@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { InstagramIcon, LinkedinIcon, TiktokIcon } from '@/components/ui/SocialIcons';
+import { InstagramIcon, TiktokIcon } from '@/components/ui/SocialIcons';
 import { CookieSettingsButton } from '@/components/CookieBanner';
 
 const navLinks = [
@@ -17,7 +17,7 @@ const legalLinks = [
 
 const socialLinks = [
   { href: 'https://instagram.com/blankanovak_', icon: InstagramIcon, label: 'Instagram' },
-  { href: 'https://www.linkedin.com/in/blanka-nov%C3%A1k/', icon: LinkedinIcon, label: 'LinkedIn' },
+  { href: 'https://tiktok.com/@blankanovak',    icon: TiktokIcon,    label: 'TikTok' },
 ];
 
 export function Footer() {
@@ -89,15 +89,6 @@ export function Footer() {
                   <Icon size={18} />
                 </a>
               ))}
-              <a
-                href="https://tiktok.com/@blankanovak"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="TikTok"
-                className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
-              >
-                <TiktokIcon size={18} />
-              </a>
             </div>
             <p className="font-sans text-xs text-white/40 mt-4">
               25 000+ organikus követő

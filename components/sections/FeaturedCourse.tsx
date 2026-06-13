@@ -4,15 +4,15 @@ import { Badge } from '@/components/ui/Badge';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 
 const features = [
-  'Magabiztos angol kommunikáció',
-  'Személyre szabott tempó',
-  'Élő gyakorlati szituációk',
-  'Visszajelzés minden szinten',
-  '8+ hetes strukturált program',
-  'Közösségi támogató csoport',
+  'Angolul gondolkodni, nem fordítani',
+  'Megszólalási szorongás leküzdése',
+  'Természetes, autentikus kiejtés',
+  'Gyakorlati eszközök minden szinten',
+  '8 modulból álló strukturált rendszer',
+  'Élő Q&A alkalmak',
 ];
 
-export function FeaturedCourse() {
+export function FeaturedCourse({ nextStart }: { nextStart?: string }) {
   return (
     <SectionWrapper bg="surface" id="kiemelt-kurzus">
       <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -39,8 +39,8 @@ export function FeaturedCourse() {
 
           <div className="flex items-center gap-4 pt-2">
             <div>
-              <p className="font-sans text-xs text-brand-muted uppercase tracking-wide">Egyszeri díj</p>
-              <p className="font-display text-3xl font-bold text-brand-blue">89 000 Ft</p>
+              <p className="font-sans text-xs text-brand-muted uppercase tracking-wide">Early Bird ár</p>
+              <p className="font-display text-3xl font-bold text-brand-blue">24 990 Ft</p>
             </div>
             <Button
               href={process.env.NEXT_PUBLIC_COURSE_CHECKOUT_URL || '/programok'}
@@ -88,10 +88,12 @@ export function FeaturedCourse() {
                 ))}
               </ul>
 
-              <div className="mt-8 pt-6 border-t border-white/20">
-                <p className="font-sans text-xs text-white/60 uppercase tracking-widest mb-1">Következő indulás</p>
-                <p className="font-display text-xl font-bold">2026. június</p>
-              </div>
+              {nextStart && (
+                <div className="mt-8 pt-6 border-t border-white/20">
+                  <p className="font-sans text-xs text-white/60 uppercase tracking-widest mb-1">Következő indulás</p>
+                  <p className="font-display text-xl font-bold">{nextStart}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
