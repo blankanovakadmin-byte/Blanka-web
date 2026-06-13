@@ -1,5 +1,5 @@
 import Airtable from 'airtable';
-import type { Webinar, Product, Freebie, Subscriber } from '@/types';
+import type { Webinar, Product, Subscriber } from '@/types';
 
 const TABLES = {
   subscribers: () => process.env.AIRTABLE_SUBSCRIBERS_TABLE || 'Feliratkozók',
@@ -7,7 +7,6 @@ const TABLES = {
   courseBuyers: () => process.env.AIRTABLE_COURSE_BUYERS_TABLE || 'Kurzus vásárlók',
   digitalBuyers: () => process.env.AIRTABLE_DIGITAL_BUYERS_TABLE || 'Digitális termék vásárlók',
   products: () => process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek',
-  freebies: () => process.env.AIRTABLE_FREEBIES_TABLE || 'Freebiek',
 };
 
 function getBase() {
@@ -57,21 +56,6 @@ export async function getActiveProducts(): Promise<Product[]> {
   }));
 }
 
-export async function getActiveFreebies(): Promise<Freebie[]> {
-  const base = getBase();
-  const records = await base(TABLES.freebies())
-    .select({ filterByFormula: '{Active} = TRUE()' })
-    .all();
-
-  return records.map((r) => ({
-    id: r.id,
-    title: String(r.fields['Title'] ?? ''),
-    description: String(r.fields['Description'] ?? ''),
-    category: String(r.fields['Category'] ?? ''),
-    blobKey: String(r.fields['BlobKey'] ?? ''),
-    active: Boolean(r.fields['Active']),
-  }));
-}
 
 export async function addWebinarSubscriber(data: {
   email: string;

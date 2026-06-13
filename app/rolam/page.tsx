@@ -4,31 +4,31 @@ import { MobileNav } from '@/components/layout/MobileNav';
 import { Footer } from '@/components/sections/Footer';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { Button } from '@/components/ui/Button';
-import { ArrowRight, BookOpen, FlaskConical, Globe, Heart } from 'lucide-react';
+import { ArrowRight, Globe, FlaskConical, BookOpen, Lightbulb } from 'lucide-react';
 import Image from 'next/image';
 
-export const metadata: Metadata = { title: 'Rólam' };
+export const metadata: Metadata = { title: 'Rolam' };
 
 const values = [
   {
     icon: Globe,
-    title: 'Több mint szavak',
-    text: 'A nyelvtanulás kapunyitás: más kultúrák, más gondolkodásmódok, más lehetőségek. Ezt szeretném átadni.',
-  },
-  {
-    icon: Heart,
-    title: 'Személyes kapcsolat',
-    text: 'Nem sablonos módszereket követek, minden tanulómhoz személyesen alkalmazkodom, hogy valódi haladást érhessünk el.',
+    title: 'A nyelv kapu, nem cel',
+    text: 'A nyelvtudas onmagaban nem cel. Sokkal inkabb eszkoz arra, hogy kapcsolatokat epitsunk, uj kulturakat ismerjunk meg, es olyan lehetosegekhez ferjunk hozza, amelyek kepesek uj iranyt adni egy eletnek.',
   },
   {
     icon: FlaskConical,
-    title: 'Tudományos alap',
-    text: 'Biológusként és doktoranduszként a modern memóriakutatás és kognitív tudomány eredményeit építem be a tanításba.',
+    title: 'Tudomanyos hatter',
+    text: 'PhD-hallgatokent es egyetemi oktatokent biokemiat, biologiat es szintetikus biologiat tanitok. A digitalis pedagogia, a STEM-motivacio es az onhatekonysag teruleten kutatok.',
   },
   {
     icon: BookOpen,
-    title: 'Folyamatos fejlődés',
-    text: '4 nyelven kommunikálok, a tanulás sosem áll meg. Saját tapasztalataimat is felhasználom a módszertanom finomításához.',
+    title: 'Személyiségtípus-alapú módszertan',
+    text: '7 nyelven szerzett tapasztalataim alapjan megtanultam: a siker rítkan pusztan tehetseg kerdese. Sokkal inkabb a megfelelő modszereké és szemlélété.',
+  },
+  {
+    icon: Lightbulb,
+    title: 'Demokratikus tudas',
+    text: 'Celom, hogy a kulföldi programok, kutatasi lehetosegek es a tobbnyelvuseg ne egy szuk kor kiváltsaga legyen. A megfelelo informacioval ezek az utak barki elott megnyilhatnak.',
   },
 ];
 
@@ -37,39 +37,32 @@ export default function RolamPage() {
     <>
       <Navbar />
       <main className="pb-20 md:pb-0 pt-20">
+
         {/* Hero */}
         <SectionWrapper bg="default">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Photo */}
             <div className="flex justify-center lg:order-2 animate-scale-in">
-              <div className="w-72 h-80 lg:w-96 lg:h-[420px] rounded-3xl bg-brand-purple-light flex items-center justify-center border-2 border-brand-border">
-                {/* TODO: replace with actual photo */}
-                <div className="text-center text-brand-muted p-8">
-                  <div className="w-24 h-24 bg-brand-purple/20 rounded-full mx-auto mb-4" />
-                  <p className="font-sans text-sm">Blanka fotója</p>
-                </div>
+              <div className="w-72 h-80 lg:w-96 lg:h-[480px] rounded-3xl overflow-hidden border-2 border-brand-border relative">
+                <Image
+                  src="/images/blanka-hero.jpg"
+                  alt="Novak Blanka"
+                  fill
+                  className="object-cover object-top"
+                />
               </div>
             </div>
 
-            {/* Text */}
             <div className="lg:order-1 space-y-5 animate-fade-in-left">
-              <p className="font-sans text-brand-purple font-semibold text-sm uppercase tracking-widest">
-                Szia, én vagyok
-              </p>
               <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-blue leading-tight">
-                Novák <span className="text-brand-purple italic">Blanka</span>
+                Szia, <span className="text-brand-purple italic">Blanka</span> vagyok.
               </h1>
               <p className="font-sans text-lg text-brand-muted leading-relaxed">
-                Biológus, doktorandusz, nyelvtanár és szenvedélyes kommunikátor. Az évek alatt
-                rájöttem, hogy a nyelvtanulás legnagyobb akadálya nem a grammatika, hanem az
-                önbizalom hiánya.
+                Tizevesen, remego labakkal leptem be az elso angloramra. A tanarom elovette a
+                gitarjat, es ahelyett, hogy nyelvtani szabalyokat magyarazott volna, egyutt
+                irtunk egy dalt. Ekkor tanultam meg, hogy a nyelvtanulas nem kotelezo feladat,
+                hanem kaland.
               </p>
-              <p className="font-sans text-brand-muted leading-relaxed">
-                Azért tanítok, mert hiszem: mindenkinek megvan a lehetősége, hogy magabiztosan
-                szólaljon meg idegen nyelven. Csak a megfelelő módszerre és egy kis bátorításra
-                van szükség.
-              </p>
-              <div className="flex flex-wrap gap-3 pt-2">
+              <div className="flex flex-wrap gap-2 pt-2">
                 {[
                   { flag: '/images/flag_en.png', label: 'Angol' },
                   { flag: '/images/flag_it.png', label: 'Olasz' },
@@ -81,6 +74,9 @@ export default function RolamPage() {
                     {label}
                   </span>
                 ))}
+                <span className="flex items-center gap-1.5 font-sans text-sm bg-white border border-brand-border px-3 py-1.5 rounded-full text-brand-muted">
+                  +3 nyelv
+                </span>
               </div>
             </div>
           </div>
@@ -88,28 +84,48 @@ export default function RolamPage() {
 
         {/* Story */}
         <SectionWrapper bg="surface">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="font-display text-3xl font-bold text-brand-blue mb-6 text-center">
-              A történetem
-            </h2>
-            <div className="space-y-4 font-sans text-brand-muted leading-relaxed">
-              <p>
-                Biológia szakon végeztem, doktori kutatásaimat a sejtbiológia területén folytatom.
-                Az akadémiai világ megtanított arra, hogy a precizitás és a rendszer fontosabb, mint
-                a szorgalom önmagában.
+          <div className="max-w-3xl mx-auto space-y-5 font-sans text-brand-muted leading-relaxed">
+            <p>
+              Ma het nyelven beszelek, kozuluk oton felsfokon, es kilenc nemzetkozi
+              nyelvvizsgaval rendelkezem. A nyelvek olyan lehetosegekhez juttattak, amelyek
+              korabban elkepzelhetetlennek tuntek: dolgoztam muszaki magyar-kinai tolmackent,
+              tanitottam tajvani, kinai es magyar diakokapt, majd a Perui Orvostudomanyi
+              Egyetemen spanyol nyelven oktattam.
+            </p>
+            <p>
+              Ezek az elmenyek megtanitottak arra, hogy a nyelvtudas onmagaban nem cel.
+              Sokkal inkabb eszkoz arra, hogy kapcsolatokat epitsunk, uj kulturakat ismerjunk
+              meg, es olyan nemzetkozi lehetosegekhez ferjunk hozza, amelyek kepesek teljesen
+              uj iranyt adni egy eletnak.
+            </p>
+            <p>
+              A kivaltsagom vegul a kutatas fele vezetett. Tudomanyos munkam tobb hazai es
+              nemzetkozi elismerest hozott, es 18 evesen Magyarorszag delegaljakent reszt
+              vehettem a Nobel-dij-atado unnepsegen Stockholmban. Bar halas vagyok ezekert a
+              merfoldkovekert, szamomra mindig az volt a legizgalmasabb, hogyan lehet
+              embereket, tudast es lehetosegeket osszkapcsolni.
+            </p>
+            <p>
+              Jelenleg a digitalis pedagogia, a STEM-motivacio es az onhatekonysag teruleten
+              kutatok. PhD-hallgatokent es egyetemi oktatokent biokemiat, biologiat es
+              szintetikus biologiat tanitok, mikozben azt vizsgalom, hogyan lehet a tudomany
+              inspirallobbe, emberkozelebbre es elehetobbre tenni a kovetkezo generacio szamara.
+            </p>
+
+            <blockquote className="border-l-4 border-brand-purple pl-6 py-2 my-6">
+              <p className="font-display text-xl text-brand-blue italic leading-relaxed">
+                A siker ritkán pusztán tehetség kérdése. Sokkal inkább a megfelelő módszereké,
+                szemléleté és azoké az embereké, akik időben megmutatják, hogy több lehetőség
+                áll előtted, mint gondolnád.
               </p>
-              <p>
-                Az angoltanulás az életem természetes részévé vált: tudományos konferenciákon,
-                külföldi kutatócsapatokban, nemzetközi publikációkban. De a valódi áttörés akkor
-                jött, amikor elkezdtem <em>tudatosan</em> tanulni, nem csak szavakat memorizálni,
-                hanem a gondolkodásmódot megérteni.
-              </p>
-              <p>
-                Mára 25 000+ embert inspirálok a közösségi médiában, és 500+ tanulónak segítettem
-                elérni a célját. Minden tanítványom megerősíti: az önbizalom visszaszerzése az igazi
-                eredmény, a jobb angol csak következménye.
-              </p>
-            </div>
+            </blockquote>
+
+            <p>
+              A celom, hogy demokratizaljam a tudast. Mindazt, amit a nyelvtanulasrol, a
+              tudomanyrol, az osztondijjakrol es a nemzetkozi lehetosegekrol az evek soran
+              megtanultam, erthetobbe, emberkozelebbre es hozzaferhetobbe szeretnem tenni
+              masok szamara.
+            </p>
           </div>
         </SectionWrapper>
 
@@ -122,10 +138,7 @@ export default function RolamPage() {
             {values.map((v, i) => {
               const Icon = v.icon;
               return (
-                <div
-                  key={v.title}
-                  className={`flex gap-4 animate-fade-in stagger-${i + 1}`}
-                >
+                <div key={v.title} className={`flex gap-4 animate-fade-in stagger-${i + 1}`}>
                   <div className="w-12 h-12 bg-brand-purple-light rounded-2xl flex items-center justify-center shrink-0">
                     <Icon size={20} className="text-brand-purple" />
                   </div>
@@ -143,16 +156,17 @@ export default function RolamPage() {
         <SectionWrapper bg="purple">
           <div className="text-center">
             <h2 className="font-display text-3xl font-bold text-brand-blue mb-4">
-              Csatlakozz a közösséghez!
+              Dolgozzunk egyutt!
             </h2>
             <p className="font-sans text-brand-muted mb-8 max-w-lg mx-auto">
-              Indulj el velem a nyelvtanulás útján, válaszd ki a számodra legjobb programot.
+              Valaszd ki a szamadra legmegfelelobb programot, es kezdjuk el kozosen.
             </p>
             <Button href="/programok" size="lg">
-              Programok megtekintése <ArrowRight size={18} />
+              Programok megtekintese <ArrowRight size={18} />
             </Button>
           </div>
         </SectionWrapper>
+
       </main>
       <Footer />
       <MobileNav />

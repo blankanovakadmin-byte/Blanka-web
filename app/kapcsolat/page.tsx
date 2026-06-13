@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { Navbar } from '@/components/layout/Navbar';
@@ -8,13 +8,12 @@ import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
-import { InstagramIcon, YoutubeIcon, LinkedinIcon } from '@/components/ui/SocialIcons';
+import { InstagramIcon, TiktokIcon } from '@/components/ui/SocialIcons';
 import { Mail, Check, Send, Calendar } from 'lucide-react';
 
 const socialLinks = [
   { href: 'https://instagram.com/blankanovak_', icon: InstagramIcon, label: 'Instagram', handle: '@blankanovak_' },
-  { href: 'https://youtube.com/@novakblanka',  icon: YoutubeIcon,   label: 'YouTube',   handle: '@novakblanka' },
-  { href: 'https://www.linkedin.com/in/blanka-nov%C3%A1k/', icon: LinkedinIcon, label: 'LinkedIn',  handle: 'Novák Blanka' },
+  { href: 'https://tiktok.com/@blankanovak',    icon: TiktokIcon,    label: 'TikTok',    handle: '@blankanovak' },
 ];
 
 export default function KapcsolatPage() {
@@ -63,15 +62,14 @@ export default function KapcsolatPage() {
         <SectionWrapper bg="default">
           <div className="text-center max-w-xl mx-auto mb-12 animate-fade-in">
             <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-blue mb-4">
-              Írj <span className="text-brand-purple italic">nekem</span>!
+              <span className="text-brand-purple italic">Lépj</span> kapcsolatba!
             </h1>
             <p className="font-sans text-brand-muted text-lg">
-              Kérdésed van? Érdeklődsz egy programról? Szívesen válaszolok!
+              Kérdésed van? Érdeklődnél egy programról? Szívesen válaszolok!
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Contact form */}
             <Card className="animate-fade-in">
               <h2 className="font-display text-xl font-bold text-brand-blue mb-6">Kapcsolatfelvétel</h2>
 
@@ -100,7 +98,7 @@ export default function KapcsolatPage() {
                     <label className="text-sm font-medium text-brand-text font-sans">Üzeneted</label>
                     <textarea
                       rows={4}
-                      placeholder="Sziasztok! Kérdésem lenne a privát mentorprogrammal kapcsolatban..."
+                      placeholder="Sziasztok! Kérdésem lenne..."
                       value={form.message}
                       onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                       required
@@ -117,9 +115,7 @@ export default function KapcsolatPage() {
               )}
             </Card>
 
-            {/* Right column */}
             <div className="space-y-6 animate-fade-in stagger-2">
-              {/* Cal.com booking */}
               <Card className="bg-brand-purple-light border-brand-purple/20">
                 <div className="flex items-start gap-4">
                   <div className="w-10 h-10 bg-brand-purple rounded-xl flex items-center justify-center shrink-0">
@@ -130,7 +126,7 @@ export default function KapcsolatPage() {
                       Foglalj időpontot
                     </h3>
                     <p className="font-sans text-sm text-brand-muted mb-3">
-                      Ingyenes 30 perces bevezető konzultáció, nézzük meg együtt, mi illik hozzád.
+                      Ingyenes 30 perces bevezető konzultáció — nézzük meg együtt, mi illik hozzád.
                     </p>
                     <Button href="https://cal.com/novakblanka" external size="sm">
                       Időpontfoglalás
@@ -139,7 +135,6 @@ export default function KapcsolatPage() {
                 </div>
               </Card>
 
-              {/* Email */}
               <Card>
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 bg-brand-purple-light rounded-xl flex items-center justify-center">
@@ -147,8 +142,8 @@ export default function KapcsolatPage() {
                   </div>
                   <div>
                     <p className="font-sans font-semibold text-brand-blue text-sm">Email</p>
-                    <a href="mailto:hello@novakblanka.hu" className="font-sans text-sm text-brand-muted hover:text-brand-purple transition-colors">
-                      hello@novakblanka.hu
+                    <a href="mailto:blankanovak.info@gmail.com" className="font-sans text-sm text-brand-muted hover:text-brand-purple transition-colors">
+                      blankanovak.info@gmail.com
                     </a>
                   </div>
                 </div>
@@ -165,18 +160,15 @@ export default function KapcsolatPage() {
                     >
                       <Icon size={18} className="text-brand-muted group-hover:text-brand-purple transition-colors" />
                       <span className="font-sans text-sm text-brand-muted group-hover:text-brand-purple transition-colors">
-                        {label} · {handle}
+                        {label} {handle}
                       </span>
                     </a>
                   ))}
                 </div>
               </Card>
 
-              {/* Newsletter */}
               <Card>
-                <h3 className="font-display text-lg font-bold text-brand-blue mb-2">
-                  Hírlevél
-                </h3>
+                <h3 className="font-display text-lg font-bold text-brand-blue mb-2">Hírlevél</h3>
                 <p className="font-sans text-sm text-brand-muted mb-4">
                   Heti tippek és ingyenes anyagok egyenesen a postaládádba.
                 </p>

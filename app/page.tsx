@@ -1,6 +1,7 @@
 import { Navbar } from '@/components/layout/Navbar';
 import { MobileNav } from '@/components/layout/MobileNav';
 import { Hero } from '@/components/sections/Hero';
+import { MissionSection } from '@/components/sections/MissionSection';
 import { UpcomingWebinar } from '@/components/sections/UpcomingWebinar';
 import { FeaturedCourse } from '@/components/sections/FeaturedCourse';
 import { ServiceCards } from '@/components/sections/ServiceCards';
@@ -23,6 +24,7 @@ export default async function HomePage() {
       <Navbar />
       <main className="pb-20 md:pb-0">
         <Hero />
+        <MissionSection />
         {upcomingWebinar && <UpcomingWebinar webinar={upcomingWebinar} />}
         <FeaturedCourse />
         <ServiceCards />

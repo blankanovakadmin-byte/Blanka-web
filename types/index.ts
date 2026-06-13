@@ -20,14 +20,6 @@ export interface Product {
   stripePriceId?: string;
 }
 
-export interface Freebie {
-  id: string;
-  title: string;
-  description: string;
-  category: string;
-  blobKey: string;
-  active: boolean;
-}
 
 export interface Course {
   id: string;

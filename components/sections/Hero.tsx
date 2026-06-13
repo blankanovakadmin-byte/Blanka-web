@@ -14,42 +14,20 @@ export function Hero() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left: text */}
           <div className="space-y-6">
-            <p className="text-brand-purple font-sans font-semibold text-sm uppercase tracking-widest animate-fade-in">
-              Nyelvtanulási Programok
-            </p>
-
-            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-blue leading-tight animate-fade-in stagger-1">
-              Tanulj{' '}
-              <span className="text-brand-purple italic">hatékonyan.</span>
-              <br />
-              Nyiss új{' '}
-              <span className="text-brand-blue">világokra.</span>
+            <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-blue leading-tight animate-fade-in">
+              A tudás eszköz{' '}
+              <span className="text-brand-purple italic">a szabadsághoz.</span>
             </h1>
 
-            <p className="font-sans text-lg text-brand-muted leading-relaxed animate-fade-in stagger-2 max-w-lg">
-              Válassz az általam kínált programok közül, és találd meg a számodra
-              legmegfelelőbbet! Személyre szabott angol tanulás mentorom segítségével,
-              kiscsoportban vagy önállóan.
+            <p className="font-sans text-lg text-brand-muted leading-relaxed animate-fade-in stagger-1 max-w-lg">
+              A nyelvek nemcsak szavakat adnak — ajtókat nyitnak.
+              Segítek, hogy magabiztosan kommunikálj idegen nyelveken, eligazodj a nemzetközi
+              lehetőségek világában, és olyan készségeket építs, amelyek valódi változást
+              hozhatnak az életedbe.
             </p>
 
-            {/* Stats */}
-            <div className="flex flex-wrap gap-6 animate-fade-in stagger-3">
-              {[
-                { value: '500+', label: 'elégedett tanuló' },
-                { value: '8 év', label: 'tapasztalat' },
-                { value: '25k+', label: 'közösségi követő' },
-              ].map((stat) => (
-                <div key={stat.label} className="flex flex-col">
-                  <span className="font-display text-2xl font-bold text-brand-blue">
-                    {stat.value}
-                  </span>
-                  <span className="font-sans text-xs text-brand-muted">{stat.label}</span>
-                </div>
-              ))}
-            </div>
-
             {/* CTAs */}
-            <div className="flex flex-wrap gap-3 animate-fade-in stagger-4">
+            <div className="flex flex-wrap gap-3 animate-fade-in stagger-2">
               <Button href="/programok" size="lg">
                 <BookOpen size={20} />
                 Programok felfedezése
@@ -67,13 +45,13 @@ export function Hero() {
             <div className="relative w-80 h-96 lg:w-96 lg:h-[480px]">
               {/* Photo placeholder */}
               <div className="w-full h-full rounded-3xl bg-brand-purple-light flex items-center justify-center border-2 border-brand-border overflow-hidden">
-                {/* TODO: replace with actual photo */}
-                <div className="text-center text-brand-muted p-8">
-                  <div className="w-32 h-32 bg-brand-purple/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <User size={48} className="text-brand-purple/50" />
-                  </div>
-                  <p className="font-sans text-sm">Blanka fotója</p>
-                </div>
+                <Image
+                  src="/images/blanka-hero.jpg"
+                  alt="Novák Blanka"
+                  fill
+                  className="object-cover object-top"
+                  priority
+                />
               </div>
 
               {/* Floating badge */}
@@ -101,11 +79,3 @@ export function Hero() {
   );
 }
 
-function User({ size, className }: { size: number; className?: string }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={className}>
-      <circle cx="12" cy="8" r="4"/>
-      <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-    </svg>
-  );
-}

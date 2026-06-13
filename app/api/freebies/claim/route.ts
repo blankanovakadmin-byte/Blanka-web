@@ -3,7 +3,7 @@ import { addFreebieContact } from '@/lib/systemio';
 import { generateSignedUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
 import { FreebieDeliveryEmail } from '@/emails/freebie-delivery';
-import { getActiveFreebies } from '@/lib/airtable';
+import { getActiveProducts } from '@/lib/airtable';
 import type { FreebieClaimPayload } from '@/types';
 
 export async function POST(req: NextRequest) {
@@ -13,18 +13,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Email and productId required' }, { status: 400 });
     }
 
-    const freebies = await getActiveFreebies();
-    const freebie = freebies.find(f => f.id === productId);
-    if (!freebie) return NextResponse.json({ error: 'Freebie not found' }, { status: 404 });
+    const products = await getActiveProducts();
+    const product = products.find(p => p.id === productId && p.category === 'free');
+    if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
 
-    const downloadUrl = generateSignedUrl(freebie.blobKey);
+    const downloadUrl = generateSignedUrl(product.blobKey!);
 
     await Promise.allSettled([
       addFreebieContact(email, productId),
       sendEmail({
         to: email,
-        subject: `A te letöltésed: ${freebie.title}`,
-        template: FreebieDeliveryEmail({ email, productTitle: freebie.title, downloadUrl }),
+        subject: `A te letöltésed: ${product.title}`,
+        template: FreebieDeliveryEmail({ email, productTitle: product.title, downloadUrl }),
       }),
     ]);
 
