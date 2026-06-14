@@ -65,7 +65,7 @@ export default function AszfPage() {
               Általános Szerződési Feltételek
             </h1>
             <div className="flex flex-wrap gap-4 text-sm text-brand-muted font-sans">
-              <span>Lybskin Kft. · novakblanka.hu</span>
+              <span>Lybskin Kft. · blankanovak.com</span>
               <span>Hatályos: 2026. május 28-tól</span>
               <span>Verzió: 1.0</span>
             </div>
@@ -82,14 +82,14 @@ export default function AszfPage() {
               ['Cégjegyzékszám', '10-09-026438'],
               ['Adószám', '13473774-2-10'],
               ['Képviselő', 'Novák Blanka, ügyvezető'],
-              ['E-mail', 'hello@novakblanka.hu'],
-              ['Weboldal', 'https://novakblanka.hu'],
+              ['E-mail', 'hello@blankanovak.com'],
+              ['Weboldal', 'https://blankanovak.com'],
               ['Tárhelyszolgáltató', 'Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, USA'],
             ]} />
           </Section>
 
           <Section title="2. Az ÁSZF hatálya és elfogadása">
-            <p><strong>2.1</strong> Jelen Általános Szerződési Feltételek (a továbbiakban: &bdquo;ÁSZF&rdquo;) a Lybskin Kft. által üzemeltetett <strong>novakblanka.hu</strong> weboldalon keresztül nyújtott valamennyi szolgáltatásra kiterjednek.</p>
+            <p><strong>2.1</strong> Jelen Általános Szerződési Feltételek (a továbbiakban: &bdquo;ÁSZF&rdquo;) a Lybskin Kft. által üzemeltetett <strong>blankanovak.com</strong> weboldalon keresztül nyújtott valamennyi szolgáltatásra kiterjednek.</p>
             <p><strong>2.2</strong> A Weboldal használatával, a regisztrációval, a vásárlás megkezdésével, valamint a vásárlást megerősítő checkbox bepipálásával a Felhasználó kifejezetten és visszavonhatatlanul elfogadja jelen ÁSZF feltételeit.</p>
             <p><strong>2.3</strong> Az ÁSZF folyamatosan, ingyenesen elérhető és letölthető a Weboldal <strong>/aszf</strong> aloldalán.</p>
             <p><strong>2.4</strong> A Szolgáltató fenntartja a jogot jelen ÁSZF egyoldalú módosítására. A módosításról a Felhasználókat a Weboldal főoldalán és/vagy hírlevélben értesíti, legalább 15 nappal a hatálybalépés előtt.</p>
@@ -136,7 +136,7 @@ export default function AszfPage() {
             <p><strong>6.2 Webinár:</strong> A hozzáférés (Zoom link) a regisztrációt és fizetést visszaigazoló e-mailben kerül megküldésre.</p>
             <p><strong>6.3 Csoportos kurzus:</strong> A hozzáférés a kurzus megkezdésének napján aktiválódik a Systeme.io platformon.</p>
             <p><strong>6.4 1-1 Mentorálás:</strong> A konzultáció az egyeztetett időpontban, online (Google Meet vagy Zoom) kerül megtartásra.</p>
-            <p><strong>6.5 Letöltési linkek érvényessége:</strong> A letölthető digitális tartalmakhoz generált linkek biztonsági okokból <strong>72 órán belül lejárnak</strong>. Ha a Felhasználó a 72 óra elteltével nem töltötte le a tartalmat, köteles értesíteni a Szolgáltatót a hello@novakblanka.hu e-mail címen, aki új linket generál.</p>
+            <p><strong>6.5 Letöltési linkek érvényessége:</strong> A letölthető digitális tartalmakhoz generált linkek biztonsági okokból <strong>72 órán belül lejárnak</strong>. Ha a Felhasználó a 72 óra elteltével nem töltötte le a tartalmat, köteles értesíteni a Szolgáltatót a hello@blankanovak.com e-mail címen, aki új linket generál.</p>
           </Section>
 
           <Section title="7. Elállási jog">
@@ -160,9 +160,9 @@ export default function AszfPage() {
               ))}
             </div>
 
-            <p className="mt-4"><strong>7.5 Elállási nyilatkozat benyújtása:</strong> E-mailben a <strong>hello@novakblanka.hu</strong> címre. Az elállási szándéknak tartalmaznia kell a nevet, a vásárlás időpontját, és egyértelmű elállási nyilatkozatot.</p>
+            <p className="mt-4"><strong>7.5 Elállási nyilatkozat benyújtása:</strong> E-mailben a <strong>hello@blankanovak.com</strong> címre. Az elállási szándéknak tartalmaznia kell a nevet, a vásárlás időpontját, és egyértelmű elállási nyilatkozatot.</p>
             <BlockQuote>
-              &bdquo;Alulírott [Név] kijelentem, hogy elállok a [dátum]-án a novakblanka.hu weboldalon vásárolt [termék/szolgáltatás neve] tárgyú szerződéstől. Nevem: [Név], e-mail: [email].&rdquo;
+              &bdquo;Alulírott [Név] kijelentem, hogy elállok a [dátum]-án a blankanovak.com weboldalon vásárolt [termék/szolgáltatás neve] tárgyú szerződéstől. Nevem: [Név], e-mail: [email].&rdquo;
             </BlockQuote>
             <p><strong>7.6</strong> A visszatérítés az elállás beérkezésétől számított <strong>14 naptári napon belül</strong> a Stripe-on keresztül az eredeti fizetési módra történik.</p>
           </Section>
@@ -182,7 +182,7 @@ export default function AszfPage() {
           </Section>
 
           <Section title="10. Panaszkezelés">
-            <p><strong>10.1</strong> Panasz benyújtható: <strong>hello@novakblanka.hu</strong> e-mail vagy postai levél: 3300 Eger, Mikes Kelemen utca 21.</p>
+            <p><strong>10.1</strong> Panasz benyújtható: <strong>hello@blankanovak.com</strong> e-mail vagy postai levél: 3300 Eger, Mikes Kelemen utca 21.</p>
             <p><strong>10.2</strong> Az e-mailen beérkező panasz vételét a Szolgáltató haladéktalanul visszaigazolja.</p>
             <p><strong>10.3</strong> A Szolgáltató az írásbeli panaszt <strong>30 naptári napon belül</strong> írásban megválaszolja.</p>
             <p><strong>10.4</strong> Jogorvoslati lehetőségek:</p>

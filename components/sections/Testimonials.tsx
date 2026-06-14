@@ -1,32 +1,15 @@
 import { Star, Quote } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
+import type { Testimonial } from '@/types';
 
-const testimonials = [
-  {
-    name: 'Kovács Anna',
-    role: 'Marketing manager',
-    text: 'Blankával dolgozni egészen más, mint a szokásos nyelvtanfolyamok. Három hónap után már magabiztosan tartok prezentációkat angolul.',
-    stars: 5,
-    avatar: 'KA',
-  },
-  {
-    name: 'Tóth Péter',
-    role: 'Szoftverfejlesztő',
-    text: 'A személyre szabott megközelítés volt a kulcs. Blanka pontosan tudta, mire van szükségem a munkámhoz: technikai angolra és tárgyalási technikákra.',
-    stars: 5,
-    avatar: 'TP',
-  },
-  {
-    name: 'Nagy Eszter',
-    role: 'PhD hallgató',
-    text: 'A kutatói konferenciákon most már gördülékenyen tudok kommunikálni. Blanka módszere nagyon hatékony és motiváló!',
-    stars: 5,
-    avatar: 'NE',
-  },
-];
+function initials(name: string) {
+  return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
+}
 
-export function Testimonials() {
+export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
+  if (testimonials.length === 0) return null;
+
   return (
     <SectionWrapper bg="surface" id="velemenyek">
       <div className="text-center mb-12 animate-fade-in">
@@ -48,8 +31,8 @@ export function Testimonials() {
       <div className="grid md:grid-cols-3 gap-6">
         {testimonials.map((t, i) => (
           <Card
-            key={t.name}
-            className={`animate-fade-in stagger-${i + 1} relative`}
+            key={t.id}
+            className={`animate-fade-in stagger-${(i % 3) + 1} relative`}
           >
             <Quote
               size={32}
@@ -58,8 +41,8 @@ export function Testimonials() {
             />
 
             <div className="flex items-center gap-1 mb-4">
-              {[...Array(t.stars)].map((_, i) => (
-                <Star key={i} size={14} fill="#B06AD9" className="text-brand-purple" />
+              {[...Array(t.stars)].map((_, j) => (
+                <Star key={j} size={14} fill="#B06AD9" className="text-brand-purple" />
               ))}
             </div>
 
@@ -69,7 +52,7 @@ export function Testimonials() {
 
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-brand-purple rounded-full flex items-center justify-center text-white font-display font-bold text-sm shrink-0">
-                {t.avatar}
+                {initials(t.name)}
               </div>
               <div>
                 <p className="font-sans font-semibold text-brand-blue text-sm">{t.name}</p>

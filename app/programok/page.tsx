@@ -7,10 +7,13 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { getUpcomingWebinars } from '@/lib/airtable';
-import { Calendar, Clock, Users, Check, ArrowRight, Star } from 'lucide-react';
+import { Calendar, Clock, Users, Check, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
-export const metadata: Metadata = { title: 'Programok' };
+export const metadata: Metadata = {
+  title: 'Programok',
+  description: 'Online webinár, csoportos kurzus, önütemezett tanfolyam és 1-1 mentorálás Novák Blankával. Találd meg a számodra legjobb utat az angol nyelvhez.',
+};
 
 function FlagRow() {
   return (

@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { blobUrl } = await req.json();
     if (!blobUrl) return NextResponse.json({ error: 'blobUrl required' }, { status: 400 });
 
-    const signedUrl = generateSignedUrl(blobUrl);
+    const signedUrl = await generateSignedUrl(blobUrl);
     return NextResponse.json({ signedUrl });
   } catch {
     return NextResponse.json({ error: 'Failed to generate signed URL' }, { status: 500 });

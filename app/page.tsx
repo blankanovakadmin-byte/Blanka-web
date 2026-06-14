@@ -8,19 +8,24 @@ import { ServiceCards } from '@/components/sections/ServiceCards';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { NewsletterForm } from '@/components/sections/NewsletterForm';
 import { Footer } from '@/components/sections/Footer';
-import { getUpcomingWebinars, getActiveProducts } from '@/lib/airtable';
+import { getUpcomingWebinars, getActiveProducts, getTestimonials } from '@/lib/airtable';
+import type { Testimonial } from '@/types';
 
 export default async function HomePage() {
   let upcomingWebinar = null;
   let featuredCourseNextStart: string | undefined;
+  let testimonials: Testimonial[] = [];
+
   try {
-    const [webinars, products] = await Promise.all([
+    const [webinars, products, testimonialData] = await Promise.all([
       getUpcomingWebinars(),
       getActiveProducts(),
+      getTestimonials(),
     ]);
     upcomingWebinar = webinars[0] ?? null;
     const featured = products.find(p => p.title === 'Magabiztosan Angolul');
     featuredCourseNextStart = featured?.nextStart;
+    testimonials = testimonialData;
   } catch {
     // Airtable not configured yet
   }
@@ -34,7 +39,7 @@ export default async function HomePage() {
         {upcomingWebinar && <UpcomingWebinar webinar={upcomingWebinar} />}
         <FeaturedCourse nextStart={featuredCourseNextStart} />
         <ServiceCards />
-        <Testimonials />
+        <Testimonials testimonials={testimonials} />
         <NewsletterForm />
       </main>
       <Footer />

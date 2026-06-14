@@ -2,7 +2,10 @@ import type { Metadata } from 'next';
 import { CheckCircle, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
-export const metadata: Metadata = { title: 'Sikeres vásárlás!' };
+export const metadata: Metadata = {
+  title: 'Sikeres vásárlás!',
+  robots: { index: false, follow: false },
+};
 
 export default function SikeresVasarlasPage() {
   return (

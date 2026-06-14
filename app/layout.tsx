@@ -25,12 +25,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'hu_HU',
-    url: 'https://novakblanka.hu',
+    url: 'https://blankanovak.com',
     siteName: 'Novák Blanka',
-    images: [{ url: '/og-image.jpg', width: 1200, height: 630 }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Novák Blanka | Magabiztosan Angolul',
+    description: 'Tanulj angolul hatékonyan Novák Blankával. Webinár, kurzus, 1-1 mentorálás és letölthető anyagok.',
   },
   robots: { index: true, follow: true },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://novakblanka.hu'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com'),
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

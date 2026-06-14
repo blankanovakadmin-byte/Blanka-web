@@ -1,5 +1,5 @@
 import Airtable from 'airtable';
-import type { Webinar, Product, Subscriber } from '@/types';
+import type { Webinar, Product, Subscriber, Testimonial } from '@/types';
 
 const TABLES = {
   subscribers: () => process.env.AIRTABLE_SUBSCRIBERS_TABLE || 'Feliratkozók',
@@ -7,6 +7,7 @@ const TABLES = {
   courseBuyers: () => process.env.AIRTABLE_COURSE_BUYERS_TABLE || 'Kurzus vásárlók',
   digitalBuyers: () => process.env.AIRTABLE_DIGITAL_BUYERS_TABLE || 'Digitális termék vásárlók',
   products: () => process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek',
+  testimonials: () => process.env.AIRTABLE_TESTIMONIALS_TABLE || 'Vélemények',
 };
 
 function getBase() {
@@ -54,6 +55,8 @@ export async function getActiveProducts(): Promise<Product[]> {
     active: Boolean(r.fields['Active']),
     stripePriceId: r.fields['StripePriceId'] ? String(r.fields['StripePriceId']) : undefined,
     nextStart: r.fields['NextStart'] ? String(r.fields['NextStart']) : undefined,
+    tags: r.fields['Tags'] ? String(r.fields['Tags']).split(',').map(t => t.trim()).filter(Boolean) : undefined,
+    imageUrl: r.fields['ImageUrl'] ? String(r.fields['ImageUrl']) : undefined,
   }));
 }
 
@@ -165,5 +168,24 @@ export async function getAllWebinars(): Promise<Webinar[]> {
     registrationOpen: Boolean(r.fields['RegistrationOpen']),
     maxParticipants: Number(r.fields['MaxParticipants'] ?? 0),
     description: String(r.fields['Description'] ?? ''),
+  }));
+}
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+  const base = getBase();
+  const records = await base(TABLES.testimonials())
+    .select({
+      filterByFormula: '{Active} = TRUE()',
+      sort: [{ field: 'Order', direction: 'asc' }],
+      maxRecords: 9,
+    })
+    .all();
+
+  return records.map((r) => ({
+    id: r.id,
+    name: String(r.fields['Name'] ?? ''),
+    role: String(r.fields['Role'] ?? ''),
+    text: String(r.fields['Text'] ?? ''),
+    stars: Number(r.fields['Stars'] ?? 5),
   }));
 }

@@ -5,7 +5,7 @@ import type { Webinar } from '@/types';
 interface Props { email: string; firstName: string; webinar: Webinar }
 
 export function WebinarConfirmationEmail({ email, firstName, webinar }: Props) {
-  const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://novakblanka.hu';
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
   const dateFormatted = new Date(webinar.date).toLocaleDateString('hu-HU', {
     year: 'numeric', month: 'long', day: 'numeric',
   });

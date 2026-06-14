@@ -7,7 +7,10 @@ import { Button } from '@/components/ui/Button';
 import { ArrowRight, Globe, FlaskConical, BookOpen, Lightbulb } from 'lucide-react';
 import Image from 'next/image';
 
-export const metadata: Metadata = { title: 'Rólam' };
+export const metadata: Metadata = {
+  title: 'Rólam',
+  description: 'Novák Blanka — biológus doktorandusz, nyelvtanár, 13 000+ követővel. Megismerheted a módszerem mögötti tudományt és személyes tanulási utamat.',
+};
 
 const values = [
   {

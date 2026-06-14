@@ -19,6 +19,8 @@ export interface Product {
   active: boolean;
   stripePriceId?: string;
   nextStart?: string;
+  tags?: string[];
+  imageUrl?: string;
 }
 
 
@@ -31,6 +33,14 @@ export interface Course {
   systemeioUrl?: string;
   stripePriceId?: string;
   features: string[];
+}
+
+export interface Testimonial {
+  id: string;
+  name: string;
+  role: string;
+  text: string;
+  stars: number;
 }
 
 export interface Subscriber {

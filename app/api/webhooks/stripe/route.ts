@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       } else if (productType === 'digital') {
         const blobKey = session.metadata?.blobKey ?? '';
         const productTitle = session.metadata?.productTitle ?? 'Digitális termék';
-        const downloadUrl = blobKey ? generateSignedUrl(blobKey) : '';
+        const downloadUrl = blobKey ? await generateSignedUrl(blobKey) : '';
 
         await Promise.allSettled([
           addPurchaseTag(email, 'digital', productId),

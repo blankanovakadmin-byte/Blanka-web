@@ -17,7 +17,11 @@ export async function POST(req: NextRequest) {
     const product = products.find(p => p.id === productId && p.category === 'free');
     if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
 
-    const downloadUrl = generateSignedUrl(product.blobKey!);
+    if (!product.blobKey) {
+      return NextResponse.json({ error: 'Download not available yet' }, { status: 503 });
+    }
+
+    const downloadUrl = await generateSignedUrl(product.blobKey);
 
     await Promise.allSettled([
       addFreebieContact(email, productId),

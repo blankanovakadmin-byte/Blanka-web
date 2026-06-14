@@ -3,7 +3,7 @@ import { BaseEmail, heading, paragraph, ctaButton, divider } from './_base';
 interface Props { email: string }
 
 export function CourseWelcomeEmail({ email }: Props) {
-  const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://novakblanka.hu';
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
 
   return (
     <BaseEmail preview="Üdvözöljük a Magabiztosan Angolul kurzuson! 🎉">

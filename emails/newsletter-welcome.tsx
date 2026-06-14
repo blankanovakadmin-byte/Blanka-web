@@ -17,7 +17,7 @@ export function NewsletterWelcomeEmail({ email }: Props) {
       </Text>
       {divider()}
       {paragraph('Addig is, nézd meg az ingyenes forrásaimat és válassz egyet számodra!')}
-      {ctaButton('Ingyenes anyagok felfedezése →', `${process.env.NEXT_PUBLIC_BASE_URL || 'https://novakblanka.hu'}/forrasok`)}
+      {ctaButton('Ingyenes anyagok felfedezése →', `${process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com'}/forrasok`)}
       {paragraph('Blanka 💜', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}
     </BaseEmail>
   );
