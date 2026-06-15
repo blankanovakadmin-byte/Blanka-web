@@ -47,6 +47,7 @@ export interface Subscriber {
   id: string;
   email: string;
   firstName?: string;
+  lastName?: string;
   tags: string[];
   createdAt: string;
 }
@@ -58,6 +59,7 @@ export interface AdminSession {
 export interface NewsletterSubscribePayload {
   email: string;
   firstName?: string;
+  lastName?: string;
   source?: string;
 }
 

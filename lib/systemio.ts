@@ -21,11 +21,13 @@ async function systemeRequest(path: string, method: string, body?: unknown) {
 export async function upsertContact(data: {
   email: string;
   firstName?: string;
+  lastName?: string;
   tags?: string[];
 }): Promise<{ id: number }> {
   try {
     const payload: Record<string, unknown> = { email: data.email };
     if (data.firstName) payload.first_name = data.firstName;
+    if (data.lastName) payload.last_name = data.lastName;
     if (data.tags?.length) payload.tags = data.tags;
 
     const result = await systemeRequest('/contacts', 'POST', payload);
@@ -57,10 +59,10 @@ export async function enrollInCourse(contactId: number, courseId: string) {
   }
 }
 
-export async function addNewsletterContact(email: string, source?: string, firstName?: string) {
+export async function addNewsletterContact(email: string, source?: string, firstName?: string, lastName?: string) {
   const tags = ['newsletter'];
   if (source) tags.push(`source_${source}`);
-  const contact = await upsertContact({ email, firstName, tags });
+  const contact = await upsertContact({ email, firstName, lastName, tags });
   return contact;
 }
 

@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 
 export function NewsletterForm() {
-  const [form, setForm] = useState({ email: '', firstName: '' });
+  const [form, setForm] = useState({ email: '', firstName: '', lastName: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
 
@@ -22,12 +22,12 @@ export function NewsletterForm() {
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.email, firstName: form.firstName, source: 'homepage' }),
+        body: JSON.stringify({ email: form.email, firstName: form.firstName, lastName: form.lastName, source: 'homepage' }),
       });
 
       if (!res.ok) throw new Error();
       setStatus('success');
-      setForm({ email: '', firstName: '' });
+      setForm({ email: '', firstName: '', lastName: '' });
     } catch {
       setStatus('error');
       setError('Valami hiba történt. Kérlek próbáld újra!');
@@ -62,8 +62,16 @@ export function NewsletterForm() {
                 placeholder="Keresztneved"
                 value={form.firstName}
                 onChange={(e) => setForm(f => ({ ...f, firstName: e.target.value }))}
-                className="sm:w-40 shrink-0"
+                className="sm:flex-1"
               />
+              <Input
+                placeholder="Vezetékneved"
+                value={form.lastName}
+                onChange={(e) => setForm(f => ({ ...f, lastName: e.target.value }))}
+                className="sm:flex-1"
+              />
+            </div>
+            <div className="flex gap-3 flex-col sm:flex-row">
               <div className="flex-1">
                 <Input
                   type="email"

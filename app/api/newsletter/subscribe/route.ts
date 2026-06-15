@@ -6,12 +6,12 @@ import { NewsletterWelcomeEmail } from '@/emails/newsletter-welcome';
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, firstName, source } = await req.json() as { email: string; firstName?: string; source?: string };
+    const { email, firstName, lastName, source } = await req.json() as { email: string; firstName?: string; lastName?: string; source?: string };
     if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 });
 
     await Promise.allSettled([
-      addNewsletterContact(email, source, firstName),
-      addNewsletterSubscriber(email, source, firstName),
+      addNewsletterContact(email, source, firstName, lastName),
+      addNewsletterSubscriber(email, source, firstName, lastName),
       sendEmail({
         to: email,
         subject: 'Üdv a közösségben! 🎉',

@@ -19,7 +19,7 @@ const socialLinks = [
 export default function KapcsolatPage() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [nl, setNl] = useState({ email: '', firstName: '' });
+  const [nl, setNl] = useState({ email: '', firstName: '', lastName: '' });
   const [nlStatus, setNlStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   async function handleContact(e: React.FormEvent) {
@@ -46,7 +46,7 @@ export default function KapcsolatPage() {
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: nl.email, firstName: nl.firstName, source: 'kapcsolat' }),
+        body: JSON.stringify({ email: nl.email, firstName: nl.firstName, lastName: nl.lastName, source: 'kapcsolat' }),
       });
       if (!res.ok) throw new Error();
       setNlStatus('success');
@@ -160,11 +160,20 @@ export default function KapcsolatPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleNewsletter} className="space-y-2">
-                    <Input
-                      placeholder="Keresztneved"
-                      value={nl.firstName}
-                      onChange={e => setNl(f => ({ ...f, firstName: e.target.value }))}
-                    />
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Keresztneved"
+                        value={nl.firstName}
+                        onChange={e => setNl(f => ({ ...f, firstName: e.target.value }))}
+                        className="flex-1"
+                      />
+                      <Input
+                        placeholder="Vezetékneved"
+                        value={nl.lastName}
+                        onChange={e => setNl(f => ({ ...f, lastName: e.target.value }))}
+                        className="flex-1"
+                      />
+                    </div>
                     <div className="flex gap-2">
                       <Input
                         type="email"
