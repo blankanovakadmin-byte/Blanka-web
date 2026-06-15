@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Input too long' }, { status: 400 });
     }
 
-    await Promise.allSettled([
+    const [, , emailResult] = await Promise.allSettled([
       addNewsletterContact(email, source, firstName, lastName),
       addNewsletterSubscriber(email, source, firstName, lastName),
       sendEmail({
@@ -31,6 +31,10 @@ export async function POST(req: NextRequest) {
         template: NewsletterWelcomeEmail({ email, firstName }),
       }),
     ]);
+
+    if (emailResult.status === 'rejected') {
+      console.error('[newsletter] email send failed:', emailResult.reason);
+    }
 
     return NextResponse.json({ ok: true });
   } catch {
