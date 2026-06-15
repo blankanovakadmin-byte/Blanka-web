@@ -1,13 +1,14 @@
 import { Text } from '@react-email/components';
 import { BaseEmail, heading, paragraph, ctaButton, divider } from './_base';
 
-interface Props { email: string }
+interface Props { email: string; firstName?: string }
 
-export function NewsletterWelcomeEmail({ email }: Props) {
+export function NewsletterWelcomeEmail({ email, firstName }: Props) {
+  const greeting = firstName ? `Szia ${firstName}!` : 'Szia!';
   return (
     <BaseEmail preview="Üdv a Novák Blanka közösségében! 🎉">
       {heading('Üdv a közösségben!')}
-      {paragraph(`Szia! Örülök, hogy csatlakoztál. Ez az email megerősíti, hogy ${email} sikeresen feliratkozott a hírlevélre.`)}
+      {paragraph(`${greeting} Örülök, hogy csatlakoztál. Ez az email megerősíti, hogy ${email} sikeresen feliratkozott a hírlevélre.`)}
       {paragraph('Mostantól hetente kapsz tőlem:')}
       <Text style={{ fontSize: '14px', color: '#2B2B2B', lineHeight: '1.8', margin: '0 0 16px', paddingLeft: '16px' }}>
         ✅ Gyakorlati angol tanulási tippeket<br/>

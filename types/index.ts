@@ -57,6 +57,7 @@ export interface AdminSession {
 
 export interface NewsletterSubscribePayload {
   email: string;
+  firstName?: string;
   source?: string;
 }
 

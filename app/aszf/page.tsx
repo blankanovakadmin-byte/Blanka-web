@@ -82,7 +82,7 @@ export default function AszfPage() {
               ['Cégjegyzékszám', '10-09-026438'],
               ['Adószám', '13473774-2-10'],
               ['Képviselő', 'Novák Blanka, ügyvezető'],
-              ['E-mail', 'hello@blankanovak.com'],
+              ['E-mail', 'info@blankanovak.com'],
               ['Weboldal', 'https://blankanovak.com'],
               ['Tárhelyszolgáltató', 'Vercel Inc., 340 Pine Street Suite 701, San Francisco, CA 94104, USA'],
             ]} />
@@ -136,7 +136,7 @@ export default function AszfPage() {
             <p><strong>6.2 Webinár:</strong> A hozzáférés (Zoom link) a regisztrációt és fizetést visszaigazoló e-mailben kerül megküldésre.</p>
             <p><strong>6.3 Csoportos kurzus:</strong> A hozzáférés a kurzus megkezdésének napján aktiválódik a Systeme.io platformon.</p>
             <p><strong>6.4 1-1 Mentorálás:</strong> A konzultáció az egyeztetett időpontban, online (Google Meet vagy Zoom) kerül megtartásra.</p>
-            <p><strong>6.5 Letöltési linkek érvényessége:</strong> A letölthető digitális tartalmakhoz generált linkek biztonsági okokból <strong>72 órán belül lejárnak</strong>. Ha a Felhasználó a 72 óra elteltével nem töltötte le a tartalmat, köteles értesíteni a Szolgáltatót a hello@blankanovak.com e-mail címen, aki új linket generál.</p>
+            <p><strong>6.5 Letöltési linkek érvényessége:</strong> A letölthető digitális tartalmakhoz generált linkek biztonsági okokból <strong>72 órán belül lejárnak</strong>. Ha a Felhasználó a 72 óra elteltével nem töltötte le a tartalmat, köteles értesíteni a Szolgáltatót a info@blankanovak.com e-mail címen, aki új linket generál.</p>
           </Section>
 
           <Section title="7. Elállási jog">
@@ -160,7 +160,7 @@ export default function AszfPage() {
               ))}
             </div>
 
-            <p className="mt-4"><strong>7.5 Elállási nyilatkozat benyújtása:</strong> E-mailben a <strong>hello@blankanovak.com</strong> címre. Az elállási szándéknak tartalmaznia kell a nevet, a vásárlás időpontját, és egyértelmű elállási nyilatkozatot.</p>
+            <p className="mt-4"><strong>7.5 Elállási nyilatkozat benyújtása:</strong> E-mailben a <strong>info@blankanovak.com</strong> címre. Az elállási szándéknak tartalmaznia kell a nevet, a vásárlás időpontját, és egyértelmű elállási nyilatkozatot.</p>
             <BlockQuote>
               &bdquo;Alulírott [Név] kijelentem, hogy elállok a [dátum]-án a blankanovak.com weboldalon vásárolt [termék/szolgáltatás neve] tárgyú szerződéstől. Nevem: [Név], e-mail: [email].&rdquo;
             </BlockQuote>
@@ -182,7 +182,7 @@ export default function AszfPage() {
           </Section>
 
           <Section title="10. Panaszkezelés">
-            <p><strong>10.1</strong> Panasz benyújtható: <strong>hello@blankanovak.com</strong> e-mail vagy postai levél: 3300 Eger, Mikes Kelemen utca 21.</p>
+            <p><strong>10.1</strong> Panasz benyújtható: <strong>info@blankanovak.com</strong> e-mail vagy postai levél: 3300 Eger, Mikes Kelemen utca 21.</p>
             <p><strong>10.2</strong> Az e-mailen beérkező panasz vételét a Szolgáltató haladéktalanul visszaigazolja.</p>
             <p><strong>10.3</strong> A Szolgáltató az írásbeli panaszt <strong>30 naptári napon belül</strong> írásban megválaszolja.</p>
             <p><strong>10.4</strong> Jogorvoslati lehetőségek:</p>

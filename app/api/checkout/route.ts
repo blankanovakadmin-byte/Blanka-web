@@ -7,7 +7,7 @@ const BASE = () => process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com'
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const priceId = searchParams.get('priceId');
-  const type = (searchParams.get('type') ?? 'digital') as 'digital' | 'course';
+  const type = (searchParams.get('type') ?? 'digital') as 'digital' | 'course' | 'mentoring';
 
   if (!priceId) {
     return NextResponse.redirect(new URL('/forrasok', req.url));
@@ -19,18 +19,18 @@ export async function GET(req: NextRequest) {
 
     const { url } = await createCheckoutSession({
       priceId,
-      productType: type,
+      productType: type === 'mentoring' ? 'subscription' : type,
       metadata: {
         productType: type,
         productId: product?.id ?? '',
         blobKey: product?.blobKey ?? '',
-        productTitle: product?.title ?? '',
+        productTitle: product?.title ?? 'Privát Havi Mentorprogram',
       },
     });
 
     return NextResponse.redirect(url);
   } catch {
-    const fallback = type === 'course' ? '/programok' : '/forrasok';
+    const fallback = type === 'mentoring' || type === 'course' ? '/programok' : '/forrasok';
     return NextResponse.redirect(new URL(fallback, BASE()));
   }
 }

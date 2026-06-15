@@ -75,7 +75,7 @@ export async function addWebinarSubscriber(data: {
   });
 }
 
-export async function addNewsletterSubscriber(email: string, source?: string) {
+export async function addNewsletterSubscriber(email: string, source?: string, firstName?: string) {
   const base = getBase();
   const existing = await base(TABLES.subscribers())
     .select({ filterByFormula: `{Email} = '${email}'`, maxRecords: 1 })
@@ -85,6 +85,7 @@ export async function addNewsletterSubscriber(email: string, source?: string) {
 
   await base(TABLES.subscribers()).create({
     Email: email,
+    FirstName: firstName || '',
     Tags: ['newsletter', source ? `source_${source}` : ''].filter(Boolean).join(','),
     CreatedAt: new Date().toISOString(),
   });

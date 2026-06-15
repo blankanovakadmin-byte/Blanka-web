@@ -83,7 +83,7 @@ export default function AdatvedelemPage() {
               ['Cégjegyzékszám', '10-09-026438'],
               ['Adószám', '13473774-2-10'],
               ['Képviselő', 'Novák Blanka, ügyvezető'],
-              ['Adatvédelmi kapcsolat', 'hello@blankanovak.com'],
+              ['Adatvédelmi kapcsolat', 'info@blankanovak.com'],
               ['Weboldal', 'https://blankanovak.com'],
             ]} />
             <p className="text-sm text-brand-muted mt-3">Adatvédelmi tisztviselő kinevezése nem kötelező és nem történt meg, az adatvédelmi kérdésekben a fenti elérhetőségen lehet az adatkezelőhöz fordulni.</p>
@@ -128,7 +128,7 @@ export default function AdatvedelemPage() {
                 <DataRow label="Cél" value="Rendszeres elektronikus hírlevél küldése" />
                 <DataRow label="Jogalap" value="GDPR 6. cikk (1) bek. a) pont: az érintett hozzájárulása (kötelező checkbox bepipálásával adott, előre nem kipipált)" />
                 <DataRow label="Megőrzési idő" value="A leiratkozásig" />
-                <DataRow label="Leiratkozás" value="Az e-mailek alján elhelyezett leiratkozási linkre kattintással, vagy hello@blankanovak.com e-mail küldésével bármikor" />
+                <DataRow label="Leiratkozás" value="Az e-mailek alján elhelyezett leiratkozási linkre kattintással, vagy info@blankanovak.com e-mail küldésével bármikor" />
                 <DataRow label="Adatfeldolgozók" value="Systeme.io SAS (Franciaország, GDPR hatálya alatt); Resend, Inc. (USA, SCC)" />
               </SubSection>
 
@@ -273,7 +273,7 @@ export default function AdatvedelemPage() {
           <Section title="7. Joggyakorlás: hogyan kell kérni?">
             <div className="bg-brand-purple-light rounded-xl border border-brand-purple/20 p-5">
               <p className="font-semibold text-brand-blue mb-3">Kapcsolat</p>
-              <p className="text-sm text-brand-muted mb-1"><strong>E-mail:</strong> hello@blankanovak.com</p>
+              <p className="text-sm text-brand-muted mb-1"><strong>E-mail:</strong> info@blankanovak.com</p>
               <p className="text-sm text-brand-muted"><strong>Levél:</strong> 3300 Eger, Mikes Kelemen utca 21.</p>
             </div>
             <p>A kérelem beérkezésétől számított <strong>30 napon belül</strong> válaszolunk. Indokolt esetben ez 60 napra meghosszabbítható.</p>

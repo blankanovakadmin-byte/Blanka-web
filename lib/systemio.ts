@@ -57,10 +57,10 @@ export async function enrollInCourse(contactId: number, courseId: string) {
   }
 }
 
-export async function addNewsletterContact(email: string, source?: string) {
+export async function addNewsletterContact(email: string, source?: string, firstName?: string) {
   const tags = ['newsletter'];
   if (source) tags.push(`source_${source}`);
-  const contact = await upsertContact({ email, tags });
+  const contact = await upsertContact({ email, firstName, tags });
   return contact;
 }
 

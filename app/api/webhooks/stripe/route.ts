@@ -6,6 +6,7 @@ import { generateSignedUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
 import { CourseWelcomeEmail } from '@/emails/course-welcome';
 import { DigitalProductDeliveryEmail } from '@/emails/digital-product-delivery';
+import { MentoringBookingEmail } from '@/emails/mentoring-booking';
 import Stripe from 'stripe';
 
 export async function POST(req: NextRequest) {
@@ -26,6 +27,7 @@ export async function POST(req: NextRequest) {
     const email = session.customer_email || session.customer_details?.email || '';
     const productType = session.metadata?.productType as string;
     const productId = session.metadata?.productId as string;
+    const customerName = session.customer_details?.name || undefined;
 
     try {
       if (productType === 'course') {
@@ -52,9 +54,41 @@ export async function POST(req: NextRequest) {
             template: DigitalProductDeliveryEmail({ email, productTitle, downloadUrl }),
           }),
         ]);
+      } else if (productType === 'mentoring' && session.mode === 'subscription') {
+        await Promise.allSettled([
+          sendEmail({
+            to: email,
+            subject: 'Foglald le a havi két alkalmadat! 📅',
+            template: MentoringBookingEmail({ email, name: customerName }),
+          }),
+        ]);
       }
     } catch (err) {
       console.error('Stripe webhook handler error:', err);
+    }
+  }
+
+  // Recurring mentoring payment — send booking links every month
+  if (event.type === 'invoice.payment_succeeded') {
+    const invoice = event.data.object as Stripe.Invoice;
+    // Skip the first invoice (already handled by checkout.session.completed)
+    if (invoice.billing_reason === 'subscription_create') {
+      return NextResponse.json({ received: true });
+    }
+
+    const email = invoice.customer_email || '';
+    const customerName = typeof invoice.customer_name === 'string' ? invoice.customer_name : undefined;
+
+    if (email) {
+      try {
+        await sendEmail({
+          to: email,
+          subject: 'Új hónap, új alkalmak — foglald le időpontjaidat! 📅',
+          template: MentoringBookingEmail({ email, name: customerName }),
+        });
+      } catch (err) {
+        console.error('Mentoring renewal email error:', err);
+      }
     }
   }
 

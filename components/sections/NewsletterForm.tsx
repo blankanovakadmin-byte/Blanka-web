@@ -7,13 +7,13 @@ import { Button } from '@/components/ui/Button';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 
 export function NewsletterForm() {
-  const [email, setEmail] = useState('');
+  const [form, setForm] = useState({ email: '', firstName: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!email) return;
+    if (!form.email) return;
 
     setStatus('loading');
     setError('');
@@ -22,12 +22,12 @@ export function NewsletterForm() {
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'homepage' }),
+        body: JSON.stringify({ email: form.email, firstName: form.firstName, source: 'homepage' }),
       });
 
       if (!res.ok) throw new Error();
       setStatus('success');
-      setEmail('');
+      setForm({ email: '', firstName: '' });
     } catch {
       setStatus('error');
       setError('Valami hiba történt. Kérlek próbáld újra!');
@@ -56,20 +56,28 @@ export function NewsletterForm() {
             Sikeresen feliratkoztál! Ellenőrizd az emailedet.
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex gap-3 flex-col sm:flex-row">
-            <div className="flex-1">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div className="flex gap-3 flex-col sm:flex-row">
               <Input
-                type="email"
-                placeholder="email@cimed.hu"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                error={error}
+                placeholder="Keresztneved"
+                value={form.firstName}
+                onChange={(e) => setForm(f => ({ ...f, firstName: e.target.value }))}
+                className="sm:w-40 shrink-0"
               />
+              <div className="flex-1">
+                <Input
+                  type="email"
+                  placeholder="email@cimed.hu"
+                  value={form.email}
+                  onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))}
+                  required
+                  error={error}
+                />
+              </div>
+              <Button type="submit" loading={status === 'loading'} size="md" className="shrink-0">
+                Feliratkozok
+              </Button>
             </div>
-            <Button type="submit" loading={status === 'loading'} size="md" className="shrink-0">
-              Feliratkozok
-            </Button>
           </form>
         )}
 

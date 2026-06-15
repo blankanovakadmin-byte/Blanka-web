@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { InstagramIcon, TiktokIcon } from '@/components/ui/SocialIcons';
-import { Mail, Check, Send, Calendar } from 'lucide-react';
+import { Mail, Check, Send } from 'lucide-react';
 
 const socialLinks = [
   { href: 'https://instagram.com/blankanovak_', icon: InstagramIcon, label: 'Instagram', handle: '@blankanovak_' },
@@ -19,7 +19,7 @@ const socialLinks = [
 export default function KapcsolatPage() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [newsletter, setNewsletter] = useState('');
+  const [nl, setNl] = useState({ email: '', firstName: '' });
   const [nlStatus, setNlStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   async function handleContact(e: React.FormEvent) {
@@ -46,7 +46,7 @@ export default function KapcsolatPage() {
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: newsletter, source: 'kapcsolat' }),
+        body: JSON.stringify({ email: nl.email, firstName: nl.firstName, source: 'kapcsolat' }),
       });
       if (!res.ok) throw new Error();
       setNlStatus('success');
@@ -116,24 +116,6 @@ export default function KapcsolatPage() {
             </Card>
 
             <div className="space-y-6 animate-fade-in stagger-2">
-              <Card className="bg-brand-purple-light border-brand-purple/20">
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-brand-purple rounded-xl flex items-center justify-center shrink-0">
-                    <Calendar size={20} className="text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-lg font-bold text-brand-blue mb-1">
-                      Foglalj időpontot
-                    </h3>
-                    <p className="font-sans text-sm text-brand-muted mb-3">
-                      Ingyenes 30 perces bevezető konzultáció — nézzük meg együtt, mi illik hozzád.
-                    </p>
-                    <Button href="https://cal.com/novakblanka" external size="sm">
-                      Időpontfoglalás
-                    </Button>
-                  </div>
-                </div>
-              </Card>
 
               <Card>
                 <div className="flex items-center gap-3 mb-4">
@@ -142,8 +124,8 @@ export default function KapcsolatPage() {
                   </div>
                   <div>
                     <p className="font-sans font-semibold text-brand-blue text-sm">Email</p>
-                    <a href="mailto:blankanovak.info@gmail.com" className="font-sans text-sm text-brand-muted hover:text-brand-purple transition-colors">
-                      blankanovak.info@gmail.com
+                    <a href="mailto:info@blankanovak.com" className="font-sans text-sm text-brand-muted hover:text-brand-purple transition-colors">
+                      info@blankanovak.com
                     </a>
                   </div>
                 </div>
@@ -177,19 +159,26 @@ export default function KapcsolatPage() {
                     <Check size={16} /> Feliratkoztál!
                   </div>
                 ) : (
-                  <form onSubmit={handleNewsletter} className="flex gap-2">
+                  <form onSubmit={handleNewsletter} className="space-y-2">
                     <Input
-                      type="email"
-                      placeholder="email@cimed.hu"
-                      value={newsletter}
-                      onChange={e => setNewsletter(e.target.value)}
-                      required
-                      className="flex-1"
-                      error={nlStatus === 'error' ? 'Hiba!' : ''}
+                      placeholder="Keresztneved"
+                      value={nl.firstName}
+                      onChange={e => setNl(f => ({ ...f, firstName: e.target.value }))}
                     />
-                    <Button type="submit" size="sm" loading={nlStatus === 'loading'}>
-                      OK
-                    </Button>
+                    <div className="flex gap-2">
+                      <Input
+                        type="email"
+                        placeholder="email@cimed.hu"
+                        value={nl.email}
+                        onChange={e => setNl(f => ({ ...f, email: e.target.value }))}
+                        required
+                        className="flex-1"
+                        error={nlStatus === 'error' ? 'Hiba!' : ''}
+                      />
+                      <Button type="submit" size="sm" loading={nlStatus === 'loading'}>
+                        OK
+                      </Button>
+                    </div>
                   </form>
                 )}
               </Card>

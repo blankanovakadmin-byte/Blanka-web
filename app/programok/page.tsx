@@ -229,10 +229,10 @@ export default async function ProgramokPage() {
               <div className="mt-auto flex items-center justify-between pt-4 border-t border-brand-border">
                 <div>
                   <p className="font-display text-xl font-bold text-brand-blue">49 990 Ft</p>
-                  <p className="font-sans text-xs text-brand-muted">/ hó</p>
+                  <p className="font-sans text-xs text-brand-muted">/ hó · automatikus megújulás</p>
                 </div>
-                <Button href="https://cal.com/novakblanka/privat" external size="sm">
-                  Foglalok <ArrowRight size={14} />
+                <Button href={`/api/checkout?priceId=${process.env.NEXT_PUBLIC_STRIPE_MENTORING_PRICE_ID || '#'}&type=mentoring`} size="sm">
+                  Feliratkozom <ArrowRight size={14} />
                 </Button>
               </div>
             </Card>
@@ -241,16 +241,24 @@ export default async function ProgramokPage() {
         </SectionWrapper>
 
         {/* Webinar calendar */}
-        {webinars.length > 0 && (
-          <SectionWrapper bg="surface" id="webinarok">
-            <h2 className="font-display text-2xl font-bold text-brand-blue mb-8">Közelgő webinárok</h2>
+        <SectionWrapper bg="surface" id="webinarok">
+          <h2 className="font-display text-2xl font-bold text-brand-blue mb-8">Közelgő webinárok</h2>
+          {webinars.length > 0 ? (
             <div className="space-y-4">
               {webinars.map((w) => (
                 <WebinarCard key={w.id} webinar={w} />
               ))}
             </div>
-          </SectionWrapper>
-        )}
+          ) : (
+            <div className="text-center py-12 border-2 border-dashed border-brand-border rounded-2xl">
+              <p className="font-display text-lg font-bold text-brand-blue mb-2">Hamarosan újabb webinár!</p>
+              <p className="font-sans text-sm text-brand-muted mb-6 max-w-md mx-auto">
+                Iratkozz fel a hírlevélre, hogy elsőként értesülj a következő ingyenes webinárról.
+              </p>
+              <Button href="/#hirlevel" size="sm">Értesíts a következőről</Button>
+            </div>
+          )}
+        </SectionWrapper>
 
         {/* CTA */}
         <SectionWrapper bg="default">
