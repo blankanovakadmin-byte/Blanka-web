@@ -20,14 +20,16 @@ interface BaseEmailProps {
 export function BaseEmail({ preview, children, unsubscribeUrl = '#' }: BaseEmailProps) {
   return (
     <Html>
-      <Head />
+      <Head>
+        <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet" />
+      </Head>
       <Preview>{preview}</Preview>
       <Body style={{ backgroundColor: COLORS.bg, fontFamily: "'Inter', Arial, sans-serif", margin: 0, padding: '24px 0' }}>
         <Container style={{ maxWidth: '560px', margin: '0 auto' }}>
           {/* Header */}
           <Section style={{ textAlign: 'center', padding: '24px 0 16px' }}>
             <Text style={{ fontFamily: 'Georgia, serif', fontSize: '24px', fontWeight: '700', color: COLORS.blue, margin: 0 }}>
-              blanka<span style={{ color: COLORS.purple, fontStyle: 'italic' }}>novak</span>
+              blanka<span style={{ color: COLORS.purple, fontFamily: "'Dancing Script', Georgia, cursive", fontWeight: '700', fontStyle: 'normal', fontSize: '32px' }}>novak</span>
             </Text>
           </Section>
 

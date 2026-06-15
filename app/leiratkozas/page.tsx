@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { Navbar } from '@/components/layout/Navbar';
-import { Footer } from '@/components/layout/Footer';
+import { Footer } from '@/components/sections/Footer';
 
 export default function LeiratkozasPage() {
   const params = useSearchParams();

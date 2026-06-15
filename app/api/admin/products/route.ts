@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/auth';
-import { getActiveProducts } from '@/lib/airtable';
+import { getAllProductsAdmin } from '@/lib/airtable';
 import { uploadFile } from '@/lib/blob';
 import Airtable from 'airtable';
 
@@ -14,7 +14,7 @@ export async function GET() {
   if (!ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
-    const products = await getActiveProducts();
+    const products = await getAllProductsAdmin();
     return NextResponse.json(products);
   } catch {
     return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });

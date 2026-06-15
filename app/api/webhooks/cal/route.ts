@@ -9,7 +9,15 @@ function verifyCalSignature(payload: string, signature: string): boolean {
   const secret = process.env.CAL_WEBHOOK_SECRET;
   if (!secret) return process.env.NODE_ENV !== 'production';
   const expected = crypto.createHmac('sha256', secret).update(payload).digest('hex');
-  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+  const sig = signature.replace(/^sha256=/, '');
+  try {
+    const a = Buffer.from(sig);
+    const b = Buffer.from(expected);
+    if (a.length !== b.length) return false;
+    return crypto.timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
 }
 
 export async function POST(req: NextRequest) {

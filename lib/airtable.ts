@@ -43,13 +43,8 @@ export async function getUpcomingWebinars(): Promise<Webinar[]> {
   }));
 }
 
-export async function getActiveProducts(): Promise<Product[]> {
-  const base = getBase();
-  const records = await base(TABLES.products())
-    .select({ filterByFormula: '{Active} = TRUE()' })
-    .all();
-
-  return records.map((r) => ({
+function mapProduct(r: { id: string; fields: Record<string, unknown> }): Product {
+  return {
     id: r.id,
     title: String(r.fields['Title'] ?? ''),
     description: String(r.fields['Description'] ?? ''),
@@ -59,9 +54,23 @@ export async function getActiveProducts(): Promise<Product[]> {
     active: Boolean(r.fields['Active']),
     stripePriceId: r.fields['StripePriceId'] ? String(r.fields['StripePriceId']) : undefined,
     nextStart: r.fields['NextStart'] ? String(r.fields['NextStart']) : undefined,
-    tags: r.fields['Tags'] ? String(r.fields['Tags']).split(',').map(t => t.trim()).filter(Boolean) : undefined,
+    tags: r.fields['Tags'] ? String(r.fields['Tags']).split(',').map((t: string) => t.trim()).filter(Boolean) : undefined,
     imageUrl: r.fields['ImageUrl'] ? String(r.fields['ImageUrl']) : undefined,
-  }));
+  };
+}
+
+export async function getAllProductsAdmin(): Promise<Product[]> {
+  const base = getBase();
+  const records = await base(TABLES.products()).select().all();
+  return records.map(mapProduct);
+}
+
+export async function getActiveProducts(): Promise<Product[]> {
+  const base = getBase();
+  const records = await base(TABLES.products())
+    .select({ filterByFormula: '{Active} = TRUE()' })
+    .all();
+  return records.map(mapProduct);
 }
 
 
@@ -184,6 +193,38 @@ export async function getAllWebinars(): Promise<Webinar[]> {
     maxParticipants: Number(r.fields['MaxParticipants'] ?? 0),
     description: String(r.fields['Description'] ?? ''),
   }));
+}
+
+export async function createWebinar(data: Omit<Webinar, 'id'>): Promise<string> {
+  const base = getBase();
+  const record = await base(TABLES.webinars()).create({
+    Title: data.title,
+    Date: data.date,
+    Time: data.time,
+    ZoomLink: data.zoomLink,
+    RegistrationOpen: data.registrationOpen,
+    MaxParticipants: data.maxParticipants,
+    Description: data.description,
+  });
+  return record.id;
+}
+
+export async function updateWebinar(id: string, data: Partial<Omit<Webinar, 'id'>>): Promise<void> {
+  const base = getBase();
+  const fields: Record<string, string | number | boolean | undefined> = {};
+  if (data.title !== undefined) fields.Title = data.title;
+  if (data.date !== undefined) fields.Date = data.date;
+  if (data.time !== undefined) fields.Time = data.time;
+  if (data.zoomLink !== undefined) fields.ZoomLink = data.zoomLink;
+  if (data.registrationOpen !== undefined) fields.RegistrationOpen = data.registrationOpen;
+  if (data.maxParticipants !== undefined) fields.MaxParticipants = data.maxParticipants;
+  if (data.description !== undefined) fields.Description = data.description;
+  await base(TABLES.webinars()).update(id, fields);
+}
+
+export async function deleteWebinar(id: string): Promise<void> {
+  const base = getBase();
+  await base(TABLES.webinars()).destroy(id);
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {
