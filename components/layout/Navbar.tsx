@@ -42,7 +42,7 @@ export function Navbar() {
               <span className="font-display text-2xl font-bold text-brand-blue group-hover:text-brand-purple transition-colors">
                 blanka
               </span>
-              <span className="font-display text-2xl text-brand-purple italic">
+              <span className="font-script text-4xl text-brand-purple leading-none" style={{ fontFamily: 'var(--font-script)' }}>
                 novak
               </span>
             </Link>

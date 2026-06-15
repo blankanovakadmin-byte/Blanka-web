@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, Inter } from 'next/font/google';
+import { Playfair_Display, Inter, Great_Vibes } from 'next/font/google';
 import './globals.css';
 import { CookieBanner } from '@/components/CookieBanner';
 
@@ -11,6 +11,13 @@ const playfair = Playfair_Display({
 
 const inter = Inter({
   variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+});
+
+const greatVibes = Great_Vibes({
+  weight: '400',
+  variable: '--font-script',
   subsets: ['latin'],
   display: 'swap',
 });
@@ -39,7 +46,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="hu" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="hu" className={`${playfair.variable} ${inter.variable} ${greatVibes.variable}`}>
       <body className="antialiased">
           {children}
           <CookieBanner />

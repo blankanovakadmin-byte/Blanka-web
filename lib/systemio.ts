@@ -27,7 +27,7 @@ export async function upsertContact(data: {
   try {
     const payload: Record<string, unknown> = { email: data.email };
     if (data.firstName) payload.first_name = data.firstName;
-    if (data.lastName) payload.last_name = data.lastName;
+    if (data.lastName) payload.surname = data.lastName;
     if (data.tags?.length) payload.tags = data.tags;
 
     const result = await systemeRequest('/contacts', 'POST', payload);

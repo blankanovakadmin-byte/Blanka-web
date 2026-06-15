@@ -15,6 +15,7 @@
 
   --font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
   --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-script: var(--font-script), 'Great Vibes', cursive;
 }
 
 :root {
