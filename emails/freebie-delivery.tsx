@@ -22,7 +22,7 @@ export function FreebieDeliveryEmail({ email, productTitle, downloadUrl }: Props
       {ctaButton('Letöltés →', downloadUrl)}
       {divider()}
       {paragraph('💡 Tipp: Töltsd le és mentsd el a saját eszközödre, így bármikor eléred, akár internet nélkül is.', { color: '#7A7A8C', fontSize: '14px' })}
-      {paragraph('Ezentúl időnként küldök neked tippeket, gondolatokat, anyagokat — mindig csak olyat, amiben biztos vagyok, hogy hasznos lesz. Ha valaha nem szeretnél ilyet kapni, a leiratkozás egy kattintás. 🤍', { color: '#7A7A8C', fontSize: '14px' })}
+      {paragraph('Ezentúl időnként küldök neked tippeket, gondolatokat, anyagokat, mindig csak olyat, amiben biztos vagyok, hogy hasznos lesz. Ha valaha nem szeretnél ilyet kapni, a leiratkozás egy kattintás. 🤍', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Sok örömet kívánok hozzá,', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Blanka 🤍', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}
     </BaseEmail>

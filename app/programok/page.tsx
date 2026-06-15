@@ -50,7 +50,7 @@ export default async function ProgramokPage() {
               Szolgáltatások
             </h1>
             <p className="font-sans text-brand-muted text-lg">
-              Minden tanulónak más célja van — találjuk meg együtt a számodra legjobb utat.
+              Minden tanulónak más célja van. Találjuk meg együtt a számodra legjobb utat.
             </p>
           </div>
         </SectionWrapper>

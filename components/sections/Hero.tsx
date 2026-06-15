@@ -20,7 +20,7 @@ export function Hero() {
             </h1>
 
             <p className="font-sans text-lg text-brand-muted leading-relaxed animate-fade-in stagger-1 max-w-lg">
-              A nyelvek nemcsak szavakat adnak — ajtókat nyitnak.
+              A nyelvek nemcsak szavakat adnak, hanem ajtókat nyitnak.
               Segítek, hogy magabiztosan kommunikálj idegen nyelveken, eligazodj a nemzetközi
               lehetőségek világában, és olyan készségeket építs, amelyek valódi változást
               hozhatnak az életedbe.

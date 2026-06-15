@@ -25,7 +25,7 @@ export function WebinarReminder24hEmail({ email, firstName, webinar }: Props) {
       </Text>
       {webinar.zoomLink && ctaButton('Csatlakozás a Zoom linkkel →', webinar.zoomLink)}
       {divider()}
-      {paragraph('Egy kis felkészülési tipp tőlem: ne nyiss meg 27 tabot egyszerre — csak ezt az egy linket, egy pohár teát vagy kávét, és légy jelen. A legtöbbet akkor hozod ki magadból, ha valóban ott vagy, nem csak „félfüllel" hallgatod. 😊', { color: '#7A7A8C', fontSize: '14px' })}
+      {paragraph('Egy kis felkészülési tipp tőlem: ne nyiss meg 27 tabot egyszerre, csak ezt az egy linket, egy pohár teát vagy kávét, és légy jelen. A legtöbbet akkor hozod ki magadból, ha valóban ott vagy, nem csak „félfüllel" hallgatod. 😊', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Ha bármilyen kérdésed van előzetesen, csak válaszolj, olvasom.', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Holnap találkozunk!', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Blanka 🤍', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}

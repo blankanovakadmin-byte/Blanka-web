@@ -96,6 +96,17 @@ export async function addPurchaseTag(email: string, productType: 'course' | 'dig
   return contact;
 }
 
+export async function systemeUnsubscribe(email: string) {
+  try {
+    const result = await systemeRequest(`/contacts?email=${encodeURIComponent(email)}&limit=1`, 'GET');
+    const contact = result.items?.[0];
+    if (!contact) return;
+    await upsertContact({ email, tags: ['leiratkozott'] });
+  } catch (err) {
+    console.error('systeme.io unsubscribe error:', err);
+  }
+}
+
 export async function addBookingTag(email: string) {
   const contact = await upsertContact({
     email,

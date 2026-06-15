@@ -14,7 +14,7 @@ export function WebinarReminder1hEmail({ email, firstName, webinar }: Props) {
     <BaseEmail preview="🔴 1 óra múlva élőben! Kattints a linkre!">
       {heading('🔴 1 óra múlva élőben! Kattints a linkre!')}
       {paragraph(greeting)}
-      {paragraph('Ez az a pont, ahol mindenki keres mindent — szóval itt van az a link, amire szükséged van. Semmi más dolgod nincs, csak erre a linkre kattintani.')}
+      {paragraph('Ez az a pont, ahol mindenki keres mindent, szóval itt van az a link, amire szükséged van. Semmi más dolgod nincs, csak erre a linkre kattintani.')}
       {divider()}
       <Text style={{ fontSize: '14px', fontWeight: '700', color: '#173A7A', margin: '0 0 8px' }}>
         🔗 Belépő link

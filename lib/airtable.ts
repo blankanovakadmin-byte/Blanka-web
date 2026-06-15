@@ -96,6 +96,15 @@ export async function addNewsletterSubscriber(email: string, source?: string, fi
   });
 }
 
+export async function airtableUnsubscribe(email: string) {
+  const base = getBase();
+  const existing = await base(TABLES.subscribers())
+    .select({ filterByFormula: `{Email} = '${esc(email)}'`, maxRecords: 1 })
+    .firstPage();
+  if (existing.length === 0) return;
+  await base(TABLES.subscribers()).update(existing[0].id, { Unsubscribed: true });
+}
+
 export async function addCoursePurchase(data: {
   email: string;
   courseId: string;

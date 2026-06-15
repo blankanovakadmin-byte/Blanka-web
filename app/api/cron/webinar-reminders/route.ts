@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
         if (is24h) {
           await sendEmail({
             to: contact.email,
-            subject: `Holnap: ${webinar.title} — ne felejtsd el!`,
+            subject: `Holnap: ${webinar.title} - ne felejtsd el!`,
             template: WebinarReminder24hEmail({ email: contact.email, firstName: contact.firstName, webinar }),
           });
           sent++;

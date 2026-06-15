@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
       try {
         await sendEmail({
           to: email,
-          subject: 'Új hónap, új alkalmak — foglald le időpontjaidat! 📅',
+          subject: 'Új hónap, új alkalmak - foglald le időpontjaidat! 📅',
           template: MentoringBookingEmail({ email, name: customerName }),
         });
       } catch (err) {

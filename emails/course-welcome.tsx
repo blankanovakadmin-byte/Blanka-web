@@ -11,7 +11,7 @@ export function CourseWelcomeEmail({ email, name }: Props) {
     <BaseEmail preview="🎉 Bent vagy! Üdvözöllek a Magabiztosan Angolul kurzuson">
       {heading('🎉 Bent vagy! Üdvözöllek a kurzuson')}
       {paragraph(greeting)}
-      {paragraph('Örülök, hogy meghozted ezt a döntést — ez az a lépés, amin sokan sokáig gondolkoznak, és te megtetted. Ezzel máris előrébb tartasz.')}
+      {paragraph('Örülök, hogy meghozted ezt a döntést. Ez az a lépés, amin sokan sokáig gondolkoznak, és te megtetted. Ezzel máris előrébb tartasz.')}
       {paragraph('Hamarosan megkapod a belépési adatokat a kurzusplatformra, ahol az összes anyag elérhető lesz. Ha valamiért nem érkezne meg 24 órán belül, írj rám és megoldjuk.')}
       {divider()}
       <Text style={{ fontSize: '14px', fontWeight: '700', color: '#173A7A', margin: '0 0 8px' }}>
@@ -24,7 +24,7 @@ export function CourseWelcomeEmail({ email, name }: Props) {
       </Text>
       {ctaButton('Kurzus megnyitása →', `${BASE}/programok`)}
       {divider()}
-      {paragraph('Ha bármilyen kérdésed van, egyszerűen válaszolj erre az emailre — minden üzenetet elolvasok.', { color: '#7A7A8C', fontSize: '14px' })}
+      {paragraph('Ha bármilyen kérdésed van, egyszerűen válaszolj erre az emailre, minden üzenetet elolvasok.', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Örülök, hogy együtt dolgozhatunk!', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Blanka 🤍', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}
     </BaseEmail>

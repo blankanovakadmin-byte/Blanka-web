@@ -19,14 +19,14 @@ export function MissionSection() {
 
         <p className="font-sans text-brand-muted leading-relaxed">
           Itt a nyelvtanulásról, a tudományról, az ösztöndíjakról és a nemzetközi programokról
-          osztok meg olyan stratégiákat, amelyek a gyakorlatban is működnek — és amelyekkel te
+          osztok meg olyan stratégiákat, amelyek a gyakorlatban is működnek, és amelyekkel te
           is magabiztosabban építheted a saját utadat.
         </p>
 
         <blockquote className="border-l-4 border-brand-purple pl-6 py-2">
           <p className="font-display text-xl text-brand-blue italic leading-relaxed">
             Mert néha egy új nyelv, egy ösztöndíj vagy egy jól időzített lehetőség képes
-            teljesen új irányt adni egy életnek. A világ nagyobb, mint gondolnád — és sokkal
+            teljesen új irányt adni egy életnek. A világ nagyobb, mint gondolnád, és sokkal
             közelebb van, mint hinnéd.
           </p>
         </blockquote>

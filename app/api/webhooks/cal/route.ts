@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
         addBookingTag(attendee.email),
         sendEmail({
           to: attendee.email,
-          subject: 'Foglalás megerősítve — Novák Blanka',
+          subject: 'Foglalás megerősítve | Novák Blanka',
           template: BookingConfirmationEmail({
             email: attendee.email,
             name: attendee.name,

@@ -187,7 +187,7 @@ export default function AdatvedelemPage() {
                         ['Feltétlenül szükséges', 'Weboldal működéséhez elengedhetetlen (munkamenet, CSRF véd.)', 'Jogos érdek / szükséges', 'Munkamenet végéig'],
                         ['Funkcionális', 'Felhasználói beállítások mentése (pl. cookie döntés)', 'Hozzájárulás', '12 hónap'],
                         ['Analitikai', 'Látogatottsági statisztika (Vercel Analytics)', 'Hozzájárulás', '24 hónap'],
-                        ['Marketing', 'Nincs jelenleg', '—', '—'],
+                        ['Marketing', 'Nincs jelenleg', '-', '-'],
                       ].map(([type, goal, basis, duration], i) => (
                         <tr key={type} className={i % 2 === 0 ? 'bg-white' : 'bg-brand-bg'}>
                           <td className="p-3 font-medium text-brand-blue">{type}</td>
