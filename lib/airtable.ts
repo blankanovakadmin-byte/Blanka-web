@@ -1,6 +1,10 @@
 import Airtable from 'airtable';
 import type { Webinar, Product, Subscriber, Testimonial } from '@/types';
 
+function esc(value: string): string {
+  return value.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+}
+
 const TABLES = {
   subscribers: () => process.env.AIRTABLE_SUBSCRIBERS_TABLE || 'Feliratkozók',
   webinars: () => process.env.AIRTABLE_WEBINARS_TABLE || 'Webinár események',
@@ -78,7 +82,7 @@ export async function addWebinarSubscriber(data: {
 export async function addNewsletterSubscriber(email: string, source?: string, firstName?: string, lastName?: string) {
   const base = getBase();
   const existing = await base(TABLES.subscribers())
-    .select({ filterByFormula: `{Email} = '${email}'`, maxRecords: 1 })
+    .select({ filterByFormula: `{Email} = '${esc(email)}'`, maxRecords: 1 })
     .firstPage();
 
   if (existing.length > 0) return;
@@ -143,7 +147,7 @@ export async function getWebinarSubscribers(webinarId: string): Promise<Subscrib
   const base = getBase();
   const tag = `webinar_${webinarId}`;
   const records = await base(TABLES.subscribers())
-    .select({ filterByFormula: `FIND('${tag}', {Tags})` })
+    .select({ filterByFormula: `FIND('${esc(tag)}', {Tags})` })
     .all();
 
   return records.map((r) => ({

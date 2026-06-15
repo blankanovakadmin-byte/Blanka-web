@@ -1,17 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { addWebinarContact } from '@/lib/systemio';
-import { addWebinarSubscriber } from '@/lib/airtable';
+import { addWebinarSubscriber, getWebinarById } from '@/lib/airtable';
 import { sendEmail } from '@/lib/resend';
 import { WebinarConfirmationEmail } from '@/emails/webinar-confirmation';
-import { getWebinarById } from '@/lib/airtable';
 import type { WebinarRegisterPayload } from '@/types';
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, firstName, webinarId } = await req.json() as WebinarRegisterPayload;
+    const { email, firstName, webinarId, _hp } = await req.json() as WebinarRegisterPayload & { _hp?: string };
+
+    if (_hp) return NextResponse.json({ ok: true }); // honeypot
 
     if (!email || !webinarId) {
       return NextResponse.json({ error: 'Email and webinarId required' }, { status: 400 });
+    }
+    if (!EMAIL_RE.test(email) || email.length > 254) {
+      return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 
     const webinar = await getWebinarById(webinarId);

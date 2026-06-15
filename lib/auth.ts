@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import crypto from 'crypto';
 
 const SESSION_COOKIE = 'blanka_admin_session';
 const SESSION_DURATION = 60 * 60 * 24 * 7; // 7 days
@@ -6,7 +7,10 @@ const SESSION_DURATION = 60 * 60 * 24 * 7; // 7 days
 export function verifyAdminToken(token: string): boolean {
   const adminToken = process.env.ADMIN_TOKEN;
   if (!adminToken || adminToken.length < 32) return false;
-  return token === adminToken;
+  const a = Buffer.from(token);
+  const b = Buffer.from(adminToken);
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
 }
 
 export async function getAdminSession(): Promise<boolean> {

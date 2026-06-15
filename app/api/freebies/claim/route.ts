@@ -6,11 +6,19 @@ import { FreebieDeliveryEmail } from '@/emails/freebie-delivery';
 import { getActiveProducts } from '@/lib/airtable';
 import type { FreebieClaimPayload } from '@/types';
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export async function POST(req: NextRequest) {
   try {
-    const { email, productId } = await req.json() as FreebieClaimPayload;
+    const { email, productId, _hp } = await req.json() as FreebieClaimPayload & { _hp?: string };
+
+    if (_hp) return NextResponse.json({ ok: true }); // honeypot
+
     if (!email || !productId) {
       return NextResponse.json({ error: 'Email and productId required' }, { status: 400 });
+    }
+    if (!EMAIL_RE.test(email) || email.length > 254) {
+      return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 
     const products = await getActiveProducts();

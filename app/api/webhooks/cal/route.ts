@@ -7,7 +7,7 @@ import type { CalBookingPayload } from '@/types';
 
 function verifyCalSignature(payload: string, signature: string): boolean {
   const secret = process.env.CAL_WEBHOOK_SECRET;
-  if (!secret) return true; // dev fallback
+  if (!secret) return process.env.NODE_ENV !== 'production';
   const expected = crypto.createHmac('sha256', secret).update(payload).digest('hex');
   return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
 }

@@ -17,9 +17,9 @@ const socialLinks = [
 ];
 
 export default function KapcsolatPage() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', message: '', _hp: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [nl, setNl] = useState({ email: '', firstName: '', lastName: '' });
+  const [nl, setNl] = useState({ email: '', firstName: '', lastName: '', _hp: '' });
   const [nlStatus, setNlStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   async function handleContact(e: React.FormEvent) {
@@ -33,7 +33,7 @@ export default function KapcsolatPage() {
       });
       if (!res.ok) throw new Error();
       setStatus('success');
-      setForm({ name: '', email: '', message: '' });
+      setForm({ name: '', email: '', message: '', _hp: '' });
     } catch {
       setStatus('error');
     }
@@ -46,7 +46,7 @@ export default function KapcsolatPage() {
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: nl.email, firstName: nl.firstName, lastName: nl.lastName, source: 'kapcsolat' }),
+        body: JSON.stringify({ email: nl.email, firstName: nl.firstName, lastName: nl.lastName, source: 'kapcsolat', _hp: nl._hp }),
       });
       if (!res.ok) throw new Error();
       setNlStatus('success');
@@ -79,6 +79,9 @@ export default function KapcsolatPage() {
                 </div>
               ) : (
                 <form onSubmit={handleContact} className="space-y-4">
+                  <div style={{ position: 'absolute', left: '-9999px', height: 0, overflow: 'hidden' }} aria-hidden="true">
+                    <input tabIndex={-1} autoComplete="off" value={form._hp} onChange={e => setForm(f => ({ ...f, _hp: e.target.value }))} />
+                  </div>
                   <Input
                     label="Neved"
                     placeholder="Kovács Anna"
@@ -160,6 +163,9 @@ export default function KapcsolatPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleNewsletter} className="space-y-2">
+                    <div style={{ position: 'absolute', left: '-9999px', height: 0, overflow: 'hidden' }} aria-hidden="true">
+                      <input tabIndex={-1} autoComplete="off" value={nl._hp} onChange={e => setNl(f => ({ ...f, _hp: e.target.value }))} />
+                    </div>
                     <div className="flex gap-2">
                       <Input
                         placeholder="Keresztneved"
