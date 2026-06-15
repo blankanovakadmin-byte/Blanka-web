@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
           sendEmail({
             to: email,
             subject: 'Üdvözöljük a Magabiztosan Angolul kurzuson! 🎉',
-            template: CourseWelcomeEmail({ email }),
+            template: CourseWelcomeEmail({ email, name: customerName }),
           }),
         ]);
       } else if (productType === 'digital') {

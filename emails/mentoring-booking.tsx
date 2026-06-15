@@ -1,3 +1,4 @@
+import { Text } from '@react-email/components';
 import { BaseEmail, heading, paragraph, ctaButton, divider } from './_base';
 
 interface Props { email: string; name?: string }
@@ -5,19 +6,24 @@ interface Props { email: string; name?: string }
 const CAL_MENTORING_URL = process.env.NEXT_PUBLIC_CAL_MENTORING_URL || 'https://cal.com/novakblanka/privat';
 
 export function MentoringBookingEmail({ email, name }: Props) {
-  const greeting = name ? `Szia ${name}!` : 'Szia!';
+  const greeting = name ? `Szia, ${name}!` : 'Szia!';
 
   return (
-    <BaseEmail preview="Foglald le a havi két alkalmadat! 📅">
-      {heading('Köszönjük a feliratkozást! 🎉')}
-      {paragraph(`${greeting} Az előfizetésed aktív — mostantól minden hónapban 2 × 75 perces mentoralkalom vár rád.`)}
-      {paragraph('Foglald le a két időpontodat az alábbi linkre kattintva:')}
-      {ctaButton('1. alkalom foglalása →', CAL_MENTORING_URL)}
-      {ctaButton('2. alkalom foglalása →', CAL_MENTORING_URL)}
+    <BaseEmail preview="📅 Foglald le a havi két alkalmadat!">
+      {heading('📅 Foglald le a havi két alkalmadat!')}
+      {paragraph(greeting)}
+      {paragraph('Örülök, hogy itt vagy — ez egy olyan elköteleződés, ami valódi változást hozhat. Várom, hogy elkezdjük.')}
+      {paragraph('Az előfizetésed aktív. Mostantól minden hónapban 2 × 75 perces alkalom vár rád — foglald le az időpontjaidat az alábbi linkekkel:')}
       {divider()}
-      {paragraph('Ha kérdésed van az időpontokkal kapcsolatban, írj nekem erre az emailre.', { color: '#7A7A8C', fontSize: '14px' })}
-      {paragraph('Várlak hamarosan!', { color: '#7A7A8C', fontSize: '14px' })}
-      {paragraph('Blanka 💜', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}
+      <Text style={{ backgroundColor: '#F3EAFC', borderRadius: '12px', padding: '16px', fontSize: '14px', color: '#173A7A', margin: '0 0 20px', lineHeight: '2' }}>
+        👉 <a href={CAL_MENTORING_URL} style={{ color: '#B06AD9', fontWeight: '600' }}>1. alkalom foglalása →</a><br />
+        👉 <a href={CAL_MENTORING_URL} style={{ color: '#B06AD9', fontWeight: '600' }}>2. alkalom foglalása →</a>
+      </Text>
+      {ctaButton('Időpont foglalása →', CAL_MENTORING_URL)}
+      {divider()}
+      {paragraph('Ha bármilyen kérdésed van az időpontokkal kapcsolatban, vagy valami miatt nem találsz megfelelő időpontot, egyszerűen válaszolj erre az emailre.', { color: '#7A7A8C', fontSize: '14px' })}
+      {paragraph('Hamarosan találkozunk!', { color: '#7A7A8C', fontSize: '14px' })}
+      {paragraph('Blanka 🤍', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}
     </BaseEmail>
   );
 }

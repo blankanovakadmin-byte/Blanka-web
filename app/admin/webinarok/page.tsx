@@ -13,8 +13,8 @@ export default async function AdminWebinarokPage() {
 
   try {
     webinars = await getAllWebinars();
-  } catch {
-    error = 'Airtable nem konfigurált. Állítsd be az AIRTABLE_API_KEY és AIRTABLE_BASE_ID env változókat.';
+  } catch (e: unknown) {
+    error = e instanceof Error ? e.message : String(e);
   }
 
   return (
