@@ -1,7 +1,9 @@
 import crypto from 'crypto';
 
-function secret() {
-  return process.env.ADMIN_TOKEN || process.env.RESEND_API_KEY || 'fallback';
+function secret(): string {
+  const s = process.env.UNSUBSCRIBE_SECRET || process.env.ADMIN_TOKEN;
+  if (!s) throw new Error('UNSUBSCRIBE_SECRET or ADMIN_TOKEN env var must be set');
+  return s;
 }
 
 export function createUnsubscribeToken(email: string): string {

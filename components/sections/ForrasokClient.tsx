@@ -115,7 +115,7 @@ function ResourceCard({ product }: { product: Product }) {
 
       {product.category === 'free' ? (
         <FreeClaimForm productId={product.id} />
-      ) : (
+      ) : product.stripePriceId ? (
         <Button
           href={`/api/checkout?priceId=${product.stripePriceId}&type=digital`}
           size="sm"
@@ -125,6 +125,8 @@ function ResourceCard({ product }: { product: Product }) {
           Megveszem: {product.price.toLocaleString('hu-HU')} Ft
           <Lock size={12} className="opacity-60" />
         </Button>
+      ) : (
+        <span className="font-sans text-xs text-brand-muted text-center">Hamarosan elérhető</span>
       )}
     </Card>
   );

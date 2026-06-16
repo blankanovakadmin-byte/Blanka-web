@@ -25,8 +25,7 @@ export default async function HomePage() {
       getTestimonials(),
     ]);
     upcomingWebinar = webinars[0] ?? null;
-    const featured = products.find(p => p.title === 'Magabiztosan Angolul');
-    featuredCourseNextStart = featured?.nextStart;
+    featuredCourseNextStart = products.find(p => p.nextStart)?.nextStart;
     testimonials = testimonialData;
   } catch {
     // Airtable not configured yet

@@ -2,6 +2,15 @@ import { Resend } from 'resend';
 import { render } from '@react-email/components';
 import type { ReactElement } from 'react';
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
@@ -45,10 +54,10 @@ export async function sendContactNotification(params: {
     subject: `Új üzenet: ${params.name}`,
     html: `
       <h2>Új kapcsolatfelvételi üzenet</h2>
-      <p><strong>Név:</strong> ${params.name}</p>
-      <p><strong>Email:</strong> ${params.email}</p>
+      <p><strong>Név:</strong> ${escapeHtml(params.name)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(params.email)}</p>
       <p><strong>Üzenet:</strong></p>
-      <p>${params.message.replace(/\n/g, '<br/>')}</p>
+      <p>${escapeHtml(params.message).replace(/\n/g, '<br/>')}</p>
     `,
   });
 

@@ -17,6 +17,8 @@ export async function GET(req: NextRequest) {
     const now = new Date();
     let sent = 0;
 
+    const emailPromises: Promise<void>[] = [];
+
     for (const webinar of webinars) {
       const webinarStart = new Date(`${webinar.date}T${webinar.time || '00:00'}:00+02:00`);
       const hoursUntil = (webinarStart.getTime() - now.getTime()) / (1000 * 60 * 60);
@@ -31,22 +33,24 @@ export async function GET(req: NextRequest) {
 
       for (const contact of contacts) {
         if (is24h) {
-          await sendEmail({
+          emailPromises.push(sendEmail({
             to: contact.email,
             subject: `Holnap: ${webinar.title} - ne felejtsd el!`,
             template: WebinarReminder24hEmail({ email: contact.email, firstName: contact.firstName, webinar }),
-          });
+          }));
           sent++;
         } else if (is1h) {
-          await sendEmail({
+          emailPromises.push(sendEmail({
             to: contact.email,
             subject: `1 óra múlva kezdődik: ${webinar.title}!`,
             template: WebinarReminder1hEmail({ email: contact.email, firstName: contact.firstName, webinar }),
-          });
+          }));
           sent++;
         }
       }
     }
+
+    await Promise.allSettled(emailPromises);
 
     return NextResponse.json({ ok: true, remindersSent: sent });
   } catch (err) {

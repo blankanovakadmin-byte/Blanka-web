@@ -16,7 +16,7 @@ const values = [
   {
     icon: Globe,
     title: 'A nyelv kapu, nem cél',
-    text: 'A nyelvtudás önmagában nem cél. Sokkal inkább eszköz arra, hogy kapcsolatokat építsünk, új kultúrákat ismerjünk meg, és olyan lehetőségekhezférjünk hozzá, amelyek képesek új irányt adni egy életnek.',
+    text: 'A nyelvtudás önmagában nem cél. Sokkal inkább eszköz arra, hogy kapcsolatokat építsünk, új kultúrákat ismerjünk meg, és olyan lehetőségekhez férjünk hozzá, amelyek képesek új irányt adni egy életnek.',
   },
   {
     icon: FlaskConical,

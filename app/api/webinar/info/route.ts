@@ -11,5 +11,7 @@ export async function GET(req: NextRequest) {
   ]);
   if (!webinar) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  return NextResponse.json({ ...webinar, registrationCount });
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { zoomLink: _omit, ...publicWebinar } = webinar;
+  return NextResponse.json({ ...publicWebinar, registrationCount });
 }

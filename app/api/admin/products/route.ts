@@ -50,8 +50,16 @@ export async function POST(req: NextRequest) {
     // Step 2: upload PDF using the record ID as the blob path
     const file = data.get('file') as File | null;
     if (file && file.size > 0) {
+      if (!['application/pdf'].includes(file.type)) {
+        await getBase()(TABLE()).destroy(record.id);
+        return NextResponse.json({ error: 'Only PDF files are allowed' }, { status: 400 });
+      }
+      if (file.size > 50 * 1024 * 1024) {
+        await getBase()(TABLE()).destroy(record.id);
+        return NextResponse.json({ error: 'File too large (max 50MB)' }, { status: 400 });
+      }
       const buffer = Buffer.from(await file.arrayBuffer());
-      await uploadProductPdf(record.id, buffer, file.type || 'application/pdf');
+      await uploadProductPdf(record.id, buffer, 'application/pdf');
     }
 
     revalidatePath('/forrasok');

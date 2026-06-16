@@ -237,9 +237,15 @@ export default async function ProgramokPage() {
                   <p className="font-display text-xl font-bold text-brand-blue">49 990 Ft</p>
                   <p className="font-sans text-xs text-brand-muted">/ hó · automatikus megújulás</p>
                 </div>
-                <Button href={`/api/checkout?priceId=${process.env.NEXT_PUBLIC_STRIPE_MENTORING_PRICE_ID || '#'}&type=mentoring`} size="sm">
-                  Feliratkozom <ArrowRight size={14} />
-                </Button>
+                {process.env.NEXT_PUBLIC_STRIPE_MENTORING_PRICE_ID ? (
+                  <Button href={`/api/checkout?priceId=${process.env.NEXT_PUBLIC_STRIPE_MENTORING_PRICE_ID}&type=mentoring`} size="sm">
+                    Feliratkozom <ArrowRight size={14} />
+                  </Button>
+                ) : (
+                  <Button href="/kapcsolat" size="sm">
+                    Érdeklődjetek <ArrowRight size={14} />
+                  </Button>
+                )}
               </div>
             </Card>
 

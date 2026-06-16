@@ -36,8 +36,14 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
       const file = data.get('file') as File | null;
       if (file && file.size > 0) {
+        if (!['application/pdf'].includes(file.type)) {
+          return NextResponse.json({ error: 'Only PDF files are allowed' }, { status: 400 });
+        }
+        if (file.size > 50 * 1024 * 1024) {
+          return NextResponse.json({ error: 'File too large (max 50MB)' }, { status: 400 });
+        }
         const buffer = Buffer.from(await file.arrayBuffer());
-        await uploadProductPdf(id, buffer, file.type || 'application/pdf');
+        await uploadProductPdf(id, buffer, 'application/pdf');
       }
     } else {
       const body = await req.json();
