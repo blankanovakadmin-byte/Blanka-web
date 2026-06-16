@@ -154,7 +154,7 @@ export default async function ProgramokPage() {
                   <p className="font-display text-xl font-bold text-brand-blue">19 990 Ft</p>
                   <p className="font-sans text-xs text-brand-muted">45 perc</p>
                 </div>
-                <Button href="https://cal.com/novakblanka/strategia" external size="sm">
+                <Button href="https://cal.com/blankanovak/strategia" external size="sm">
                   Foglalok <ArrowRight size={14} />
                 </Button>
               </div>

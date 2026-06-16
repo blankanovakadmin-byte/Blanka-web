@@ -3,7 +3,7 @@ import { BaseEmail, heading, paragraph, ctaButton, divider } from './_base';
 
 interface Props { email: string; name?: string }
 
-const CAL_MENTORING_URL = process.env.NEXT_PUBLIC_CAL_MENTORING_URL || 'https://cal.com/novakblanka/privat';
+const CAL_MENTORING_URL = process.env.NEXT_PUBLIC_CAL_MENTORING_URL || 'https://cal.com/blankanovak/privat';
 
 export function MentoringBookingEmail({ email, name }: Props) {
   const greeting = name ? `Szia, ${name}!` : 'Szia!';
