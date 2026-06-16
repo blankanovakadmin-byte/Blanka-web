@@ -1,15 +1,15 @@
 import { Text } from '@react-email/components';
 import { BaseEmail, heading, paragraph, ctaButton, divider } from './_base';
 
-interface Props { email: string; productTitle: string; downloadUrl: string }
+interface Props { email: string; productTitle: string; downloadUrl: string; firstName?: string }
 
-export function FreebieDeliveryEmail({ email, productTitle, downloadUrl }: Props) {
+export function FreebieDeliveryEmail({ email, productTitle, downloadUrl, firstName }: Props) {
   const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
 
   return (
     <BaseEmail preview="🎁 A te ingyenes anyagod - itt a link!">
       {heading('🎁 A te ingyenes anyagod - itt a link!')}
-      {paragraph('Szia!')}
+      {paragraph(firstName ? `Szia ${firstName}!` : 'Szia!')}
       {paragraph('Örülök, hogy megtaláltad ezt az anyagot, és hogy kíváncsi vagy rá. Ez a fajta kíváncsiság az, ami valóban előre visz. Szóval ezzel már jó úton jársz. 😊')}
       {divider()}
       <Text style={{ fontSize: '14px', fontWeight: '700', color: '#173A7A', margin: '0 0 8px' }}>

@@ -10,7 +10,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, productId, _hp } = await req.json() as FreebieClaimPayload & { _hp?: string };
+    const { email, productId, fullName, _hp } = await req.json() as FreebieClaimPayload & { _hp?: string };
 
     if (_hp) return NextResponse.json({ ok: true }); // honeypot
 
@@ -33,11 +33,11 @@ export async function POST(req: NextRequest) {
     const downloadUrl = await generateSignedUrl(blobUrl);
 
     await Promise.allSettled([
-      addFreebieContact(email, productId),
+      addFreebieContact(email, productId, fullName),
       sendEmail({
         to: email,
         subject: `A te letöltésed: ${product.title}`,
-        template: FreebieDeliveryEmail({ email, productTitle: product.title, downloadUrl }),
+        template: FreebieDeliveryEmail({ email, productTitle: product.title, downloadUrl, firstName: fullName }),
       }),
     ]);
 

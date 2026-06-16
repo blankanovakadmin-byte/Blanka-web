@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/Input';
 import type { Product } from '@/types';
 
 function FreeClaimForm({ productId }: { productId: string }) {
-  const [email, setEmail] = useState('');
+  const [form, setForm] = useState({ fullName: '', email: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   async function handleSubmit(e: React.FormEvent) {
@@ -20,7 +20,7 @@ function FreeClaimForm({ productId }: { productId: string }) {
       const res = await fetch('/api/freebies/claim', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, productId }),
+        body: JSON.stringify({ email: form.email, fullName: form.fullName, productId }),
       });
       if (res.status === 503) { setStatus('error'); return; }
       if (!res.ok) throw new Error();
@@ -39,19 +39,28 @@ function FreeClaimForm({ productId }: { productId: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2 mt-3">
+    <form onSubmit={handleSubmit} className="space-y-2 mt-3">
       <Input
-        type="email"
-        placeholder="email@cimed.hu"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Teljes neved"
+        value={form.fullName}
+        onChange={(e) => setForm(f => ({ ...f, fullName: e.target.value }))}
         required
-        error={status === 'error' ? 'Hiba történt, próbáld újra.' : ''}
-        className="flex-1 text-sm py-2"
+        className="text-sm py-2"
       />
-      <Button type="submit" size="sm" loading={status === 'loading'}>
-        <Mail size={14} /> Kérem
-      </Button>
+      <div className="flex gap-2">
+        <Input
+          type="email"
+          placeholder="email@cimed.hu"
+          value={form.email}
+          onChange={(e) => setForm(f => ({ ...f, email: e.target.value }))}
+          required
+          error={status === 'error' ? 'Hiba történt, próbáld újra.' : ''}
+          className="flex-1 text-sm py-2"
+        />
+        <Button type="submit" size="sm" loading={status === 'loading'}>
+          <Mail size={14} /> Kérem
+        </Button>
+      </div>
     </form>
   );
 }

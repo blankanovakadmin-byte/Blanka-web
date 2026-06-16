@@ -72,6 +72,7 @@ export interface WebinarRegisterPayload {
 export interface FreebieClaimPayload {
   email: string;
   productId: string;
+  fullName?: string;
 }
 
 export interface CheckoutParams {

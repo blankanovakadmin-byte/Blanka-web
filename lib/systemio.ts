@@ -75,9 +75,10 @@ export async function addWebinarContact(email: string, firstName: string, webina
   return contact;
 }
 
-export async function addFreebieContact(email: string, productId: string) {
+export async function addFreebieContact(email: string, productId: string, firstName?: string) {
   const contact = await upsertContact({
     email,
+    firstName,
     tags: [`freebie_${productId}`],
   });
   return contact;
