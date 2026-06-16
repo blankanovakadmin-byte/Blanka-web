@@ -161,6 +161,15 @@ export async function getWebinarById(id: string): Promise<Webinar | null> {
   }
 }
 
+export async function getWebinarRegistrationCount(webinarId: string): Promise<number> {
+  const base = getBase();
+  const tag = `webinar_${webinarId}`;
+  const records = await base(TABLES.subscribers())
+    .select({ filterByFormula: `FIND('${esc(tag)}', {Tags})`, fields: ['Email'] })
+    .all();
+  return records.length;
+}
+
 export async function getWebinarSubscribers(webinarId: string): Promise<Subscriber[]> {
   const base = getBase();
   const tag = `webinar_${webinarId}`;

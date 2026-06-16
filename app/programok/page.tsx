@@ -8,7 +8,7 @@ import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { getUpcomingWebinars } from '@/lib/airtable';
+import { getUpcomingWebinars, getWebinarRegistrationCount } from '@/lib/airtable';
 import { Calendar, Clock, Users, Check, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
@@ -33,9 +33,11 @@ function FlagRow() {
 }
 
 export default async function ProgramokPage() {
-  let webinars: Awaited<ReturnType<typeof getUpcomingWebinars>> = [];
+  let webinars: (Awaited<ReturnType<typeof getUpcomingWebinars>>[number] & { registrationCount: number })[] = [];
   try {
-    webinars = await getUpcomingWebinars();
+    const raw = await getUpcomingWebinars();
+    const counts = await Promise.all(raw.map(w => getWebinarRegistrationCount(w.id)));
+    webinars = raw.map((w, i) => ({ ...w, registrationCount: counts[i] }));
   } catch {
     // Airtable not configured
   }
@@ -284,7 +286,8 @@ export default async function ProgramokPage() {
   );
 }
 
-function WebinarCard({ webinar }: { webinar: { id: string; title: string; date: string; time: string; description: string; maxParticipants: number; registrationOpen: boolean } }) {
+function WebinarCard({ webinar }: { webinar: { id: string; title: string; date: string; time: string; description: string; maxParticipants: number; registrationOpen: boolean; registrationCount: number } }) {
+  const isFull = webinar.maxParticipants > 0 && webinar.registrationCount >= webinar.maxParticipants;
   const dateFormatted = new Date(webinar.date).toLocaleDateString('hu-HU', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
@@ -316,9 +319,13 @@ function WebinarCard({ webinar }: { webinar: { id: string; title: string; date: 
           )}
         </div>
       </div>
-      <Button href={`/webinar-regisztracio?id=${webinar.id}`} size="sm">
-        Regisztrálok
-      </Button>
+      {isFull ? (
+        <Badge variant="coral">Betelt</Badge>
+      ) : (
+        <Button href={`/webinar-regisztracio?id=${webinar.id}`} size="sm">
+          Regisztrálok
+        </Button>
+      )}
     </Card>
   );
 }

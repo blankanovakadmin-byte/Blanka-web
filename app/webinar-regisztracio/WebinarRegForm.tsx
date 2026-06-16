@@ -17,6 +17,7 @@ interface Webinar {
   description: string;
   maxParticipants: number;
   registrationOpen: boolean;
+  registrationCount: number;
 }
 
 function RegForm() {
@@ -101,6 +102,17 @@ function RegForm() {
               {!webinar.registrationOpen ? (
                 <div className="text-center py-8 font-sans text-brand-muted">
                   A regisztráció jelenleg zárva van.
+                </div>
+              ) : webinar.maxParticipants > 0 && webinar.registrationCount >= webinar.maxParticipants ? (
+                <div className="text-center py-8">
+                  <div className="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Users size={24} className="text-brand-coral" />
+                  </div>
+                  <h2 className="font-display text-xl font-bold text-brand-blue mb-2">Ez az esemény betelt</h2>
+                  <p className="font-sans text-brand-muted text-sm">
+                    Sajnos már nem tudunk több résztvevőt fogadni erre a webinárra.<br />
+                    Iratkozz fel a hírlevélre, hogy értesülj a következő alkalomról!
+                  </p>
                 </div>
               ) : status === 'success' ? (
                 <div className="text-center py-8">

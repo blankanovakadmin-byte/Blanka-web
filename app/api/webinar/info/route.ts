@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getWebinarById } from '@/lib/airtable';
+import { getWebinarById, getWebinarRegistrationCount } from '@/lib/airtable';
 
 export async function GET(req: NextRequest) {
   const id = req.nextUrl.searchParams.get('id');
   if (!id) return NextResponse.json({ error: 'Missing id' }, { status: 400 });
 
-  const webinar = await getWebinarById(id);
+  const [webinar, registrationCount] = await Promise.all([
+    getWebinarById(id),
+    getWebinarRegistrationCount(id),
+  ]);
   if (!webinar) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  return NextResponse.json(webinar);
+  return NextResponse.json({ ...webinar, registrationCount });
 }
