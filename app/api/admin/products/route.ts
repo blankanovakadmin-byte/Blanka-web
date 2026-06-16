@@ -16,8 +16,8 @@ export async function GET() {
   try {
     const products = await getAllProductsAdmin();
     return NextResponse.json(products);
-  } catch {
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
+  } catch (e: unknown) {
+    return NextResponse.json({ error: e instanceof Error ? e.message : 'Failed to fetch products' }, { status: 500 });
   }
 }
 
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Failed to create product' }, { status: 500 });
+  } catch (e: unknown) {
+    return NextResponse.json({ error: e instanceof Error ? e.message : 'Failed to create product' }, { status: 500 });
   }
 }

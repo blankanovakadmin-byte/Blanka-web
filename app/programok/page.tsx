@@ -1,3 +1,5 @@
+export const revalidate = 1800;
+
 import type { Metadata } from 'next';
 import { Navbar } from '@/components/layout/Navbar';
 import { MobileNav } from '@/components/layout/MobileNav';
