@@ -42,7 +42,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         Price: body.price,
         Category: body.category,
         Active: body.active,
-        StripePriceId: body.stripePriceId,
+        ...(body.stripePriceId !== undefined ? { StripePriceId: body.stripePriceId } : {}),
       };
     }
 

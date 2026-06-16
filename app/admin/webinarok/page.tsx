@@ -87,12 +87,17 @@ export default function AdminWebinarokPage() {
   }
 
   async function toggleRegistration(w: Webinar) {
-    await fetch(`/api/admin/webinars/${w.id}`, {
+    const res = await fetch(`/api/admin/webinars/${w.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ registrationOpen: !w.registrationOpen }),
     });
-    await fetchWebinars();
+    if (res.ok) {
+      await fetchWebinars();
+    } else {
+      const j = await res.json().catch(() => ({}));
+      setError(j.error || 'Frissítés sikertelen');
+    }
   }
 
   return (

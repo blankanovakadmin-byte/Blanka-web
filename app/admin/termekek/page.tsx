@@ -22,10 +22,12 @@ const emptyForm: FormData = {
 export default function AdminTermekekPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
   const [form, setForm] = useState<FormData>(emptyForm);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
   const [file, setFile] = useState<File | null>(null);
 
   useEffect(() => {
@@ -34,9 +36,17 @@ export default function AdminTermekekPage() {
 
   async function fetchProducts() {
     setLoading(true);
+    setError('');
     try {
       const res = await fetch('/api/admin/products');
-      if (res.ok) setProducts(await res.json());
+      if (res.ok) {
+        setProducts(await res.json());
+      } else {
+        const j = await res.json().catch(() => ({}));
+        setError(j.error || `Hiba: ${res.status}`);
+      }
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Hálózati hiba');
     } finally {
       setLoading(false);
     }
@@ -46,6 +56,7 @@ export default function AdminTermekekPage() {
     setEditing(null);
     setForm(emptyForm);
     setFile(null);
+    setSaveError('');
     setFormOpen(true);
   }
 
@@ -53,12 +64,14 @@ export default function AdminTermekekPage() {
     setEditing(product);
     setForm({ title: product.title, description: product.description, price: product.price, category: product.category, active: product.active, blobKey: product.blobKey, stripePriceId: product.stripePriceId });
     setFile(null);
+    setSaveError('');
     setFormOpen(true);
   }
 
   async function handleSave(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
+    setSaveError('');
     try {
       const data = new FormData();
       Object.entries(form).forEach(([k, v]) => { if (v !== undefined) data.append(k, String(v)); });
@@ -67,7 +80,15 @@ export default function AdminTermekekPage() {
       const url = editing ? `/api/admin/products/${editing.id}` : '/api/admin/products';
       const method = editing ? 'PUT' : 'POST';
       const res = await fetch(url, { method, body: data });
-      if (res.ok) { await fetchProducts(); setFormOpen(false); }
+      if (res.ok) {
+        await fetchProducts();
+        setFormOpen(false);
+      } else {
+        const j = await res.json().catch(() => ({}));
+        setSaveError(j.error || 'Mentés sikertelen');
+      }
+    } catch (e: unknown) {
+      setSaveError(e instanceof Error ? e.message : 'Hálózati hiba');
     } finally {
       setSaving(false);
     }
@@ -75,17 +96,35 @@ export default function AdminTermekekPage() {
 
   async function handleDelete(id: string) {
     if (!confirm('Biztosan törlöd?')) return;
-    await fetch(`/api/admin/products/${id}`, { method: 'DELETE' });
-    await fetchProducts();
+    try {
+      const res = await fetch(`/api/admin/products/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        await fetchProducts();
+      } else {
+        const j = await res.json().catch(() => ({}));
+        setError(j.error || 'Törlés sikertelen');
+      }
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Hálózati hiba');
+    }
   }
 
   async function toggleActive(product: Product) {
-    await fetch(`/api/admin/products/${product.id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...product, active: !product.active }),
-    });
-    await fetchProducts();
+    try {
+      const res = await fetch(`/api/admin/products/${product.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...product, active: !product.active }),
+      });
+      if (res.ok) {
+        await fetchProducts();
+      } else {
+        const j = await res.json().catch(() => ({}));
+        setError(j.error || 'Frissítés sikertelen');
+      }
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : 'Hálózati hiba');
+    }
   }
 
   return (
@@ -103,9 +142,15 @@ export default function AdminTermekekPage() {
           </Button>
         </div>
 
+        {error && (
+          <Card className="bg-red-50 border-red-200 mb-4">
+            <p className="font-sans text-sm text-red-700">{error}</p>
+          </Card>
+        )}
+
         {loading ? (
           <p className="font-sans text-brand-muted text-center py-12">Betöltés...</p>
-        ) : products.length === 0 ? (
+        ) : products.length === 0 && !error ? (
           <Card className="text-center py-12">
             <p className="font-sans text-brand-muted">Még nincs termék. Adj hozzá egyet!</p>
           </Card>
@@ -138,13 +183,17 @@ export default function AdminTermekekPage() {
           </div>
         )}
 
-        {/* Form modal */}
         {formOpen && (
           <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
             <Card className="w-full max-w-lg max-h-[90vh] overflow-y-auto">
               <h2 className="font-display text-lg font-bold text-brand-blue mb-6">
                 {editing ? 'Termék szerkesztése' : 'Új termék'}
               </h2>
+              {saveError && (
+                <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 border border-red-200">
+                  <p className="font-sans text-sm text-red-700">{saveError}</p>
+                </div>
+              )}
               <form onSubmit={handleSave} className="space-y-4">
                 <Input label="Cím" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required />
                 <div>
@@ -173,7 +222,9 @@ export default function AdminTermekekPage() {
                   <label className="text-sm font-medium text-brand-text font-sans block mb-1">PDF feltöltés</label>
                   <label className="flex items-center gap-2 px-4 py-3 rounded-xl border border-dashed border-brand-border cursor-pointer hover:border-brand-purple transition-colors">
                     <Upload size={16} className="text-brand-muted" />
-                    <span className="font-sans text-sm text-brand-muted">{file ? file.name : 'Fájl kiválasztása...'}</span>
+                    <span className="font-sans text-sm text-brand-muted">
+                      {file ? file.name : (editing?.blobKey ? 'Meglévő fájl (új feltöltéssel cserélhető)' : 'Fájl kiválasztása...')}
+                    </span>
                     <input type="file" accept=".pdf" className="hidden" onChange={e => setFile(e.target.files?.[0] ?? null)} />
                   </label>
                 </div>
