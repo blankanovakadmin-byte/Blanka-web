@@ -17,7 +17,8 @@ export async function GET() {
     const products = await getAllProductsAdmin();
     return NextResponse.json(products);
   } catch (e: unknown) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : 'Failed to fetch products' }, { status: 500 });
+    const msg = e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : String(e);
+    return NextResponse.json({ error: msg || 'Failed to fetch products' }, { status: 500 });
   }
 }
 
@@ -47,6 +48,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
-    return NextResponse.json({ error: e instanceof Error ? e.message : 'Failed to create product' }, { status: 500 });
+    const msg = e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : String(e);
+    return NextResponse.json({ error: msg || 'Failed to create product' }, { status: 500 });
   }
 }

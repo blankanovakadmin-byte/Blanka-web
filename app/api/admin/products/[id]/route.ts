@@ -48,8 +48,9 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
     await getBase()(TABLE()).update(id, fields as Partial<FieldSet>);
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Failed to update product' }, { status: 500 });
+  } catch (e: unknown) {
+    const msg = e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : String(e);
+    return NextResponse.json({ error: msg || 'Failed to update product' }, { status: 500 });
   }
 }
 
@@ -65,7 +66,8 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     if (blobKey) await deleteFile(blobKey);
     await getBase()(TABLE()).destroy(id);
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Failed to delete product' }, { status: 500 });
+  } catch (e: unknown) {
+    const msg = e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : String(e);
+    return NextResponse.json({ error: msg || 'Failed to delete product' }, { status: 500 });
   }
 }
