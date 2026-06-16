@@ -7,6 +7,7 @@ import { sendEmail } from '@/lib/resend';
 import { CourseWelcomeEmail } from '@/emails/course-welcome';
 import { DigitalProductDeliveryEmail } from '@/emails/digital-product-delivery';
 import { MentoringBookingEmail } from '@/emails/mentoring-booking';
+import { StrategiaBookingEmail } from '@/emails/strategia-booking';
 import Stripe from 'stripe';
 
 export async function POST(req: NextRequest) {
@@ -31,13 +32,14 @@ export async function POST(req: NextRequest) {
 
     try {
       if (productType === 'course') {
+        const courseTitle = session.metadata?.productTitle || 'Kurzus';
         await Promise.allSettled([
           addPurchaseTag(email, 'course', productId),
           addCoursePurchase({ email, courseId: productId, stripeSessionId: session.id }),
           sendEmail({
             to: email,
-            subject: 'Üdvözöljük a Magabiztosan Angolul kurzuson! 🎉',
-            template: CourseWelcomeEmail({ email, name: customerName }),
+            subject: `Üdvözöllek a(z) ${courseTitle} kurzuson! 🎉`,
+            template: CourseWelcomeEmail({ email, name: customerName, courseTitle }),
           }),
         ]);
       } else if (productType === 'digital') {
@@ -60,6 +62,14 @@ export async function POST(req: NextRequest) {
             to: email,
             subject: 'Foglald le a havi két alkalmadat! 📅',
             template: MentoringBookingEmail({ email, name: customerName }),
+          }),
+        ]);
+      } else if (productType === 'strategy') {
+        await Promise.allSettled([
+          sendEmail({
+            to: email,
+            subject: 'Foglald le a stratégia konzultációdat! 📅',
+            template: StrategiaBookingEmail({ email, name: customerName }),
           }),
         ]);
       }

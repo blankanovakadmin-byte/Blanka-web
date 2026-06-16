@@ -1,15 +1,16 @@
 import { Text } from '@react-email/components';
 import { BaseEmail, heading, paragraph, ctaButton, divider } from './_base';
 
-interface Props { email: string; name?: string }
+interface Props { email: string; name?: string; courseTitle?: string }
 
-export function CourseWelcomeEmail({ email, name }: Props) {
+export function CourseWelcomeEmail({ email, name, courseTitle }: Props) {
   const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
   const greeting = name ? `Szia, ${name}!` : 'Szia!';
+  const title = courseTitle || 'kurzuson';
 
   return (
-    <BaseEmail preview="🎉 Bent vagy! Üdvözöllek a Magabiztosan Angolul kurzuson">
-      {heading('🎉 Bent vagy! Üdvözöllek a kurzuson')}
+    <BaseEmail preview={`🎉 Bent vagy! Üdvözöllek a(z) ${title} kurzuson`}>
+      {heading(`🎉 Bent vagy! Üdvözöllek a(z) ${title} kurzuson`)}
       {paragraph(greeting)}
       {paragraph('Örülök, hogy meghozted ezt a döntést. Ez az a lépés, amin sokan sokáig gondolkoznak, és te megtetted. Ezzel máris előrébb tartasz.')}
       {paragraph('Hamarosan megkapod a belépési adatokat a kurzusplatformra, ahol az összes anyag elérhető lesz. Ha valamiért nem érkezne meg 24 órán belül, írj rám és megoldjuk.')}

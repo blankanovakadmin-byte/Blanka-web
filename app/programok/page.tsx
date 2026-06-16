@@ -154,7 +154,13 @@ export default async function ProgramokPage() {
                   <p className="font-display text-xl font-bold text-brand-blue">19 990 Ft</p>
                   <p className="font-sans text-xs text-brand-muted">45 perc</p>
                 </div>
-                <Button href="https://cal.com/blankanovak/strategia" external size="sm">
+                <Button
+                  href={process.env.NEXT_PUBLIC_STRIPE_STRATEGY_PRICE_ID
+                    ? `/api/checkout?priceId=${process.env.NEXT_PUBLIC_STRIPE_STRATEGY_PRICE_ID}&type=strategy`
+                    : 'https://cal.com/blankanovak/strategia'}
+                  external={!process.env.NEXT_PUBLIC_STRIPE_STRATEGY_PRICE_ID}
+                  size="sm"
+                >
                   Foglalok <ArrowRight size={14} />
                 </Button>
               </div>

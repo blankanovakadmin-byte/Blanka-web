@@ -78,7 +78,7 @@ export interface FreebieClaimPayload {
 
 export interface CheckoutParams {
   priceId: string;
-  productType: 'course' | 'subscription' | 'digital' | 'mentoring';
+  productType: 'course' | 'subscription' | 'digital' | 'mentoring' | 'strategy';
   customerEmail?: string;
   metadata?: Record<string, string>;
 }
