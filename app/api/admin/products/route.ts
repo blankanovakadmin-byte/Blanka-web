@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
     await getBase()(TABLE()).create({
       Title: String(data.get('title') ?? ''),
       Description: String(data.get('description') ?? ''),
-      Price: Number(data.get('price') ?? 0),
+      Pricing: Number(data.get('price') ?? 0),
       Category: String(data.get('category') ?? 'premium'),
       Active: data.get('active') === 'true',
       BlobKey: blobKey,

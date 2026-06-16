@@ -48,7 +48,7 @@ function mapProduct(r: { id: string; fields: Record<string, unknown> }): Product
     id: r.id,
     title: String(r.fields['Title'] ?? ''),
     description: String(r.fields['Description'] ?? ''),
-    price: Number(r.fields['Price'] ?? 0),
+    price: Number(r.fields['Pricing'] ?? 0),
     category: (r.fields['Category'] as 'free' | 'premium') ?? 'premium',
     blobKey: r.fields['BlobKey'] ? String(r.fields['BlobKey']) : undefined,
     active: Boolean(r.fields['Active']),

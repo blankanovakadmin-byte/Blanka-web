@@ -23,7 +23,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       fields = {
         Title: String(data.get('title') ?? ''),
         Description: String(data.get('description') ?? ''),
-        Price: Number(data.get('price') ?? 0),
+        Pricing: Number(data.get('price') ?? 0),
         Category: String(data.get('category') ?? 'premium'),
         Active: data.get('active') === 'true',
         StripePriceId: data.get('stripePriceId') ? String(data.get('stripePriceId')) : undefined,
@@ -39,7 +39,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       fields = {
         Title: body.title,
         Description: body.description,
-        Price: body.price,
+        Pricing: body.price,
         Category: body.category,
         Active: body.active,
         ...(body.stripePriceId !== undefined ? { StripePriceId: body.stripePriceId } : {}),
