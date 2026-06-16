@@ -289,7 +289,7 @@ export async function createCourse(data: Omit<Course, 'id'>): Promise<string> {
 
 export async function updateCourse(id: string, data: Partial<Omit<Course, 'id'>>): Promise<void> {
   const base = getBase();
-  const fields: Record<string, unknown> = {};
+  const fields: Record<string, string | number | boolean | undefined> = {};
   if (data.title !== undefined) fields.Title = data.title;
   if (data.description !== undefined) fields.Description = data.description;
   if (data.price !== undefined) fields.Price = data.price;
