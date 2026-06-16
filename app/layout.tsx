@@ -44,9 +44,32 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com'),
 };
 
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Novák Blanka',
+  url: 'https://blankanovak.com',
+  description: 'Tanulj angolul hatékonyan Novák Blankával. Webinár, kurzus, 1-1 mentorálás és letölthető anyagok.',
+  publisher: {
+    '@type': 'Person',
+    name: 'Novák Blanka',
+    url: 'https://blankanovak.com/rolam',
+    sameAs: [
+      'https://instagram.com/blankanovak_',
+      'https://tiktok.com/@blankanovak',
+    ],
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="hu" className={`${playfair.variable} ${inter.variable} ${greatVibes.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+      </head>
       <body className="antialiased">
           {children}
           <CookieBanner />

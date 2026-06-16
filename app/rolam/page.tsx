@@ -10,6 +10,37 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'Rólam',
   description: 'Novák Blanka, biológus doktorandusz, nyelvtanár, 13 000+ követővel. Megismerheted a módszerem mögötti tudományt és személyes tanulási utamat.',
+  openGraph: {
+    title: 'Rólam | Novák Blanka',
+    description: 'Biológus doktorandusz, 7 nyelven, 13 000+ követő — megismerheted a módszerem mögötti tudományt.',
+    url: 'https://blankanovak.com/rolam',
+  },
+};
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Novák Blanka',
+  url: 'https://blankanovak.com',
+  description: 'Biológus doktorandusz, nyelvtanár, 13 000+ követővel. 7 nyelven kommunikál, online nyelvtanulási programokat vezet.',
+  jobTitle: 'Nyelvtanár, Doktorandusz',
+  knowsLanguage: ['Magyar', 'Angol', 'Olasz', 'Spanyol', 'Mandarin kínai'],
+  sameAs: [
+    'https://instagram.com/blankanovak_',
+    'https://tiktok.com/@blankanovak',
+  ],
+  worksFor: {
+    '@type': 'Organization',
+    name: 'Lybskin Kft.',
+  },
+  offers: {
+    '@type': 'Offer',
+    itemOffered: {
+      '@type': 'Service',
+      name: 'Online Nyelvtanulási Programok',
+      url: 'https://blankanovak.com/programok',
+    },
+  },
 };
 
 const values = [
@@ -38,6 +69,10 @@ const values = [
 export default function RolamPage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
       <Navbar />
       <main className="pb-20 md:pb-0 pt-20">
 

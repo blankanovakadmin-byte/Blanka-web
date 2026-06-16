@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/Input';
 import type { Product } from '@/types';
 
 function FreeClaimForm({ productId }: { productId: string }) {
-  const [form, setForm] = useState({ fullName: '', email: '' });
+  const [form, setForm] = useState({ fullName: '', email: '', _hp: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   async function handleSubmit(e: React.FormEvent) {
@@ -20,7 +20,7 @@ function FreeClaimForm({ productId }: { productId: string }) {
       const res = await fetch('/api/freebies/claim', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.email, fullName: form.fullName, productId }),
+        body: JSON.stringify({ email: form.email, fullName: form.fullName, productId, _hp: form._hp }),
       });
       if (res.status === 503) { setStatus('error'); return; }
       if (!res.ok) throw new Error();
@@ -40,6 +40,9 @@ function FreeClaimForm({ productId }: { productId: string }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2 mt-3">
+      <div style={{ position: 'absolute', left: '-9999px', height: 0, overflow: 'hidden' }} aria-hidden="true">
+        <input tabIndex={-1} autoComplete="off" value={form._hp} onChange={e => setForm(f => ({ ...f, _hp: e.target.value }))} />
+      </div>
       <Input
         placeholder="Teljes neved"
         value={form.fullName}

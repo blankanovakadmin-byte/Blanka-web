@@ -118,12 +118,26 @@ export async function addBookingTag(email: string) {
 
 export async function getContactsByTag(tag: string): Promise<Array<{ id: number; email: string; firstName?: string }>> {
   try {
-    const result = await systemeRequest(`/contacts?tag=${encodeURIComponent(tag)}&limit=100`, 'GET');
-    return (result.items ?? []).map((c: Record<string, unknown>) => ({
-      id: Number(c.id),
-      email: String(c.email ?? ''),
-      firstName: c.first_name ? String(c.first_name) : undefined,
-    }));
+    const all: Array<{ id: number; email: string; firstName?: string }> = [];
+    const limit = 100;
+    let page = 1;
+
+    while (true) {
+      const result = await systemeRequest(
+        `/contacts?tag=${encodeURIComponent(tag)}&limit=${limit}&page=${page}`,
+        'GET'
+      );
+      const items: Record<string, unknown>[] = result.items ?? [];
+      all.push(...items.map((c) => ({
+        id: Number(c.id),
+        email: String(c.email ?? ''),
+        firstName: c.first_name ? String(c.first_name) : undefined,
+      })));
+      if (items.length < limit) break;
+      page++;
+    }
+
+    return all;
   } catch {
     return [];
   }

@@ -49,6 +49,7 @@ export function Hero() {
                   src="/images/blanka-hero.jpg"
                   alt="Novák Blanka"
                   fill
+                  sizes="(max-width: 768px) 320px, (max-width: 1280px) 384px, 384px"
                   className="object-cover object-top"
                   priority
                 />

@@ -21,6 +21,21 @@ export async function GET(req: NextRequest) {
 
     const product = products.find(p => p.stripePriceId === priceId);
     const course = courses.find(c => c.stripePriceId === priceId);
+
+    // Validate priceId belongs to a known product — prevents arbitrary Stripe sessions
+    if (type === 'digital' && !product) {
+      return NextResponse.redirect(new URL('/forrasok', req.url));
+    }
+    if (type === 'course' && !course) {
+      return NextResponse.redirect(new URL('/programok', req.url));
+    }
+    if (type === 'mentoring' && priceId !== process.env.NEXT_PUBLIC_STRIPE_MENTORING_PRICE_ID) {
+      return NextResponse.redirect(new URL('/programok', req.url));
+    }
+    if (type === 'strategy' && priceId !== process.env.NEXT_PUBLIC_STRIPE_STRATEGY_PRICE_ID) {
+      return NextResponse.redirect(new URL('/programok', req.url));
+    }
+
     const title = product?.title ?? course?.title ?? (type === 'mentoring' ? 'Privát Havi Mentorprogram' : type === 'strategy' ? 'Stratégia konzultáció' : '');
 
     const stripeType = type === 'mentoring' ? 'subscription' : type === 'strategy' ? 'digital' : type;

@@ -10,6 +10,11 @@ import { ForrasokClient, ForrasokEmptyState } from '@/components/sections/Forras
 export const metadata: Metadata = {
   title: 'Tanulási forrásaim | Novák Blanka',
   description: 'Ingyenes és fizetős tanulási anyagok a gyorsabb angol nyelvtanuláshoz.',
+  openGraph: {
+    title: 'Tanulási forrásaim | Novák Blanka',
+    description: 'Ingyenes letölthető anyagok és fizetős termékek — felgyorsítják a nyelvtanulási utadat.',
+    url: 'https://blankanovak.com/forrasok',
+  },
 };
 
 export const revalidate = 3600;

@@ -16,6 +16,11 @@ import Image from 'next/image';
 export const metadata: Metadata = {
   title: 'Programok',
   description: 'Online webinár, csoportos kurzus, önütemezett tanfolyam és 1-1 mentorálás Novák Blankával. Találd meg a számodra legjobb utat az angol nyelvhez.',
+  openGraph: {
+    title: 'Programok | Novák Blanka',
+    description: 'Webinár, kurzus, kiscsoportos és privát mentorálás — Találd meg a számodra legjobb utat az angol nyelvhez.',
+    url: 'https://blankanovak.com/programok',
+  },
 };
 
 function FlagRow() {
@@ -49,8 +54,54 @@ export default async function ProgramokPage() {
     // Airtable not configured or courses table missing
   }
 
+  const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
+  const organizer = { '@type': 'Person', name: 'Novák Blanka', url: `${BASE}/rolam` };
+
+  const courseSchemas = courses.map((c) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Course',
+    name: c.title,
+    description: c.description,
+    url: `${BASE}/programok#kurzus-${c.id}`,
+    provider: organizer,
+    offers: c.status === 'active' ? {
+      '@type': 'Offer',
+      price: c.price,
+      priceCurrency: 'HUF',
+      availability: 'https://schema.org/InStock',
+    } : undefined,
+  }));
+
+  const eventSchemas = webinars.map((w) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Event',
+    name: w.title,
+    description: w.description,
+    startDate: `${w.date}T${w.time || '00:00'}:00+02:00`,
+    eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    location: { '@type': 'VirtualLocation', url: `${BASE}/webinar-regisztracio?id=${w.id}` },
+    organizer,
+    offers: w.registrationOpen ? {
+      '@type': 'Offer',
+      price: 0,
+      priceCurrency: 'HUF',
+      availability: w.maxParticipants > 0 && w.registrationCount >= w.maxParticipants
+        ? 'https://schema.org/SoldOut'
+        : 'https://schema.org/InStock',
+      url: `${BASE}/webinar-regisztracio?id=${w.id}`,
+    } : undefined,
+  }));
+
   return (
     <>
+      {[...courseSchemas, ...eventSchemas].map((schema, i) => (
+        <script
+          key={i}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+        />
+      ))}
       <Navbar />
       <main className="pb-20 md:pb-0 pt-20">
 

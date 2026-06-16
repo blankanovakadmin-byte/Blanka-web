@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { addWebinarContact } from '@/lib/systemio';
-import { addWebinarSubscriber, getWebinarById, getWebinarRegistrationCount } from '@/lib/airtable';
+import { addWebinarSubscriber, getWebinarById, getWebinarRegistrationCount, isWebinarRegistered } from '@/lib/airtable';
 import { sendEmail } from '@/lib/resend';
 import { WebinarConfirmationEmail } from '@/emails/webinar-confirmation';
 import type { WebinarRegisterPayload } from '@/types';
@@ -22,9 +22,10 @@ export async function POST(req: NextRequest) {
 
     const name = fullName?.trim() || '';
 
-    const [webinar, registrationCount] = await Promise.all([
+    const [webinar, registrationCount, alreadyRegistered] = await Promise.all([
       getWebinarById(webinarId),
       getWebinarRegistrationCount(webinarId),
+      isWebinarRegistered(email, webinarId),
     ]);
     if (!webinar) return NextResponse.json({ error: 'Webinar not found' }, { status: 404 });
     if (!webinar.registrationOpen) {
@@ -32,6 +33,9 @@ export async function POST(req: NextRequest) {
     }
     if (webinar.maxParticipants > 0 && registrationCount >= webinar.maxParticipants) {
       return NextResponse.json({ error: 'A webinár betelt.' }, { status: 400 });
+    }
+    if (alreadyRegistered) {
+      return NextResponse.json({ ok: true }); // silently succeed, don't re-send confirmation
     }
 
     await Promise.allSettled([

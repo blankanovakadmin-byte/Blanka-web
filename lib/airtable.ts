@@ -75,6 +75,19 @@ export async function getActiveProducts(): Promise<Product[]> {
 }
 
 
+export async function isWebinarRegistered(email: string, webinarId: string): Promise<boolean> {
+  const base = getBase();
+  const tag = `webinar_${webinarId}`;
+  const records = await base(TABLES.subscribers())
+    .select({
+      filterByFormula: `AND({Email} = '${esc(email)}', FIND('${esc(tag)}', {Tags}))`,
+      maxRecords: 1,
+      fields: ['Email'],
+    })
+    .firstPage();
+  return records.length > 0;
+}
+
 export async function addWebinarSubscriber(data: {
   email: string;
   firstName: string;
