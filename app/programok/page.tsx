@@ -8,7 +8,8 @@ import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { getUpcomingWebinars, getWebinarRegistrationCount } from '@/lib/airtable';
+import { getUpcomingWebinars, getWebinarRegistrationCount, getActiveCourses } from '@/lib/airtable';
+import type { Course } from '@/types';
 import { Calendar, Clock, Users, Check, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
@@ -34,12 +35,18 @@ function FlagRow() {
 
 export default async function ProgramokPage() {
   let webinars: (Awaited<ReturnType<typeof getUpcomingWebinars>>[number] & { registrationCount: number })[] = [];
+  let courses: Course[] = [];
   try {
     const raw = await getUpcomingWebinars();
     const counts = await Promise.all(raw.map(w => getWebinarRegistrationCount(w.id)));
     webinars = raw.map((w, i) => ({ ...w, registrationCount: counts[i] }));
   } catch {
     // Airtable not configured
+  }
+  try {
+    courses = await getActiveCourses();
+  } catch {
+    // Airtable not configured or courses table missing
   }
 
   return (
@@ -59,67 +66,56 @@ export default async function ProgramokPage() {
           </div>
         </SectionWrapper>
 
-        {/* Magabiztosan Angolul */}
-        <SectionWrapper bg="surface" id="kurzus">
-          <div className="max-w-3xl mx-auto">
-            <Badge variant="blue" className="mb-4">Online kurzus</Badge>
-            <h2 className="font-display text-3xl font-bold text-brand-blue mb-3">
-              Magabiztosan Angolul
-            </h2>
-            <p className="font-sans text-brand-muted text-lg mb-6 leading-relaxed">
-              Azoknak, akik már tanultak angolul, de szeretnének végre természetesen és
-              magabiztosan kommunikálni.
-            </p>
+        {/* Kurzusok */}
+        {courses.map((course, idx) => (
+          <SectionWrapper key={course.id} bg={idx % 2 === 0 ? 'surface' : 'default'} id={`kurzus-${course.id}`}>
+            <div className="max-w-3xl mx-auto">
+              <Badge variant="blue" className="mb-4">Online kurzus</Badge>
+              <h2 className="font-display text-3xl font-bold text-brand-blue mb-3">
+                {course.title}
+              </h2>
+              <p className="font-sans text-brand-muted text-lg mb-6 leading-relaxed">
+                {course.description}
+              </p>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-8">
-              <div>
-                <h3 className="font-display text-lg font-bold text-brand-blue mb-3">Mit kapsz?</h3>
-                <ul className="space-y-2">
-                  {[
-                    'Megtanulsz angolul gondolkodni, nem pedig fejben fordítani',
-                    'Leküzdöd a megszólalással kapcsolatos szorongást',
-                    'Fejleszted a természetes, autentikus kiejtésedet',
-                    'Gyakorlati eszközöket kapsz a magabiztos nyelvhasználathoz',
-                  ].map(f => (
-                    <li key={f} className="flex items-start gap-2 font-sans text-sm text-brand-text">
-                      <Check size={14} className="text-brand-purple shrink-0 mt-0.5" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-display text-lg font-bold text-brand-blue mb-3">Kinek szól?</h3>
-                <p className="font-sans text-sm text-brand-muted mb-4 leading-relaxed">
-                  B1 szinttől haladó szintig azoknak, akik szeretnék végre használni is azt az
-                  angolt, amit már tudnak.
-                </p>
-                <h3 className="font-display text-lg font-bold text-brand-blue mb-3">A program tartalma</h3>
-                <ul className="space-y-2">
-                  {[
-                    '8 modulból álló, lépésről lépésre felépített rendszer',
-                    'Élő Q&A alkalmak, ahol személyesen kérdezhetsz',
-                  ].map(f => (
-                    <li key={f} className="flex items-start gap-2 font-sans text-sm text-brand-text">
-                      <Check size={14} className="text-brand-purple shrink-0 mt-0.5" />
-                      {f}
-                    </li>
-                  ))}
-                </ul>
+              {course.features.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="font-display text-lg font-bold text-brand-blue mb-3">Mit kapsz?</h3>
+                  <ul className="space-y-2">
+                    {course.features.map(f => (
+                      <li key={f} className="flex items-start gap-2 font-sans text-sm text-brand-text">
+                        <Check size={14} className="text-brand-purple shrink-0 mt-0.5" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="flex items-center gap-6 pt-6 border-t border-brand-border">
+                <div>
+                  <p className="font-sans text-xs text-brand-muted uppercase tracking-wide mb-1">Ár</p>
+                  <p className="font-display text-3xl font-bold text-brand-blue">
+                    {course.price.toLocaleString('hu-HU')} Ft
+                  </p>
+                </div>
+                {course.status === 'active' && (course.systemeioUrl || course.stripePriceId) ? (
+                  <Button
+                    href={course.systemeioUrl || `/api/checkout?priceId=${course.stripePriceId}&type=course`}
+                    external={!!course.systemeioUrl}
+                    size="lg"
+                  >
+                    Csatlakozom <ArrowRight size={16} />
+                  </Button>
+                ) : course.status === 'coming_soon' ? (
+                  <Badge variant="coral">Hamarosan</Badge>
+                ) : (
+                  <Badge variant="muted">Zárva</Badge>
+                )}
               </div>
             </div>
-
-            <div className="flex items-center gap-6 pt-6 border-t border-brand-border">
-              <div>
-                <p className="font-sans text-xs text-brand-muted uppercase tracking-wide mb-1">Early Bird ár</p>
-                <p className="font-display text-3xl font-bold text-brand-blue">24 990 Ft</p>
-              </div>
-              <Button href={process.env.NEXT_PUBLIC_COURSE_CHECKOUT_URL || '#'} external size="lg">
-                Csatlakozom <ArrowRight size={16} />
-              </Button>
-            </div>
-          </div>
-        </SectionWrapper>
+          </SectionWrapper>
+        ))}
 
         {/* Stratégia + Mentor cards */}
         <SectionWrapper bg="default">

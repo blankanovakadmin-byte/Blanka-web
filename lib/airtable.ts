@@ -1,5 +1,5 @@
 import Airtable from 'airtable';
-import type { Webinar, Product, Subscriber, Testimonial } from '@/types';
+import type { Webinar, Product, Course, Subscriber, Testimonial } from '@/types';
 
 function esc(value: string): string {
   return value.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
@@ -12,6 +12,7 @@ const TABLES = {
   digitalBuyers: () => process.env.AIRTABLE_DIGITAL_BUYERS_TABLE || 'Digitális termék vásárlók',
   products: () => process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek',
   testimonials: () => process.env.AIRTABLE_TESTIMONIALS_TABLE || 'Vélemények',
+  courses: () => process.env.AIRTABLE_COURSES_TABLE || 'Kurzusok',
 };
 
 function getBase() {
@@ -234,6 +235,75 @@ export async function updateWebinar(id: string, data: Partial<Omit<Webinar, 'id'
 export async function deleteWebinar(id: string): Promise<void> {
   const base = getBase();
   await base(TABLES.webinars()).destroy(id);
+}
+
+function mapCourse(r: { id: string; fields: Record<string, unknown> }): Course {
+  return {
+    id: r.id,
+    title: String(r.fields['Title'] ?? ''),
+    description: String(r.fields['Description'] ?? ''),
+    price: Number(r.fields['Price'] ?? 0),
+    status: (r.fields['Status'] as Course['status']) ?? 'coming_soon',
+    active: Boolean(r.fields['Active']),
+    systemeioUrl: r.fields['SystemeioUrl'] ? String(r.fields['SystemeioUrl']) : undefined,
+    stripePriceId: r.fields['StripePriceId'] ? String(r.fields['StripePriceId']) : undefined,
+    features: r.fields['Features']
+      ? String(r.fields['Features']).split('\n').map(s => s.trim()).filter(Boolean)
+      : [],
+  };
+}
+
+export async function getAllCoursesAdmin(): Promise<Course[]> {
+  const base = getBase();
+  const records = await base(TABLES.courses())
+    .select({ sort: [{ field: 'Order', direction: 'asc' }] })
+    .all();
+  return records.map(mapCourse);
+}
+
+export async function getActiveCourses(): Promise<Course[]> {
+  const base = getBase();
+  const records = await base(TABLES.courses())
+    .select({
+      filterByFormula: '{Active} = TRUE()',
+      sort: [{ field: 'Order', direction: 'asc' }],
+    })
+    .all();
+  return records.map(mapCourse);
+}
+
+export async function createCourse(data: Omit<Course, 'id'>): Promise<string> {
+  const base = getBase();
+  const record = await base(TABLES.courses()).create({
+    Title: data.title,
+    Description: data.description,
+    Price: data.price,
+    Status: data.status,
+    Active: data.active,
+    Features: data.features.join('\n'),
+    ...(data.systemeioUrl ? { SystemeioUrl: data.systemeioUrl } : {}),
+    ...(data.stripePriceId ? { StripePriceId: data.stripePriceId } : {}),
+  });
+  return record.id;
+}
+
+export async function updateCourse(id: string, data: Partial<Omit<Course, 'id'>>): Promise<void> {
+  const base = getBase();
+  const fields: Record<string, unknown> = {};
+  if (data.title !== undefined) fields.Title = data.title;
+  if (data.description !== undefined) fields.Description = data.description;
+  if (data.price !== undefined) fields.Price = data.price;
+  if (data.status !== undefined) fields.Status = data.status;
+  if (data.active !== undefined) fields.Active = data.active;
+  if (data.features !== undefined) fields.Features = data.features.join('\n');
+  if (data.systemeioUrl !== undefined) fields.SystemeioUrl = data.systemeioUrl;
+  if (data.stripePriceId !== undefined) fields.StripePriceId = data.stripePriceId;
+  await base(TABLES.courses()).update(id, fields);
+}
+
+export async function deleteCourse(id: string): Promise<void> {
+  const base = getBase();
+  await base(TABLES.courses()).destroy(id);
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {

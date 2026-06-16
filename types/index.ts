@@ -30,6 +30,7 @@ export interface Course {
   description: string;
   price: number;
   status: 'active' | 'coming_soon' | 'closed';
+  active: boolean;
   systemeioUrl?: string;
   stripePriceId?: string;
   features: string[];

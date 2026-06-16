@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Package, Radio, FileText, LogOut } from 'lucide-react';
+import { Package, Radio, FileText, BookOpen, LogOut } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 
 export const metadata: Metadata = { title: 'Admin | Novák Blanka' };
@@ -23,6 +23,12 @@ const sections = [
     icon: FileText,
     title: 'Signed URL generálás',
     description: 'Kézi 72 órás letöltési link generálás bármely fájlhoz',
+  },
+  {
+    href: '/admin/kurzusok',
+    icon: BookOpen,
+    title: 'Kurzusok',
+    description: 'Kurzusok hozzáadása, szerkesztése és megjelenítése a /programok oldalon',
   },
 ];
 
