@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getAdminSession } from '@/lib/auth';
 import { getAllProductsAdmin } from '@/lib/airtable';
-import { uploadFile } from '@/lib/blob';
+import { uploadProductPdf, getProductBlobMap } from '@/lib/blob';
 import Airtable from 'airtable';
 
 function getBase() {
@@ -9,16 +10,23 @@ function getBase() {
 }
 const TABLE = () => process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek';
 
+function errMsg(e: unknown, fallback: string) {
+  return e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : fallback;
+}
+
 export async function GET() {
   const ok = await getAdminSession();
   if (!ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   try {
-    const products = await getAllProductsAdmin();
-    return NextResponse.json(products);
+    const [products, blobMap] = await Promise.all([
+      getAllProductsAdmin(),
+      getProductBlobMap().catch(() => ({} as Record<string, string>)),
+    ]);
+    const enriched = products.map(p => ({ ...p, blobKey: blobMap[p.id] ?? p.blobKey }));
+    return NextResponse.json(enriched);
   } catch (e: unknown) {
-    const msg = e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : String(e);
-    return NextResponse.json({ error: msg || 'Failed to fetch products' }, { status: 500 });
+    return NextResponse.json({ error: errMsg(e, 'Failed to fetch products') }, { status: 500 });
   }
 }
 
@@ -28,27 +36,27 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = await req.formData();
-    let blobKey: string | undefined;
 
-    const file = data.get('file') as File | null;
-    if (file) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      blobKey = await uploadFile(file.name, buffer, file.type);
-    }
-
-    await getBase()(TABLE()).create({
+    // Step 1: create Airtable record (no BlobKey — field type incompatible)
+    const record = await getBase()(TABLE()).create({
       Title: String(data.get('title') ?? ''),
       Description: String(data.get('description') ?? ''),
       Pricing: Number(data.get('price') ?? 0),
       Category: String(data.get('category') ?? 'premium'),
       Active: data.get('active') === 'true',
-      BlobKey: blobKey,
-      StripePriceId: data.get('stripePriceId') ? String(data.get('stripePriceId')) : undefined,
+      ...(data.get('stripePriceId') ? { StripePriceId: String(data.get('stripePriceId')) } : {}),
     });
 
+    // Step 2: upload PDF using the record ID as the blob path
+    const file = data.get('file') as File | null;
+    if (file && file.size > 0) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      await uploadProductPdf(record.id, buffer, file.type || 'application/pdf');
+    }
+
+    revalidatePath('/forrasok');
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
-    const msg = e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : String(e);
-    return NextResponse.json({ error: msg || 'Failed to create product' }, { status: 500 });
+    return NextResponse.json({ error: errMsg(e, 'Failed to create product') }, { status: 500 });
   }
 }

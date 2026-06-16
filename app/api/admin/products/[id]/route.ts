@@ -1,12 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getAdminSession } from '@/lib/auth';
-import { uploadFile, deleteFile } from '@/lib/blob';
+import { uploadProductPdf, deleteProductPdf } from '@/lib/blob';
 import Airtable, { type FieldSet } from 'airtable';
 
 function getBase() {
   return new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID!);
 }
 const TABLE = () => process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek';
+
+function errMsg(e: unknown, fallback: string) {
+  return e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : fallback;
+}
 
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const ok = await getAdminSession();
@@ -26,13 +31,13 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
         Pricing: Number(data.get('price') ?? 0),
         Category: String(data.get('category') ?? 'premium'),
         Active: data.get('active') === 'true',
-        StripePriceId: data.get('stripePriceId') ? String(data.get('stripePriceId')) : undefined,
+        ...(data.get('stripePriceId') ? { StripePriceId: String(data.get('stripePriceId')) } : {}),
       };
 
       const file = data.get('file') as File | null;
-      if (file) {
+      if (file && file.size > 0) {
         const buffer = Buffer.from(await file.arrayBuffer());
-        fields.BlobKey = await uploadFile(file.name, buffer, file.type);
+        await uploadProductPdf(id, buffer, file.type || 'application/pdf');
       }
     } else {
       const body = await req.json();
@@ -47,10 +52,10 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     }
 
     await getBase()(TABLE()).update(id, fields as Partial<FieldSet>);
+    revalidatePath('/forrasok');
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
-    const msg = e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : String(e);
-    return NextResponse.json({ error: msg || 'Failed to update product' }, { status: 500 });
+    return NextResponse.json({ error: errMsg(e, 'Failed to update product') }, { status: 500 });
   }
 }
 
@@ -61,13 +66,13 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   const { id } = await params;
 
   try {
-    const record = await getBase()(TABLE()).find(id);
-    const blobKey = record.fields['BlobKey'] as string | undefined;
-    if (blobKey) await deleteFile(blobKey);
-    await getBase()(TABLE()).destroy(id);
+    await Promise.allSettled([
+      deleteProductPdf(id),
+      getBase()(TABLE()).destroy(id),
+    ]);
+    revalidatePath('/forrasok');
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
-    const msg = e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : String(e);
-    return NextResponse.json({ error: msg || 'Failed to delete product' }, { status: 500 });
+    return NextResponse.json({ error: errMsg(e, 'Failed to delete product') }, { status: 500 });
   }
 }

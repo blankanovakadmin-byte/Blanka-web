@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { addFreebieContact } from '@/lib/systemio';
-import { generateSignedUrl } from '@/lib/blob';
+import { generateSignedUrl, getProductPdfUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
 import { FreebieDeliveryEmail } from '@/emails/freebie-delivery';
 import { getActiveProducts } from '@/lib/airtable';
@@ -25,11 +25,12 @@ export async function POST(req: NextRequest) {
     const product = products.find(p => p.id === productId && p.category === 'free');
     if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
 
-    if (!product.blobKey) {
+    const blobUrl = product.blobKey || await getProductPdfUrl(product.id);
+    if (!blobUrl) {
       return NextResponse.json({ error: 'Download not available yet' }, { status: 503 });
     }
 
-    const downloadUrl = await generateSignedUrl(product.blobKey);
+    const downloadUrl = await generateSignedUrl(blobUrl);
 
     await Promise.allSettled([
       addFreebieContact(email, productId),

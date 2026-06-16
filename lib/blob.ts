@@ -15,6 +15,39 @@ export async function uploadFile(
   return url;
 }
 
+export async function uploadProductPdf(
+  recordId: string,
+  data: Buffer | Blob | ReadableStream,
+  contentType: string
+): Promise<string> {
+  const { url } = await put(`products/${recordId}.pdf`, data, {
+    access: 'private',
+    contentType,
+    addRandomSuffix: false,
+  });
+  return url;
+}
+
+export async function getProductBlobMap(): Promise<Record<string, string>> {
+  const { blobs } = await list({ prefix: 'products/' });
+  const map: Record<string, string> = {};
+  for (const blob of blobs) {
+    const match = blob.pathname.match(/^products\/([^/]+)\.pdf$/);
+    if (match) map[match[1]] = blob.url;
+  }
+  return map;
+}
+
+export async function getProductPdfUrl(recordId: string): Promise<string | undefined> {
+  const { blobs } = await list({ prefix: `products/${recordId}.pdf` });
+  return blobs[0]?.url;
+}
+
+export async function deleteProductPdf(recordId: string): Promise<void> {
+  const { blobs } = await list({ prefix: `products/${recordId}.pdf` });
+  if (blobs[0]) await del(blobs[0].url);
+}
+
 export async function generateSignedUrl(blobUrl: string): Promise<string> {
   const validUntil = Date.now() + TTL_MS;
   const pathname = new URL(blobUrl).pathname.slice(1);
