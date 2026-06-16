@@ -9,7 +9,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, firstName, webinarId, _hp } = await req.json() as WebinarRegisterPayload & { _hp?: string };
+    const { email, fullName, webinarId, _hp } = await req.json() as WebinarRegisterPayload & { _hp?: string };
 
     if (_hp) return NextResponse.json({ ok: true }); // honeypot
 
@@ -20,6 +20,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
 
+    const name = fullName?.trim() || '';
+
     const webinar = await getWebinarById(webinarId);
     if (!webinar) return NextResponse.json({ error: 'Webinar not found' }, { status: 404 });
     if (!webinar.registrationOpen) {
@@ -27,12 +29,12 @@ export async function POST(req: NextRequest) {
     }
 
     await Promise.allSettled([
-      addWebinarContact(email, firstName || '', webinarId),
-      addWebinarSubscriber({ email, firstName: firstName || '', webinarId }),
+      addWebinarContact(email, name, webinarId),
+      addWebinarSubscriber({ email, firstName: name, webinarId }),
       sendEmail({
         to: email,
         subject: `Regisztráció megerősítve: ${webinar.title}`,
-        template: WebinarConfirmationEmail({ email, firstName: firstName || '', webinar }),
+        template: WebinarConfirmationEmail({ email, firstName: name, webinar }),
       }),
     ]);
 

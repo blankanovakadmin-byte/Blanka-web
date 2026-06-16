@@ -25,7 +25,7 @@ function RegForm() {
 
   const [webinar, setWebinar] = useState<Webinar | null>(null);
   const [loading, setLoading] = useState(true);
-  const [form, setForm] = useState({ firstName: '', email: '' });
+  const [form, setForm] = useState({ fullName: '', email: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -117,10 +117,10 @@ function RegForm() {
                   <h2 className="font-display text-xl font-bold text-brand-blue mb-6">Regisztráció</h2>
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <Input
-                      label="Keresztneved"
-                      placeholder="Anna"
-                      value={form.firstName}
-                      onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
+                      label="Teljes neved"
+                      placeholder="Kiss Anna"
+                      value={form.fullName}
+                      onChange={e => setForm(f => ({ ...f, fullName: e.target.value }))}
                       required
                     />
                     <Input

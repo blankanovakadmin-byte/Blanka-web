@@ -8,8 +8,8 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, firstName, lastName, source, _hp } = await req.json() as {
-      email: string; firstName?: string; lastName?: string; source?: string; _hp?: string;
+    const { email, fullName, source, _hp } = await req.json() as {
+      email: string; fullName?: string; source?: string; _hp?: string;
     };
 
     if (_hp) return NextResponse.json({ ok: true }); // honeypot
@@ -18,17 +18,19 @@ export async function POST(req: NextRequest) {
     if (!EMAIL_RE.test(email) || email.length > 254) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
-    if ((firstName && firstName.length > 100) || (lastName && lastName.length > 100)) {
+    if (fullName && fullName.length > 200) {
       return NextResponse.json({ error: 'Input too long' }, { status: 400 });
     }
 
+    const name = fullName?.trim() || '';
+
     const [, , emailResult] = await Promise.allSettled([
-      addNewsletterContact(email, source, firstName, lastName),
-      addNewsletterSubscriber(email, source, firstName, lastName),
+      addNewsletterContact(email, source, name, undefined),
+      addNewsletterSubscriber(email, source, name, undefined),
       sendEmail({
         to: email,
         subject: 'Üdv a közösségben! 🎉',
-        template: NewsletterWelcomeEmail({ email, firstName }),
+        template: NewsletterWelcomeEmail({ email, firstName: name }),
       }),
     ]);
 

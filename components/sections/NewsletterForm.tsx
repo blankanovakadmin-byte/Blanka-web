@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 
 export function NewsletterForm() {
-  const [form, setForm] = useState({ email: '', firstName: '', lastName: '', _hp: '' });
+  const [form, setForm] = useState({ email: '', fullName: '', _hp: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
 
@@ -22,12 +22,12 @@ export function NewsletterForm() {
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: form.email, firstName: form.firstName, lastName: form.lastName, source: 'homepage', _hp: form._hp }),
+        body: JSON.stringify({ email: form.email, fullName: form.fullName, source: 'homepage', _hp: form._hp }),
       });
 
       if (!res.ok) throw new Error();
       setStatus('success');
-      setForm({ email: '', firstName: '', lastName: '', _hp: '' });
+      setForm({ email: '', fullName: '', _hp: '' });
     } catch {
       setStatus('error');
       setError('Valami hiba történt. Kérlek próbáld újra!');
@@ -60,20 +60,11 @@ export function NewsletterForm() {
             <div style={{ position: 'absolute', left: '-9999px', height: 0, overflow: 'hidden' }} aria-hidden="true">
               <input tabIndex={-1} autoComplete="off" value={form._hp} onChange={e => setForm(f => ({ ...f, _hp: e.target.value }))} />
             </div>
-            <div className="flex gap-3 flex-col sm:flex-row">
-              <Input
-                placeholder="Keresztneved"
-                value={form.firstName}
-                onChange={(e) => setForm(f => ({ ...f, firstName: e.target.value }))}
-                className="sm:flex-1"
-              />
-              <Input
-                placeholder="Vezetékneved"
-                value={form.lastName}
-                onChange={(e) => setForm(f => ({ ...f, lastName: e.target.value }))}
-                className="sm:flex-1"
-              />
-            </div>
+            <Input
+              placeholder="Teljes neved (pl. Kiss Anna)"
+              value={form.fullName}
+              onChange={(e) => setForm(f => ({ ...f, fullName: e.target.value }))}
+            />
             <div className="flex gap-3 flex-col sm:flex-row">
               <div className="flex-1">
                 <Input

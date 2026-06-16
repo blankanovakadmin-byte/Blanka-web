@@ -65,7 +65,7 @@ export interface NewsletterSubscribePayload {
 
 export interface WebinarRegisterPayload {
   email: string;
-  firstName: string;
+  fullName: string;
   webinarId: string;
 }
 
