@@ -17,7 +17,7 @@ export function MissionSection() {
           Ezért hoztam létre ezt a platformot.
         </p>
 
-        <p className="font-sans text-brand-muted leading-relaxed">
+        <p className="font-sans text-brand-text leading-relaxed text-lg">
           Itt a nyelvtanulásról, a tudományról, az ösztöndíjakról és a nemzetközi programokról
           osztok meg olyan stratégiákat, amelyek a gyakorlatban is működnek, és amelyekkel te
           is magabiztosabban építheted a saját utadat.
