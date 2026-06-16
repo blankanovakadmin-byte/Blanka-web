@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Package, Radio, FileText, BookOpen, LogOut } from 'lucide-react';
+import { Package, Radio, FileText, LogOut } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
+import { KurzusokSection } from '@/components/admin/KurzusokSection';
 
 export const metadata: Metadata = { title: 'Admin | Novák Blanka' };
 
@@ -23,12 +24,6 @@ const sections = [
     icon: FileText,
     title: 'Signed URL generálás',
     description: 'Kézi 72 órás letöltési link generálás bármely fájlhoz',
-  },
-  {
-    href: '/admin/kurzusok',
-    icon: BookOpen,
-    title: 'Kurzusok',
-    description: 'Kurzusok hozzáadása, szerkesztése és megjelenítése a /programok oldalon',
   },
 ];
 
@@ -64,6 +59,8 @@ export default function AdminDashboardPage() {
             </Link>
           ))}
         </div>
+
+        <KurzusokSection />
 
         <div className="mt-8">
           <Link href="/" className="font-sans text-sm text-brand-muted hover:text-brand-purple transition-colors">
