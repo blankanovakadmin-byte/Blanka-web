@@ -14,14 +14,16 @@ export async function createCheckoutSession({
   metadata,
 }: CheckoutParams): Promise<{ url: string }> {
   const stripe = getStripe();
+  const isSubscription = productType === 'subscription';
   const session = await stripe.checkout.sessions.create({
-    mode: productType === 'subscription' ? 'subscription' : 'payment',
+    mode: isSubscription ? 'subscription' : 'payment',
     payment_method_types: ['card'],
     customer_email: customerEmail,
     line_items: [{ price: priceId, quantity: 1 }],
     success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/sikeres-vasarlas?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/programok`,
     metadata: { productType, ...metadata },
+    ...(isSubscription ? { subscription_data: { metadata: { productType, ...metadata } } } : {}),
     locale: 'hu',
   });
 
