@@ -13,6 +13,7 @@ const TABLES = {
   products: () => process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek',
   testimonials: () => process.env.AIRTABLE_TESTIMONIALS_TABLE || 'Vélemények',
   courses: () => process.env.AIRTABLE_COURSES_TABLE || 'Kurzusok',
+  settings: () => process.env.AIRTABLE_SETTINGS_TABLE || 'Beállítások',
 };
 
 function getBase() {
@@ -317,6 +318,43 @@ export async function updateCourse(id: string, data: Partial<Omit<Course, 'id'>>
 export async function deleteCourse(id: string): Promise<void> {
   const base = getBase();
   await base(TABLES.courses()).destroy(id);
+}
+
+// ── Settings (key-value pairs) ──
+
+export async function getSetting(key: string): Promise<string> {
+  const base = getBase();
+  const records = await base(TABLES.settings())
+    .select({ filterByFormula: `{Key} = '${esc(key)}'`, maxRecords: 1 })
+    .firstPage();
+  return records.length > 0 ? String(records[0].fields['Value'] ?? '') : '';
+}
+
+export async function getSettings(keys: string[]): Promise<Record<string, string>> {
+  const base = getBase();
+  const formula = `OR(${keys.map(k => `{Key} = '${esc(k)}'`).join(',')})`;
+  const records = await base(TABLES.settings())
+    .select({ filterByFormula: formula })
+    .firstPage();
+  const result: Record<string, string> = {};
+  for (const k of keys) result[k] = '';
+  for (const r of records) {
+    const k = String(r.fields['Key'] ?? '');
+    if (k) result[k] = String(r.fields['Value'] ?? '');
+  }
+  return result;
+}
+
+export async function setSetting(key: string, value: string): Promise<void> {
+  const base = getBase();
+  const records = await base(TABLES.settings())
+    .select({ filterByFormula: `{Key} = '${esc(key)}'`, maxRecords: 1 })
+    .firstPage();
+  if (records.length > 0) {
+    await base(TABLES.settings()).update(records[0].id, { Value: value });
+  } else {
+    await base(TABLES.settings()).create({ Key: key, Value: value });
+  }
 }
 
 export async function getTestimonials(): Promise<Testimonial[]> {

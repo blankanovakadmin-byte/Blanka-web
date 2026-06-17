@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { constructWebhookEvent } from '@/lib/stripe';
 import { addPurchaseTag } from '@/lib/systemio';
-import { addCoursePurchase, addDigitalPurchase } from '@/lib/airtable';
+import { addCoursePurchase, addDigitalPurchase, getSettings } from '@/lib/airtable';
 import { generateSignedUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
 import { CourseWelcomeEmail } from '@/emails/course-welcome';
@@ -66,13 +66,12 @@ export async function POST(req: NextRequest) {
           }),
         ]);
       } else if (productType === 'group-mentoring' && session.mode === 'subscription') {
-        const schedule = session.metadata?.groupSchedule || process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE || '';
-        const zoomLink = process.env.NEXT_PUBLIC_GROUP_MENTORING_ZOOM_URL || '';
+        const s = await getSettings(['group_mentoring_schedule', 'group_mentoring_zoom_url']);
         await Promise.allSettled([
           sendEmail({
             to: email,
             subject: 'Üdv a kiscsoportos mentorprogramban! 🎉',
-            template: GroupMentoringBookingEmail({ email, name: customerName, nextSessionDate: schedule, zoomLink }),
+            template: GroupMentoringBookingEmail({ email, name: customerName, nextSessionDate: s.group_mentoring_schedule, zoomLink: s.group_mentoring_zoom_url }),
           }),
         ]);
       } else if (productType === 'strategy') {
@@ -105,12 +104,11 @@ export async function POST(req: NextRequest) {
     if (email) {
       try {
         if (productType === 'group-mentoring') {
-          const schedule = process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE || '';
-          const zoomLink = process.env.NEXT_PUBLIC_GROUP_MENTORING_ZOOM_URL || '';
+          const s = await getSettings(['group_mentoring_schedule', 'group_mentoring_zoom_url']);
           await sendEmail({
             to: email,
             subject: 'Új hónap a kiscsoportos mentorprogramban! 📅',
-            template: GroupMentoringBookingEmail({ email, name: customerName, nextSessionDate: schedule, zoomLink }),
+            template: GroupMentoringBookingEmail({ email, name: customerName, nextSessionDate: s.group_mentoring_schedule, zoomLink: s.group_mentoring_zoom_url }),
           });
         } else {
           await sendEmail({

@@ -10,8 +10,8 @@ interface Props {
 
 export function GroupMentoringBookingEmail({ name, nextSessionDate, zoomLink }: Props) {
   const greeting = name ? `Szia, ${name}!` : 'Szia!';
-  const zoom = zoomLink || process.env.NEXT_PUBLIC_GROUP_MENTORING_ZOOM_URL || '';
-  const schedule = nextSessionDate || process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE || '';
+  const zoom = zoomLink || '';
+  const schedule = nextSessionDate || '';
 
   return (
     <BaseEmail preview="🎉 Sikeres feliratkozás a kiscsoportos mentorprogramra!">

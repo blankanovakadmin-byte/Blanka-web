@@ -8,7 +8,7 @@ import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import { getUpcomingWebinars, getWebinarRegistrationCount, getActiveCourses } from '@/lib/airtable';
+import { getUpcomingWebinars, getWebinarRegistrationCount, getActiveCourses, getSettings } from '@/lib/airtable';
 import type { Course } from '@/types';
 import { Calendar, Clock, Users, Check, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
@@ -41,6 +41,7 @@ function FlagRow() {
 export default async function ProgramokPage() {
   let webinars: (Awaited<ReturnType<typeof getUpcomingWebinars>>[number] & { registrationCount: number })[] = [];
   let courses: Course[] = [];
+  let groupMentoringSchedule = '';
   try {
     const raw = await getUpcomingWebinars();
     const counts = await Promise.all(raw.map(w => getWebinarRegistrationCount(w.id)));
@@ -52,6 +53,12 @@ export default async function ProgramokPage() {
     courses = await getActiveCourses();
   } catch {
     // Airtable not configured or courses table missing
+  }
+  try {
+    const s = await getSettings(['group_mentoring_schedule']);
+    groupMentoringSchedule = s.group_mentoring_schedule || '';
+  } catch {
+    // Settings table not configured
   }
 
   const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
@@ -242,12 +249,12 @@ export default async function ProgramokPage() {
                   </li>
                 ))}
               </ul>
-              {process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE && (
+              {groupMentoringSchedule && (
                 <div className="flex items-center gap-2 mb-4 bg-brand-bg/60 rounded-xl px-3 py-2">
                   <Calendar size={14} className="text-brand-purple shrink-0" />
                   <p className="font-sans text-xs text-brand-text">
                     <span className="font-semibold">Következő alkalom:</span>{' '}
-                    {process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE}
+                    {groupMentoringSchedule}
                   </p>
                 </div>
               )}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Package, Radio, FileText, LogOut } from 'lucide-react';
+import { Package, Radio, FileText, Users, LogOut } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { KurzusokSection } from '@/components/admin/KurzusokSection';
 
@@ -18,6 +18,12 @@ const sections = [
     icon: Radio,
     title: 'Webinár előnézet',
     description: 'Airtable-ből szinkronizált közelgő webinárokok',
+  },
+  {
+    href: '/admin/mentorprogram',
+    icon: Users,
+    title: 'Mentorprogram',
+    description: 'Kiscsoportos Zoom link és következő alkalom időpontja',
   },
   {
     href: '/admin/letoltesek',
