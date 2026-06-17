@@ -228,7 +228,7 @@ export default async function ProgramokPage() {
                 Nem hagyományos nyelvóra, hanem egy támogató közösség és fejlődési rendszer
                 azoknak, akik rendszeresen szeretnének beszélni és fejlődni.
               </p>
-              <ul className="space-y-2 mb-6 flex-1">
+              <ul className="space-y-2 mb-4 flex-1">
                 {[
                   'Havi 4 × 45 perc élő online mentoralkalom',
                   'Kis létszámú (3–5 fős) csoport',
@@ -242,12 +242,29 @@ export default async function ProgramokPage() {
                   </li>
                 ))}
               </ul>
+              {process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE && (
+                <div className="flex items-center gap-2 mb-4 bg-brand-bg/60 rounded-xl px-3 py-2">
+                  <Calendar size={14} className="text-brand-purple shrink-0" />
+                  <p className="font-sans text-xs text-brand-text">
+                    <span className="font-semibold">Következő alkalom:</span>{' '}
+                    {process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE}
+                  </p>
+                </div>
+              )}
               <div className="mt-auto flex items-center justify-between pt-4 border-t border-brand-border">
                 <div>
                   <p className="font-display text-xl font-bold text-brand-blue">34 990 Ft</p>
-                  <p className="font-sans text-xs text-brand-muted">fő / hó</p>
+                  <p className="font-sans text-xs text-brand-muted">fő / hó · automatikus megújulás</p>
                 </div>
-                <Badge variant="coral">Várólistás</Badge>
+                {process.env.NEXT_PUBLIC_STRIPE_GROUP_MENTORING_PRICE_ID ? (
+                  <Button href={`/api/checkout?priceId=${process.env.NEXT_PUBLIC_STRIPE_GROUP_MENTORING_PRICE_ID}&type=group-mentoring`} size="sm">
+                    Feliratkozom <ArrowRight size={14} />
+                  </Button>
+                ) : (
+                  <Button href="/kapcsolat" size="sm">
+                    Érdeklődjetek <ArrowRight size={14} />
+                  </Button>
+                )}
               </div>
             </Card>
 

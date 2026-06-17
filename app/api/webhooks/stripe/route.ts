@@ -7,6 +7,7 @@ import { sendEmail } from '@/lib/resend';
 import { CourseWelcomeEmail } from '@/emails/course-welcome';
 import { DigitalProductDeliveryEmail } from '@/emails/digital-product-delivery';
 import { MentoringBookingEmail } from '@/emails/mentoring-booking';
+import { GroupMentoringBookingEmail } from '@/emails/group-mentoring-booking';
 import { StrategiaBookingEmail } from '@/emails/strategia-booking';
 import Stripe from 'stripe';
 
@@ -64,6 +65,16 @@ export async function POST(req: NextRequest) {
             template: MentoringBookingEmail({ email, name: customerName }),
           }),
         ]);
+      } else if (productType === 'group-mentoring' && session.mode === 'subscription') {
+        const schedule = session.metadata?.groupSchedule || process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE || '';
+        const zoomLink = process.env.NEXT_PUBLIC_GROUP_MENTORING_ZOOM_URL || '';
+        await Promise.allSettled([
+          sendEmail({
+            to: email,
+            subject: 'Üdv a kiscsoportos mentorprogramban! 🎉',
+            template: GroupMentoringBookingEmail({ email, name: customerName, nextSessionDate: schedule, zoomLink }),
+          }),
+        ]);
       } else if (productType === 'strategy') {
         await Promise.allSettled([
           sendEmail({
@@ -78,7 +89,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Recurring mentoring payment — send booking links every month
+  // Recurring mentoring payment — send booking/reminder emails every month
   if (event.type === 'invoice.payment_succeeded') {
     const invoice = event.data.object as Stripe.Invoice;
     // Skip the first invoice (already handled by checkout.session.completed)
@@ -88,14 +99,26 @@ export async function POST(req: NextRequest) {
 
     const email = invoice.customer_email || '';
     const customerName = typeof invoice.customer_name === 'string' ? invoice.customer_name : undefined;
+    const subDetails = (invoice as unknown as { subscription_details?: { metadata?: Record<string, string> } }).subscription_details;
+    const productType = subDetails?.metadata?.productType || '';
 
     if (email) {
       try {
-        await sendEmail({
-          to: email,
-          subject: 'Új hónap, új alkalmak - foglald le időpontjaidat! 📅',
-          template: MentoringBookingEmail({ email, name: customerName }),
-        });
+        if (productType === 'group-mentoring') {
+          const schedule = process.env.NEXT_PUBLIC_GROUP_MENTORING_SCHEDULE || '';
+          const zoomLink = process.env.NEXT_PUBLIC_GROUP_MENTORING_ZOOM_URL || '';
+          await sendEmail({
+            to: email,
+            subject: 'Új hónap a kiscsoportos mentorprogramban! 📅',
+            template: GroupMentoringBookingEmail({ email, name: customerName, nextSessionDate: schedule, zoomLink }),
+          });
+        } else {
+          await sendEmail({
+            to: email,
+            subject: 'Új hónap, új alkalmak - foglald le időpontjaidat! 📅',
+            template: MentoringBookingEmail({ email, name: customerName }),
+          });
+        }
       } catch (err) {
         console.error('Mentoring renewal email error:', err);
       }
