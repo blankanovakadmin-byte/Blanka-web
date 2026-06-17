@@ -41,7 +41,9 @@ export function BaseEmail({ preview, children, unsubscribeUrl = '#' }: BaseEmail
           {/* Footer */}
           <Section style={{ textAlign: 'center', padding: '24px 0' }}>
             <Text style={{ fontSize: '12px', color: COLORS.muted, margin: '0 0 8px' }}>
-              Instagram · YouTube · LinkedIn · TikTok
+              <Link href="https://instagram.com/blankanovak_" style={{ color: COLORS.muted, textDecoration: 'none' }}>Instagram</Link>
+              {' · '}
+              <Link href="https://tiktok.com/@blankanovak" style={{ color: COLORS.muted, textDecoration: 'none' }}>TikTok</Link>
             </Text>
             <Hr style={{ borderColor: COLORS.border, margin: '8px 0' }} />
             <Text style={{ fontSize: '11px', color: COLORS.muted, margin: 0 }}>

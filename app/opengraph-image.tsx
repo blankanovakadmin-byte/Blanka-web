@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Novák Blanka | Magabiztosan Angolul';
+export const alt = 'Novák Blanka – angol nyelvtanulás online: kurzus, mentorprogram, webinár';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -41,7 +41,7 @@ export default function OgImage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 32, marginTop: 56 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#B06AD9', borderRadius: 40, padding: '12px 28px' }}>
             <span style={{ color: 'white', fontSize: 20, fontFamily: 'Arial, sans-serif', fontWeight: 600 }}>
-              13 000+ követő
+              25 000+ követő
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#173A7A', borderRadius: 40, padding: '12px 28px' }}>

@@ -47,7 +47,7 @@ export function Hero() {
               <div className="relative w-full h-full rounded-3xl border-2 border-brand-border overflow-hidden">
                 <Image
                   src="/images/blanka-hero.jpg"
-                  alt="Novák Blanka"
+                  alt="Novák Blanka angol nyelvtanár – online kurzusok és mentorprogramok"
                   fill
                   sizes="(max-width: 768px) 320px, (max-width: 1280px) 384px, 384px"
                   className="object-cover object-top"
@@ -59,13 +59,13 @@ export function Hero() {
               <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-lg p-4 border border-brand-border animate-float stagger-5">
                 <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
                   {[
-                    { src: '/images/flag_en.png', label: 'Angol' },
-                    { src: '/images/flag_it.png', label: 'Olasz' },
-                    { src: '/images/flag_es.png', label: 'Spanyol' },
-                    { src: '/images/flag_cn.png', label: 'Kínai' },
+                    { src: '/images/flag_en.png', label: 'Angol', alt: 'Angol zászló' },
+                    { src: '/images/flag_it.png', label: 'Olasz', alt: 'Olasz zászló' },
+                    { src: '/images/flag_es.png', label: 'Spanyol', alt: 'Spanyol zászló' },
+                    { src: '/images/flag_cn.png', label: 'Kínai', alt: 'Kínai zászló' },
                   ].map(f => (
                     <div key={f.label} className="flex items-center gap-1.5">
-                      <Image src={f.src} alt={f.label} width={20} height={20} className="w-5 h-5" />
+                      <Image src={f.src} alt={f.alt} width={20} height={20} className="w-5 h-5" />
                       <span className="font-sans text-xs text-brand-text">{f.label}</span>
                     </div>
                   ))}

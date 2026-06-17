@@ -8,10 +8,10 @@ import Link from 'next/link';
 const SPRITE = '/icons/Gemini_Generated_Image_bhlxbnbhlxbnbhlx.png';
 
 const FLAGS = [
-  { src: '/images/flag_en.png', alt: 'EN' },
-  { src: '/images/flag_it.png', alt: 'IT' },
-  { src: '/images/flag_es.png', alt: 'ES' },
-  { src: '/images/flag_cn.png', alt: 'CN' },
+  { src: '/images/flag_en.png', alt: 'Angol zászló' },
+  { src: '/images/flag_it.png', alt: 'Olasz zászló' },
+  { src: '/images/flag_es.png', alt: 'Spanyol zászló' },
+  { src: '/images/flag_cn.png', alt: 'Kínai zászló' },
 ];
 
 function FlagRow() {

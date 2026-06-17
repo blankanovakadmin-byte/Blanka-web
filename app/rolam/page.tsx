@@ -8,23 +8,35 @@ import { ArrowRight, Globe, FlaskConical, BookOpen, Lightbulb } from 'lucide-rea
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Rólam',
-  description: 'Novák Blanka, biológus doktorandusz, nyelvtanár, 13 000+ követővel. Megismerheted a módszerem mögötti tudományt és személyes tanulási utamat.',
+  title: 'Novák Blanka – nyelvtanár, doktorandusz, 7 nyelv beszélője',
+  description: 'Novák Blanka biológus doktorandusz, 7 nyelven beszélő nyelvtanár, 25 000+ követővel. Személyiségtípus-alapú módszertan, 9 nemzetközi nyelvvizsga, Nobel-díj-átadó résztvevő.',
+  keywords: ['Novák Blanka', 'angol nyelvtanár', 'online nyelvtanár', 'nyelvtanulási módszer', 'személyiségtípus-alapú nyelvtanulás'],
   openGraph: {
-    title: 'Rólam | Novák Blanka',
-    description: 'Biológus doktorandusz, 7 nyelven, 13 000+ követő — megismerheted a módszerem mögötti tudományt.',
+    title: 'Novák Blanka – nyelvtanár, doktorandusz, 7 nyelv beszélője',
+    description: '7 nyelven beszélő biológus doktorandusz és nyelvtanár. Személyiségtípus-alapú módszertan, 25 000+ követő.',
     url: 'https://blankanovak.com/rolam',
   },
+  alternates: { canonical: '/rolam' },
 };
+
+const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
 
 const personSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Novák Blanka',
-  url: 'https://blankanovak.com',
-  description: 'Biológus doktorandusz, nyelvtanár, 13 000+ követővel. 7 nyelven kommunikál, online nyelvtanulási programokat vezet.',
-  jobTitle: 'Nyelvtanár, Doktorandusz',
-  knowsLanguage: ['Magyar', 'Angol', 'Olasz', 'Spanyol', 'Mandarin kínai'],
+  url: BASE,
+  image: `${BASE}/images/blanka-hero.jpg`,
+  description: 'Biológus doktorandusz, 7 nyelven beszélő nyelvtanár, online angol kurzusok és mentorprogramok vezetője. 25 000+ követő, 9 nemzetközi nyelvvizsga.',
+  jobTitle: 'Nyelvtanár, PhD-hallgató',
+  knowsLanguage: [
+    { '@type': 'Language', name: 'Magyar', alternateName: 'hu' },
+    { '@type': 'Language', name: 'Angol', alternateName: 'en' },
+    { '@type': 'Language', name: 'Olasz', alternateName: 'it' },
+    { '@type': 'Language', name: 'Spanyol', alternateName: 'es' },
+    { '@type': 'Language', name: 'Mandarin kínai', alternateName: 'zh' },
+  ],
+  alumniOf: { '@type': 'EducationalOrganization', name: 'Széchenyi István Egyetem' },
   sameAs: [
     'https://instagram.com/blankanovak_',
     'https://tiktok.com/@blankanovak',
@@ -32,15 +44,13 @@ const personSchema = {
   worksFor: {
     '@type': 'Organization',
     name: 'Lybskin Kft.',
+    url: BASE,
   },
-  offers: {
-    '@type': 'Offer',
-    itemOffered: {
-      '@type': 'Service',
-      name: 'Online Nyelvtanulási Programok',
-      url: 'https://blankanovak.com/programok',
-    },
-  },
+  makesOffer: [
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Privát Havi Mentorprogram', url: `${BASE}/programok#privat` } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Service', name: 'Kiscsoportos Havi Mentorprogram', url: `${BASE}/programok#kiscsoportos` } },
+    { '@type': 'Offer', itemOffered: { '@type': 'Course', name: 'Magabiztosan Angolul kurzus', url: `${BASE}/programok` } },
+  ],
 };
 
 const values = [
@@ -83,7 +93,7 @@ export default function RolamPage() {
               <div className="w-72 h-80 lg:w-96 lg:h-[480px] rounded-3xl overflow-hidden border-2 border-brand-border relative">
                 <Image
                   src="/images/blanka-hero.jpg"
-                  alt="Novák Blanka"
+                  alt="Novák Blanka – biológus doktorandusz, 7 nyelven beszélő nyelvtanár"
                   fill
                   className="object-cover object-top"
                 />

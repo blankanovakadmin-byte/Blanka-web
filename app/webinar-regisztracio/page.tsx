@@ -5,9 +5,9 @@ import { Footer } from '@/components/sections/Footer';
 import { WebinarRegForm } from './WebinarRegForm';
 
 export const metadata: Metadata = {
-  title: 'Webinár regisztráció',
-  description: 'Regisztrálj Novák Blanka következő ingyenes webinárjára és tanuld meg az angolt hatékonyan.',
-  robots: { index: false, follow: false },
+  title: 'Ingyenes angol webinár regisztráció',
+  description: 'Regisztrálj Novák Blanka következő ingyenes angol webinárjára! Gyakorlati tippek és nyelvtanulási stratégiák élőben, online.',
+  keywords: ['ingyenes angol webinár', 'angol webinár online', 'Novák Blanka webinár'],
 };
 
 export default function WebinarRegisztracioPage() {

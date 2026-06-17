@@ -13,6 +13,33 @@ import { Footer } from '@/components/sections/Footer';
 import { getUpcomingWebinars, getActiveProducts, getTestimonials } from '@/lib/airtable';
 import type { Testimonial } from '@/types';
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Milyen szintről lehet csatlakozni az angol programokhoz?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Bármilyen szintről! A személyre szabott mentorprogram pont arra szolgál, hogy a te szintednek megfelelő ütemben haladj. A kurzusok kezdő-középhaladó szinttől ajánlottak.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Mennyibe kerül az angol mentorprogram?',
+      acceptedAnswer: { '@type': 'Answer', text: 'A kiscsoportos mentorprogram 34 990 Ft/hó (havi 4 × 45 perc), a privát mentorprogram 49 990 Ft/hó (havi 2 × 75 perc). Mindkettő havi előfizetéses, bármikor lemondható.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Hogyan zajlanak az online alkalmak?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Zoom-on keresztül, élőben. A privát mentorprogram alkalmait Cal.com-on tudod lefoglalni a számodra megfelelő időpontra. A kiscsoportos program fix időpontban zajlik.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Van ingyenes lehetőség is kipróbálni?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Igen! Rendszeresen tartok ingyenes webinárokat, és a Források oldalon letölthető ingyenes tanulási anyagokat is találsz.' },
+    },
+  ],
+};
+
 export default async function HomePage() {
   let upcomingWebinar = null;
   let featuredCourseNextStart: string | undefined;
@@ -33,6 +60,10 @@ export default async function HomePage() {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <Navbar />
       <main className="pb-20 md:pb-0">
         <Hero />

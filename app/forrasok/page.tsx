@@ -8,13 +8,15 @@ import { getActiveProducts } from '@/lib/airtable';
 import { ForrasokClient, ForrasokEmptyState } from '@/components/sections/ForrasokClient';
 
 export const metadata: Metadata = {
-  title: 'Tanulási forrásaim | Novák Blanka',
-  description: 'Ingyenes és fizetős tanulási anyagok a gyorsabb angol nyelvtanuláshoz.',
+  title: 'Ingyenes angol tanulási anyagok és letölthető PDF-ek',
+  description: 'Ingyenes és prémium angol tanulási anyagok: kifejezésgyűjtemények, szókincslisták, társalgási útmutatók letölthető PDF formátumban. Azonnal használható, gyakorlati anyagok.',
+  keywords: ['ingyenes angol anyag', 'angol tanulási anyag letöltés', 'angol kifejezések PDF', 'angol szókincs', 'angol tanulás ingyen'],
   openGraph: {
-    title: 'Tanulási forrásaim | Novák Blanka',
-    description: 'Ingyenes letölthető anyagok és fizetős termékek — felgyorsítják a nyelvtanulási utadat.',
+    title: 'Ingyenes angol tanulási anyagok | Novák Blanka',
+    description: 'Letölthető angol tanulási anyagok: kifejezésgyűjtemények, szókincslisták, társalgási útmutatók.',
     url: 'https://blankanovak.com/forrasok',
   },
+  alternates: { canonical: '/forrasok' },
 };
 
 export const revalidate = 3600;

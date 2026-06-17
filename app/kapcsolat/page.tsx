@@ -6,13 +6,14 @@ import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { KapcsolatClient } from '@/components/sections/KapcsolatClient';
 
 export const metadata: Metadata = {
-  title: 'Kapcsolat',
-  description: 'Lépj kapcsolatba Novák Blankával! Kérdésed van egy programról, vagy személyes tanácsadásra van szükséged? Írj nekünk.',
+  title: 'Kapcsolat – kérdésed van? Írj bátran!',
+  description: 'Kérdésed van az angol kurzusról, mentorprogramról vagy webinárról? Lépj kapcsolatba Novák Blankával! Válasz 24 órán belül.',
   openGraph: {
     title: 'Kapcsolat | Novák Blanka',
-    description: 'Kérdésed van? Érdeklődnél egy programról? Szívesen válaszolok!',
+    description: 'Kérdésed van az angol kurzusról vagy mentorprogramról? Szívesen válaszolok!',
     url: 'https://blankanovak.com/kapcsolat',
   },
+  alternates: { canonical: '/kapcsolat' },
 };
 
 export default function KapcsolatPage() {

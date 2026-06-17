@@ -14,13 +14,15 @@ import { Calendar, Clock, Users, Check, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
-  title: 'Programok',
-  description: 'Online webinár, csoportos kurzus, önütemezett tanfolyam és 1-1 mentorálás Novák Blankával. Találd meg a számodra legjobb utat az angol nyelvhez.',
+  title: 'Angol kurzus és mentorprogram online – árak, programok',
+  description: 'Online angol kurzus (24 990 Ft), kiscsoportos mentorprogram (34 990 Ft/hó), privát mentorálás (49 990 Ft/hó), stratégia konzultáció és ingyenes webinárok Novák Blankával.',
+  keywords: ['angol kurzus online', 'angol mentorprogram', 'online angol tanfolyam ár', 'angol magánóra online', 'angol webinár', 'Novák Blanka programok'],
   openGraph: {
-    title: 'Programok | Novák Blanka',
-    description: 'Webinár, kurzus, kiscsoportos és privát mentorálás — Találd meg a számodra legjobb utat az angol nyelvhez.',
+    title: 'Angol kurzus és mentorprogram online | Novák Blanka',
+    description: 'Online angol kurzus, kiscsoportos és privát mentorprogram, stratégia konzultáció és ingyenes webinárok. Árak és részletek.',
     url: 'https://blankanovak.com/programok',
   },
+  alternates: { canonical: '/programok' },
 };
 
 function FlagRow() {
@@ -64,6 +66,45 @@ export default async function ProgramokPage() {
   const BASE = process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
   const organizer = { '@type': 'Person', name: 'Novák Blanka', url: `${BASE}/rolam` };
 
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Kezdőlap', item: BASE },
+      { '@type': 'ListItem', position: 2, name: 'Programok', item: `${BASE}/programok` },
+    ],
+  };
+
+  const serviceSchemas = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Privát Havi Mentorprogram',
+      description: 'Személyre szabott 1:1 angol mentorálás havi 2 × 75 perces online alkalommal.',
+      provider: organizer,
+      url: `${BASE}/programok#privat`,
+      offers: { '@type': 'Offer', price: 49990, priceCurrency: 'HUF', availability: 'https://schema.org/InStock' },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Kiscsoportos Havi Mentorprogram',
+      description: 'Kis létszámú (3–5 fős) csoportos angol mentorprogram havi 4 × 45 perces online alkalommal.',
+      provider: organizer,
+      url: `${BASE}/programok#kiscsoportos`,
+      offers: { '@type': 'Offer', price: 34990, priceCurrency: 'HUF', availability: 'https://schema.org/InStock' },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      name: 'Stratégia Konzultáció',
+      description: 'Személyre szabott 45 perces nyelvtanulási tanácsadás és stratégia kialakítás.',
+      provider: organizer,
+      url: `${BASE}/programok#strategia`,
+      offers: { '@type': 'Offer', price: 19990, priceCurrency: 'HUF', availability: 'https://schema.org/InStock' },
+    },
+  ];
+
   const courseSchemas = courses.map((c) => ({
     '@context': 'https://schema.org',
     '@type': 'Course',
@@ -102,7 +143,7 @@ export default async function ProgramokPage() {
 
   return (
     <>
-      {[...courseSchemas, ...eventSchemas].map((schema, i) => (
+      {[breadcrumbSchema, ...serviceSchemas, ...courseSchemas, ...eventSchemas].map((schema, i) => (
         <script
           key={i}
           type="application/ld+json"
