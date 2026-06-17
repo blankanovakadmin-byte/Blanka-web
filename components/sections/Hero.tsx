@@ -49,8 +49,9 @@ export function Hero() {
                   src="/images/blanka-hero.jpg"
                   alt="Novák Blanka angol nyelvtanár – online kurzusok és mentorprogramok"
                   fill
-                  sizes="(max-width: 768px) 320px, (max-width: 1280px) 384px, 384px"
+                  sizes="(max-width: 768px) 640px, 768px"
                   className="object-cover object-top"
+                  quality={90}
                   priority
                 />
               </div>
