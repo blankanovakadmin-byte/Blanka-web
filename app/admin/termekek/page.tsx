@@ -213,7 +213,7 @@ export default function AdminTermekekPage() {
                     onChange={e => setForm(f => ({ ...f, category: e.target.value as 'free' | 'premium' }))}
                     className="w-full px-4 py-3 rounded-xl border border-brand-border font-sans text-sm focus:border-brand-purple focus:outline-none"
                   >
-                    <option value="premium">Premium</option>
+                    <option value="premium">Prémium</option>
                     <option value="free">Ingyenes</option>
                   </select>
                 </div>

@@ -136,7 +136,7 @@ function ResourceCard({ product }: { product: Product }) {
 }
 
 export function ForrasokClient({ products }: { products: Product[] }) {
-  const fixedCategories = ['Összes', 'Ingyenes', 'Premium'];
+  const fixedCategories = ['Összes', 'Ingyenes', 'Prémium'];
   const dynamicTags = Array.from(
     new Set(products.flatMap(p => p.tags ?? []))
   ).sort();
@@ -147,7 +147,7 @@ export function ForrasokClient({ products }: { products: Product[] }) {
   const filtered = products.filter(p => {
     if (activeCategory === 'Összes') return true;
     if (activeCategory === 'Ingyenes') return p.category === 'free';
-    if (activeCategory === 'Premium') return p.category === 'premium';
+    if (activeCategory === 'Prémium') return p.category === 'premium';
     return p.tags?.includes(activeCategory) ?? false;
   });
 
