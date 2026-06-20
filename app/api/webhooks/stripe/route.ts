@@ -4,6 +4,7 @@ import { addPurchaseTag } from '@/lib/systemio';
 import { addCoursePurchase, addDigitalPurchase, getSettings } from '@/lib/airtable';
 import { generateSignedUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
+import { createInvoice } from '@/lib/szamlazz';
 import { CourseWelcomeEmail } from '@/emails/course-welcome';
 import { DigitalProductDeliveryEmail } from '@/emails/digital-product-delivery';
 import { MentoringBookingEmail } from '@/emails/mentoring-booking';
@@ -15,6 +16,31 @@ import { RefundNotificationEmail } from '@/emails/refund-notification';
 import Stripe from 'stripe';
 
 const BLANKA_EMAIL = process.env.RESEND_FROM_EMAIL || 'info@blankanovak.com';
+
+async function issueInvoice(opts: {
+  email: string;
+  name?: string;
+  address?: Stripe.Address | null;
+  amountHuf: number;
+  title: string;
+  orderNumber: string;
+}) {
+  if (!process.env.SZAMLAZZ_AGENT_KEY) return;
+  try {
+    const { invoiceNumber } = await createInvoice({
+      customerName: opts.name || opts.email,
+      customerEmail: opts.email,
+      customerAddress: opts.address
+        ? { postalCode: opts.address.postal_code || '', city: opts.address.city || '', line: [opts.address.line1, opts.address.line2].filter(Boolean).join(', ') }
+        : undefined,
+      items: [{ name: opts.title, quantity: 1, unitPrice: opts.amountHuf }],
+      orderNumber: opts.orderNumber,
+    });
+    console.log(`Számlázz.hu invoice created: ${invoiceNumber} for ${opts.email}`);
+  } catch (err) {
+    console.error('Számlázz.hu invoice error:', err);
+  }
+}
 
 export async function POST(req: NextRequest) {
   const payload = await req.text();
@@ -35,10 +61,12 @@ export async function POST(req: NextRequest) {
     const productType = session.metadata?.productType as string;
     const productId = session.metadata?.productId as string;
     const customerName = session.customer_details?.name || undefined;
+    const productTitle = session.metadata?.productTitle || '';
+    const amountHuf = (session.amount_total || 0) / 100;
 
     try {
       if (productType === 'course') {
-        const courseTitle = session.metadata?.productTitle || 'Kurzus';
+        const courseTitle = productTitle || 'Kurzus';
         await Promise.allSettled([
           addPurchaseTag(email, 'course', productId),
           addCoursePurchase({ email, courseId: productId, stripeSessionId: session.id }),
@@ -50,7 +78,7 @@ export async function POST(req: NextRequest) {
         ]);
       } else if (productType === 'digital') {
         const blobKey = session.metadata?.blobKey ?? '';
-        const productTitle = session.metadata?.productTitle ?? 'Digitális termék';
+        const digitalTitle = productTitle || 'Digitális termék';
         const downloadUrl = blobKey ? await generateSignedUrl(blobKey) : '';
 
         await Promise.allSettled([
@@ -58,8 +86,8 @@ export async function POST(req: NextRequest) {
           addDigitalPurchase({ email, productId, stripeSessionId: session.id }),
           sendEmail({
             to: email,
-            subject: `A letöltésed: ${productTitle}`,
-            template: DigitalProductDeliveryEmail({ email, productTitle, downloadUrl }),
+            subject: `A letöltésed: ${digitalTitle}`,
+            template: DigitalProductDeliveryEmail({ email, productTitle: digitalTitle, downloadUrl }),
           }),
         ]);
       } else if (productType === 'mentoring' && session.mode === 'subscription') {
@@ -87,6 +115,22 @@ export async function POST(req: NextRequest) {
             template: StrategiaBookingEmail({ email, name: customerName }),
           }),
         ]);
+      }
+
+      if (email && amountHuf > 0) {
+        const invoiceTitle = productTitle || (
+          productType === 'mentoring' ? 'Privát Havi Mentorprogram' :
+          productType === 'group-mentoring' ? 'Kiscsoportos Havi Mentorprogram' :
+          productType === 'strategy' ? 'Stratégia konzultáció' : 'Vásárlás'
+        );
+        await issueInvoice({
+          email,
+          name: customerName,
+          address: session.customer_details?.address,
+          amountHuf,
+          title: invoiceTitle,
+          orderNumber: session.id,
+        });
       }
     } catch (err) {
       console.error('Stripe webhook handler error:', err);
@@ -179,7 +223,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  // Recurring mentoring payment — send booking/reminder emails every month
+  // Recurring mentoring payment — send booking/reminder emails + invoice every month
   if (event.type === 'invoice.payment_succeeded') {
     const invoice = event.data.object as Stripe.Invoice;
     // Skip the first invoice (already handled by checkout.session.completed)
@@ -191,6 +235,7 @@ export async function POST(req: NextRequest) {
     const customerName = typeof invoice.customer_name === 'string' ? invoice.customer_name : undefined;
     const subDetails = (invoice as unknown as { subscription_details?: { metadata?: Record<string, string> } }).subscription_details;
     const productType = subDetails?.metadata?.productType || '';
+    const amountHuf = (invoice.amount_paid || 0) / 100;
 
     if (email) {
       try {
@@ -206,6 +251,19 @@ export async function POST(req: NextRequest) {
             to: email,
             subject: 'Új hónap, új alkalmak - foglald le időpontjaidat! 📅',
             template: MentoringBookingEmail({ email, name: customerName }),
+          });
+        }
+
+        if (amountHuf > 0) {
+          const invoiceTitle = productType === 'group-mentoring'
+            ? 'Kiscsoportos Havi Mentorprogram'
+            : 'Privát Havi Mentorprogram';
+          await issueInvoice({
+            email,
+            name: customerName,
+            amountHuf,
+            title: invoiceTitle,
+            orderNumber: invoice.id,
           });
         }
       } catch (err) {
