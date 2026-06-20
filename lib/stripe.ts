@@ -24,6 +24,7 @@ export async function createCheckoutSession({
     cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/programok`,
     metadata: { productType, ...metadata },
     ...(isSubscription ? { subscription_data: { metadata: { productType, ...metadata } } } : {}),
+    billing_address_collection: 'required',
     locale: 'hu',
   });
 
