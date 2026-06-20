@@ -26,7 +26,7 @@ const personSchema = {
   '@type': 'Person',
   name: 'Novák Blanka',
   url: BASE,
-  image: `${BASE}/images/blanka-hero.jpg`,
+  image: `${BASE}/images/blanka-hero.png`,
   description: 'Biológus doktorandusz, 7 nyelven beszélő nyelvtanár, online angol kurzusok és mentorprogramok vezetője. 32 000+ követő, 9 nemzetközi nyelvvizsga.',
   jobTitle: 'Nyelvtanár, PhD-hallgató',
   knowsLanguage: [
@@ -92,7 +92,7 @@ export default function RolamPage() {
             <div className="flex justify-center lg:order-2 animate-scale-in">
               <div className="w-72 h-80 lg:w-96 lg:h-[480px] rounded-3xl overflow-hidden border-2 border-brand-border relative">
                 <Image
-                  src="/images/blanka-rolam.jpg"
+                  src="/images/blanka-rolam.png"
                   alt="Novák Blanka – biológus doktorandusz, 7 nyelven beszélő nyelvtanár"
                   fill
                   className="object-cover object-top"

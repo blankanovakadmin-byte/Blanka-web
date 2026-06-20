@@ -45,7 +45,7 @@ export function Hero() {
               {/* Photo placeholder */}
               <div className="relative w-full h-full rounded-3xl border-2 border-brand-border overflow-hidden">
                 <Image
-                  src="/images/blanka-hero.jpg"
+                  src="/images/blanka-hero.png"
                   alt="Novák Blanka angol nyelvtanár – online kurzusok és mentorprogramok"
                   fill
                   sizes="(max-width: 768px) 640px, 768px"
