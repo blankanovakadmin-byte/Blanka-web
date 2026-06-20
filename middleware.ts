@@ -19,7 +19,7 @@ function checkSitePassword(req: NextRequest): NextResponse | null {
   if (!password) return null;
 
   const cookie = req.cookies.get(SITE_AUTH_COOKIE);
-  if (cookie && timingSafeEqual(cookie.value, password)) return null;
+  if (cookie && cookie.value === password) return null;
 
   const { pathname } = req.nextUrl;
   if (pathname === '/site-login') return null;
