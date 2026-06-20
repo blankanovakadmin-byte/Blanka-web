@@ -12,8 +12,33 @@ function timingSafeEqual(a: string, b: string): boolean {
   return mismatch === 0;
 }
 
+function checkSitePassword(req: NextRequest): NextResponse | null {
+  const password = process.env.SITE_PASSWORD;
+  if (!password) return null;
+
+  const auth = req.headers.get('authorization');
+  if (auth) {
+    const [scheme, encoded] = auth.split(' ');
+    if (scheme === 'Basic' && encoded) {
+      const decoded = atob(encoded);
+      const [, pwd] = decoded.split(':');
+      if (pwd && timingSafeEqual(pwd, password)) return null;
+    }
+  }
+
+  return new NextResponse('Jelszó szükséges', {
+    status: 401,
+    headers: { 'WWW-Authenticate': 'Basic realm="Blanka Web"' },
+  });
+}
+
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
+
+  if (pathname.startsWith('/api/')) return NextResponse.next();
+
+  const blocked = checkSitePassword(req);
+  if (blocked) return blocked;
 
   if (!pathname.startsWith('/admin')) return NextResponse.next();
   if (pathname === '/admin/login') return NextResponse.next();
@@ -31,5 +56,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/((?!_next/static|_next/image|favicon.ico|images/).*)'],
 };
