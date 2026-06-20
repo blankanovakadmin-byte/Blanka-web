@@ -12,30 +12,20 @@ function timingSafeEqual(a: string, b: string): boolean {
   return mismatch === 0;
 }
 
+const SITE_AUTH_COOKIE = 'site_auth';
+
 function checkSitePassword(req: NextRequest): NextResponse | null {
   const password = process.env.SITE_PASSWORD;
   if (!password) return null;
 
-  const auth = req.headers.get('authorization');
-  if (auth) {
-    const idx = auth.indexOf(' ');
-    const scheme = auth.substring(0, idx);
-    const encoded = auth.substring(idx + 1);
-    if (scheme === 'Basic' && encoded) {
-      try {
-        const bytes = Uint8Array.from(globalThis.atob(encoded), c => c.charCodeAt(0));
-        const decoded = new TextDecoder().decode(bytes);
-        const colonIdx = decoded.indexOf(':');
-        const pwd = colonIdx >= 0 ? decoded.substring(colonIdx + 1) : '';
-        if (pwd && timingSafeEqual(pwd, password)) return null;
-      } catch { /* invalid base64 */ }
-    }
-  }
+  const cookie = req.cookies.get(SITE_AUTH_COOKIE);
+  if (cookie && timingSafeEqual(cookie.value, password)) return null;
 
-  return new NextResponse('Jelszó szükséges', {
-    status: 401,
-    headers: { 'WWW-Authenticate': 'Basic realm="Blanka Web"' },
-  });
+  const { pathname } = req.nextUrl;
+  if (pathname === '/site-login') return null;
+
+  const loginUrl = new URL('/site-login', req.url);
+  return NextResponse.redirect(loginUrl);
 }
 
 export function middleware(req: NextRequest) {
