@@ -7,6 +7,8 @@ export interface Webinar {
   registrationOpen: boolean;
   maxParticipants: number;
   description: string;
+  price?: number;
+  stripePriceId?: string;
 }
 
 export interface Product {

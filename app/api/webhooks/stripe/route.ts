@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { constructWebhookEvent } from '@/lib/stripe';
 import { addPurchaseTag } from '@/lib/systemio';
-import { addCoursePurchase, addDigitalPurchase, getSettings } from '@/lib/airtable';
+import { addCoursePurchase, addDigitalPurchase, getSettings, getCourseById, getWebinarById, addWebinarSubscriber } from '@/lib/airtable';
 import { generateSignedUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
 import { createInvoice } from '@/lib/szamlazz';
@@ -10,6 +10,7 @@ import { DigitalProductDeliveryEmail } from '@/emails/digital-product-delivery';
 import { MentoringBookingEmail } from '@/emails/mentoring-booking';
 import { GroupMentoringBookingEmail } from '@/emails/group-mentoring-booking';
 import { StrategiaBookingEmail } from '@/emails/strategia-booking';
+import { WebinarConfirmationEmail } from '@/emails/webinar-confirmation';
 import { PaymentFailedEmail } from '@/emails/payment-failed';
 import { SubscriptionCancelledEmail } from '@/emails/subscription-cancelled';
 import { RefundNotificationEmail } from '@/emails/refund-notification';
@@ -67,13 +68,14 @@ export async function POST(req: NextRequest) {
     try {
       if (productType === 'course') {
         const courseTitle = productTitle || 'Kurzus';
+        const course = productId ? await getCourseById(productId) : null;
         await Promise.allSettled([
           addPurchaseTag(email, 'course', productId),
           addCoursePurchase({ email, courseId: productId, stripeSessionId: session.id }),
           sendEmail({
             to: email,
             subject: `Üdvözöllek a(z) ${courseTitle} kurzuson! 🎉`,
-            template: CourseWelcomeEmail({ email, name: customerName, courseTitle }),
+            template: CourseWelcomeEmail({ email, name: customerName, courseTitle, courseUrl: course?.systemeioUrl }),
           }),
         ]);
       } else if (productType === 'digital') {
@@ -115,6 +117,18 @@ export async function POST(req: NextRequest) {
             template: StrategiaBookingEmail({ email, name: customerName }),
           }),
         ]);
+      } else if (productType === 'webinar') {
+        const webinar = productId ? await getWebinarById(productId) : null;
+        if (webinar) {
+          await Promise.allSettled([
+            addWebinarSubscriber({ email, firstName: customerName?.split(' ')[0] || '', webinarId: productId }),
+            sendEmail({
+              to: email,
+              subject: `🎉 Bent vagy! Webinár: ${webinar.title}`,
+              template: WebinarConfirmationEmail({ email, firstName: customerName?.split(' ')[0] || '', webinar }),
+            }),
+          ]);
+        }
       }
 
       if (email && amountHuf > 0) {

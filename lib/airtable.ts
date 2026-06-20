@@ -42,6 +42,8 @@ export async function getUpcomingWebinars(): Promise<Webinar[]> {
     registrationOpen: Boolean(r.fields['RegistrationOpen']),
     maxParticipants: Number(r.fields['MaxParticipants'] ?? 0),
     description: String(r.fields['Description'] ?? ''),
+    price: r.fields['Price'] ? Number(r.fields['Price']) : undefined,
+    stripePriceId: r.fields['StripePriceId'] ? String(r.fields['StripePriceId']) : undefined,
   }));
 }
 
@@ -170,6 +172,8 @@ export async function getWebinarById(id: string): Promise<Webinar | null> {
       registrationOpen: Boolean(record.fields['RegistrationOpen']),
       maxParticipants: Number(record.fields['MaxParticipants'] ?? 0),
       description: String(record.fields['Description'] ?? ''),
+      price: record.fields['Price'] ? Number(record.fields['Price']) : undefined,
+      stripePriceId: record.fields['StripePriceId'] ? String(record.fields['StripePriceId']) : undefined,
     };
   } catch {
     return null;
@@ -265,6 +269,16 @@ function mapCourse(r: { id: string; fields: Record<string, unknown> }): Course {
       ? String(r.fields['Features']).split('\n').map(s => s.trim()).filter(Boolean)
       : [],
   };
+}
+
+export async function getCourseById(id: string): Promise<Course | null> {
+  try {
+    const base = getBase();
+    const record = await base(TABLES.courses()).find(id);
+    return mapCourse(record);
+  } catch {
+    return null;
+  }
 }
 
 export async function getAllCoursesAdmin(): Promise<Course[]> {

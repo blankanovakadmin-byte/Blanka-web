@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/Button';
 import { getUpcomingWebinars, getWebinarRegistrationCount, getActiveCourses, getSettings } from '@/lib/airtable';
 import type { Course } from '@/types';
 import { Calendar, Clock, Users, Check, ArrowRight } from 'lucide-react';
+import { WaitlistForm } from '@/components/sections/WaitlistForm';
 import Image from 'next/image';
 
 export const metadata: Metadata = {
@@ -299,20 +300,9 @@ export default async function ProgramokPage() {
                   </p>
                 </div>
               )}
-              <div className="mt-auto flex items-center justify-between pt-4 border-t border-brand-border">
-                <div>
-                  <p className="font-display text-xl font-bold text-brand-blue">34 990 Ft</p>
-                  <p className="font-sans text-xs text-brand-muted">fő / hó · automatikus megújulás</p>
-                </div>
-                {process.env.NEXT_PUBLIC_STRIPE_GROUP_MENTORING_PRICE_ID ? (
-                  <Button href={`/api/checkout?priceId=${process.env.NEXT_PUBLIC_STRIPE_GROUP_MENTORING_PRICE_ID}&type=group-mentoring`} size="sm">
-                    Feliratkozom <ArrowRight size={14} />
-                  </Button>
-                ) : (
-                  <Button href="/kapcsolat" size="sm">
-                    Érdeklődjetek <ArrowRight size={14} />
-                  </Button>
-                )}
+              <div className="mt-auto pt-4 border-t border-brand-border">
+                <p className="font-sans text-xs text-brand-muted mb-3">Iratkozz fel a várólistára, és elsőként értesítünk, ha indul a következő csoport!</p>
+                <WaitlistForm program="kiscsoportos" />
               </div>
             </Card>
 
@@ -410,11 +400,16 @@ export default async function ProgramokPage() {
   );
 }
 
-function WebinarCard({ webinar }: { webinar: { id: string; title: string; date: string; time: string; description: string; maxParticipants: number; registrationOpen: boolean; registrationCount: number } }) {
+function WebinarCard({ webinar }: { webinar: { id: string; title: string; date: string; time: string; description: string; maxParticipants: number; registrationOpen: boolean; registrationCount: number; price?: number; stripePriceId?: string } }) {
   const isFull = webinar.maxParticipants > 0 && webinar.registrationCount >= webinar.maxParticipants;
   const dateFormatted = new Date(webinar.date).toLocaleDateString('hu-HU', {
     year: 'numeric', month: 'long', day: 'numeric',
   });
+
+  const isPaid = !!webinar.stripePriceId;
+  const href = isPaid
+    ? `/api/checkout?priceId=${webinar.stripePriceId}&type=webinar&webinarId=${webinar.id}`
+    : `/webinar-regisztracio?id=${webinar.id}`;
 
   return (
     <Card id={`webinar-${webinar.id}`} className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -441,13 +436,18 @@ function WebinarCard({ webinar }: { webinar: { id: string; title: string; date: 
               <Users size={13} /> Max. {webinar.maxParticipants} fő
             </span>
           )}
+          {webinar.price && webinar.price > 0 && (
+            <span className="flex items-center gap-1.5 text-sm font-semibold text-brand-blue font-sans">
+              {webinar.price.toLocaleString('hu-HU')} Ft
+            </span>
+          )}
         </div>
       </div>
       {isFull ? (
         <Badge variant="coral">Betelt</Badge>
       ) : (
-        <Button href={`/webinar-regisztracio?id=${webinar.id}`} size="sm">
-          Regisztrálok
+        <Button href={href} size="sm">
+          {isPaid ? 'Megveszem' : 'Regisztrálok'}
         </Button>
       )}
     </Card>
