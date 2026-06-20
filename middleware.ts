@@ -18,11 +18,17 @@ function checkSitePassword(req: NextRequest): NextResponse | null {
 
   const auth = req.headers.get('authorization');
   if (auth) {
-    const [scheme, encoded] = auth.split(' ');
+    const idx = auth.indexOf(' ');
+    const scheme = auth.substring(0, idx);
+    const encoded = auth.substring(idx + 1);
     if (scheme === 'Basic' && encoded) {
-      const decoded = atob(encoded);
-      const [, pwd] = decoded.split(':');
-      if (pwd && timingSafeEqual(pwd, password)) return null;
+      try {
+        const bytes = Uint8Array.from(globalThis.atob(encoded), c => c.charCodeAt(0));
+        const decoded = new TextDecoder().decode(bytes);
+        const colonIdx = decoded.indexOf(':');
+        const pwd = colonIdx >= 0 ? decoded.substring(colonIdx + 1) : '';
+        if (pwd && timingSafeEqual(pwd, password)) return null;
+      } catch { /* invalid base64 */ }
     }
   }
 
