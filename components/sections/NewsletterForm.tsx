@@ -45,7 +45,7 @@ export function NewsletterForm() {
           Csatlakozz a közösséghez!
         </h2>
         <p className="font-sans text-brand-muted mb-8">
-          Heti tippek, ingyenes anyagok és elsők között értesülsz az új programokról.
+          Tippek, ingyenes anyagok és elsők között értesülsz az új programokról.
           <br />
           <span className="text-xs">Iratkozz le bármikor, spam nélkül.</span>
         </p>

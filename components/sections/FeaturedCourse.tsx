@@ -9,7 +9,7 @@ const features = [
   'Természetes, autentikus kiejtés',
   'Gyakorlati eszközök minden szinten',
   '8 modulból álló strukturált rendszer',
-  'Élő Q&A alkalmak',
+  'Élő Q&A alkalmak – kizárólag Early Birdeknek',
 ];
 
 export function FeaturedCourse({ nextStart }: { nextStart?: string }) {
@@ -74,10 +74,8 @@ export function FeaturedCourse({ nextStart }: { nextStart?: string }) {
               <ul className="space-y-3">
                 {[
                   '8 hetes strukturált program',
-                  'Heti élő csoportos foglalkozás',
                   'Személyre szabott feladatok',
-                  'Privát Telegram csoport',
-                  'Élethosszig tartó hozzáférés',
+                  '2 hónapig hozzáférés',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3 font-sans text-sm text-white/90">
                     <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center shrink-0">

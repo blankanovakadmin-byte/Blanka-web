@@ -41,7 +41,7 @@ export default function OgImage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 32, marginTop: 56 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#B06AD9', borderRadius: 40, padding: '12px 28px' }}>
             <span style={{ color: 'white', fontSize: 20, fontFamily: 'Arial, sans-serif', fontWeight: 600 }}>
-              25 000+ követő
+              32 000+ követő
             </span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: '#173A7A', borderRadius: 40, padding: '12px 28px' }}>

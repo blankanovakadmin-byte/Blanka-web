@@ -10,7 +10,7 @@ import { ServiceCards } from '@/components/sections/ServiceCards';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { NewsletterForm } from '@/components/sections/NewsletterForm';
 import { Footer } from '@/components/sections/Footer';
-import { getUpcomingWebinars, getActiveProducts, getTestimonials } from '@/lib/airtable';
+import { getUpcomingWebinars, getActiveProducts, getTestimonials, getSettings } from '@/lib/airtable';
 import type { Testimonial } from '@/types';
 
 const faqSchema = {
@@ -44,16 +44,19 @@ export default async function HomePage() {
   let upcomingWebinar = null;
   let featuredCourseNextStart: string | undefined;
   let testimonials: Testimonial[] = [];
+  let followerCount = '32 000+';
 
   try {
-    const [webinars, products, testimonialData] = await Promise.all([
+    const [webinars, products, testimonialData, settings] = await Promise.all([
       getUpcomingWebinars(),
       getActiveProducts(),
       getTestimonials(),
+      getSettings(['follower_count']),
     ]);
     upcomingWebinar = webinars[0] ?? null;
     featuredCourseNextStart = products.find(p => p.nextStart)?.nextStart;
     testimonials = testimonialData;
+    if (settings.follower_count) followerCount = settings.follower_count;
   } catch {
     // Airtable not configured yet
   }
@@ -71,7 +74,7 @@ export default async function HomePage() {
         {upcomingWebinar && <UpcomingWebinar webinar={upcomingWebinar} />}
         <FeaturedCourse nextStart={featuredCourseNextStart} />
         <ServiceCards />
-        <Testimonials testimonials={testimonials} />
+        <Testimonials testimonials={testimonials} followerCount={followerCount} />
         <NewsletterForm />
       </main>
       <Footer />

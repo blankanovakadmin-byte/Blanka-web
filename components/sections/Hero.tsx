@@ -15,15 +15,14 @@ export function Hero() {
           {/* Left: text */}
           <div className="space-y-6">
             <h1 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold text-brand-blue leading-tight animate-fade-in">
-              A tudás eszköz{' '}
-              <span className="text-brand-purple italic">a szabadsághoz.</span>
+              A tudás szabaddá tesz.{' '}
+              <span className="text-brand-purple italic">A nyelvek megnyitják előtted a világot.</span>
             </h1>
 
             <p className="font-sans text-lg text-brand-muted leading-relaxed animate-fade-in stagger-1 max-w-lg">
-              A nyelvek nemcsak szavakat adnak, hanem ajtókat nyitnak.
-              Segítek, hogy magabiztosan kommunikálj idegen nyelveken, eligazodj a nemzetközi
-              lehetőségek világában, és olyan készségeket építs, amelyek valódi változást
-              hozhatnak az életedbe.
+              Segítek, hogy magabiztosan kommunikálj több nyelven, új lehetőségeket érj el
+              nemzetközi környezetben, és olyan készségeket építs, amelyek valódi változást
+              hoznak az életedbe.
             </p>
 
             {/* CTAs */}

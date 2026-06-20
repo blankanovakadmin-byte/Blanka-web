@@ -7,7 +7,7 @@ function initials(name: string) {
   return name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
 }
 
-export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
+export function Testimonials({ testimonials, followerCount = '32 000+' }: { testimonials: Testimonial[]; followerCount?: string }) {
   if (testimonials.length === 0) return null;
 
   return (
@@ -23,7 +23,7 @@ export function Testimonials({ testimonials }: { testimonials: Testimonial[] }) 
           Mit mondanak a tanulóim?
         </h2>
         <p className="font-sans text-brand-muted">
-          <span className="font-bold text-brand-purple">25 000+</span> organikus követő,{' '}
+          <span className="font-bold text-brand-purple">{followerCount}</span> organikus követő,{' '}
           <span className="font-bold text-brand-purple">500+</span> elégedett tanuló
         </p>
       </div>

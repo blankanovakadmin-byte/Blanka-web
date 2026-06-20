@@ -91,7 +91,7 @@ export function Footer() {
               ))}
             </div>
             <p className="font-sans text-xs text-white/40 mt-4">
-              25 000+ organikus követő
+              32 000+ organikus követő
             </p>
           </div>
         </div>

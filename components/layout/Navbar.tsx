@@ -38,7 +38,7 @@ export function Navbar() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-1 group">
+            <Link href="/" className="flex items-baseline gap-1 group">
               <span className="font-display text-2xl font-bold text-brand-blue group-hover:text-brand-purple transition-colors">
                 blanka
               </span>

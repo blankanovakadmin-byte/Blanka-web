@@ -9,11 +9,11 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   title: 'Novák Blanka – nyelvtanár, doktorandusz, 7 nyelv beszélője',
-  description: 'Novák Blanka biológus doktorandusz, 7 nyelven beszélő nyelvtanár, 25 000+ követővel. Személyiségtípus-alapú módszertan, 9 nemzetközi nyelvvizsga, Nobel-díj-átadó résztvevő.',
+  description: 'Novák Blanka biológus doktorandusz, 7 nyelven beszélő nyelvtanár, 32 000+ követővel. Személyiségtípus-alapú módszertan, 9 nemzetközi nyelvvizsga, Nobel-díj-átadó résztvevő.',
   keywords: ['Novák Blanka', 'angol nyelvtanár', 'online nyelvtanár', 'nyelvtanulási módszer', 'személyiségtípus-alapú nyelvtanulás'],
   openGraph: {
     title: 'Novák Blanka – nyelvtanár, doktorandusz, 7 nyelv beszélője',
-    description: '7 nyelven beszélő biológus doktorandusz és nyelvtanár. Személyiségtípus-alapú módszertan, 25 000+ követő.',
+    description: '7 nyelven beszélő biológus doktorandusz és nyelvtanár. Személyiségtípus-alapú módszertan, 32 000+ követő.',
     url: 'https://blankanovak.com/rolam',
   },
   alternates: { canonical: '/rolam' },
@@ -27,7 +27,7 @@ const personSchema = {
   name: 'Novák Blanka',
   url: BASE,
   image: `${BASE}/images/blanka-hero.jpg`,
-  description: 'Biológus doktorandusz, 7 nyelven beszélő nyelvtanár, online angol kurzusok és mentorprogramok vezetője. 25 000+ követő, 9 nemzetközi nyelvvizsga.',
+  description: 'Biológus doktorandusz, 7 nyelven beszélő nyelvtanár, online angol kurzusok és mentorprogramok vezetője. 32 000+ követő, 9 nemzetközi nyelvvizsga.',
   jobTitle: 'Nyelvtanár, PhD-hallgató',
   knowsLanguage: [
     { '@type': 'Language', name: 'Magyar', alternateName: 'hu' },
@@ -92,7 +92,7 @@ export default function RolamPage() {
             <div className="flex justify-center lg:order-2 animate-scale-in">
               <div className="w-72 h-80 lg:w-96 lg:h-[480px] rounded-3xl overflow-hidden border-2 border-brand-border relative">
                 <Image
-                  src="/images/blanka-hero.jpg"
+                  src="/images/blanka-rolam.jpg"
                   alt="Novák Blanka – biológus doktorandusz, 7 nyelven beszélő nyelvtanár"
                   fill
                   className="object-cover object-top"
