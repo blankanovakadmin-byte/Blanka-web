@@ -27,9 +27,9 @@ export function Footer() {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-1 mb-3">
+            <div className="flex items-baseline gap-1 mb-3">
               <span className="font-display text-2xl font-bold text-white">blanka</span>
-              <span className="font-display text-2xl text-white/80 italic">novak</span>
+              <span className="font-script text-4xl text-white/80 leading-none" style={{ fontFamily: 'var(--font-script)' }}>novak</span>
             </div>
             <p className="font-sans text-white/60 text-sm leading-relaxed">
               Biológus, doktorandusz, nyelvtanár.
