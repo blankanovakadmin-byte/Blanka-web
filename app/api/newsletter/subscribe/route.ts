@@ -23,14 +23,17 @@ export async function POST(req: NextRequest) {
     }
 
     const name = fullName?.trim() || '';
+    const parts = name.split(/\s+/);
+    const firstName = parts[0] || '';
+    const lastName = parts.slice(1).join(' ') || '';
 
     const [, , emailResult] = await Promise.allSettled([
-      addNewsletterContact(email, source, name, undefined),
-      addNewsletterSubscriber(email, source, name, undefined),
+      addNewsletterContact(email, source, firstName, lastName || undefined),
+      addNewsletterSubscriber(email, source, firstName, lastName || undefined),
       sendEmail({
         to: email,
         subject: 'Üdv a közösségben! 🎉',
-        template: NewsletterWelcomeEmail({ email, firstName: name }),
+        template: NewsletterWelcomeEmail({ email, firstName }),
       }),
     ]);
 
