@@ -36,6 +36,9 @@ export function WebinarConfirmationEmail({ email, firstName, webinar }: Props) {
       {paragraph('Egy gyors tipp addig is: írd be most a naptáradba az eseményt, hogy biztosan ne maradj le. Küldök majd emlékeztetőt is, de a naptár ritkán felejt. 😄')}
       {webinar.zoomLink && ctaButton('Csatlakozási link →', webinar.zoomLink)}
       {divider()}
+      {paragraph('📋 Segíts, hogy még jobban megismerjelek! Töltsd ki ezt a rövid kérdőívet:')}
+      {ctaButton('Kérdőív kitöltése →', `${process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com'}/kerdoiv?email=${encodeURIComponent(email)}`)}
+      {divider()}
       {paragraph('Ha addig bármilyen kérdésed lenne, egyszerűen válaszolj erre az emailre – minden üzenetet elolvasok.', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Hamarosan találkozunk!', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Blanka 🤍', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}

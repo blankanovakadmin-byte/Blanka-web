@@ -1,4 +1,4 @@
-import { BaseEmail, heading, paragraph, divider } from './_base';
+import { BaseEmail, heading, paragraph, ctaButton, divider } from './_base';
 import { unsubscribeUrl } from '@/lib/unsubscribe';
 
 interface Props { email: string; name?: string; program?: string }
@@ -14,6 +14,9 @@ export function WaitlistConfirmationEmail({ email, name, program }: Props) {
       {paragraph(greeting)}
       {paragraph(`Köszönöm az érdeklődésedet a(z) ${programName} iránt! Sikeresen felkerültél a várólistára.`)}
       {paragraph('Amint elindul a következő csoport, az elsők között foglak értesíteni emailben, hogy biztosan legyen helyed.')}
+      {divider()}
+      {paragraph('📋 Segíts, hogy még jobban megismerjelek! Töltsd ki ezt a rövid kérdőívet:')}
+      {ctaButton('Kérdőív kitöltése →', `${process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com'}/kerdoiv?email=${encodeURIComponent(email)}`)}
       {divider()}
       {paragraph('Ha bármilyen kérdésed van addig is, egyszerűen válaszolj erre az emailre.', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Blanka 🤍', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}
