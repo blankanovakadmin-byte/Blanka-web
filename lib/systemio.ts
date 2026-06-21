@@ -31,7 +31,18 @@ export async function upsertContact(data: {
     if (data.tags?.length) payload.tags = data.tags;
 
     const result = await systemeRequest('/contacts', 'POST', payload);
-    return { id: result.id };
+    const contactId = result.id;
+
+    if (contactId && (data.firstName || data.lastName)) {
+      const patch: Record<string, string> = {};
+      if (data.firstName) patch.first_name = data.firstName;
+      if (data.lastName) patch.surname = data.lastName;
+      try {
+        await systemeRequest(`/contacts/${contactId}`, 'PATCH', patch);
+      } catch { /* PATCH failed — name was set on creation */ }
+    }
+
+    return { id: contactId };
   } catch (err) {
     console.error('systeme.io upsertContact error:', err);
     throw err;
