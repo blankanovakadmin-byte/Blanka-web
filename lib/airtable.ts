@@ -389,8 +389,7 @@ export async function getTestimonials(): Promise<Testimonial[]> {
   const records = await base(TABLES.testimonials())
     .select({
       filterByFormula: '{Active} = TRUE()',
-      sort: [{ field: 'Order', direction: 'asc' }],
-      maxRecords: 9,
+      maxRecords: 20,
     })
     .all();
 
