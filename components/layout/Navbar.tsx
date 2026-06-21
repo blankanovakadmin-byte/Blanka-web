@@ -67,8 +67,8 @@ export function Navbar() {
 
             {/* Desktop CTA */}
             <div className="hidden md:flex items-center gap-3">
-              <Button href="https://cal.com/blankanovak" external size="sm">
-                Foglalj időpontot
+              <Button href="/#hirlevel" size="sm">
+                Iratkozz fel
               </Button>
             </div>
 
@@ -104,8 +104,8 @@ export function Navbar() {
               </Link>
             ))}
             <div className="pt-4 border-t border-brand-border">
-              <Button href="https://cal.com/blankanovak" external className="w-full justify-center">
-                Foglalj időpontot
+              <Button href="/#hirlevel" className="w-full justify-center">
+                Iratkozz fel
               </Button>
             </div>
           </div>
