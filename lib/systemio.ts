@@ -1,10 +1,10 @@
 const BASE_URL = 'https://api.systeme.io/api';
 
-async function systemeRequest(path: string, method: string, body?: unknown) {
+async function systemeRequest(path: string, method: string, body?: unknown, contentType?: string) {
   const res = await fetch(`${BASE_URL}${path}`, {
     method,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': contentType || 'application/json',
       'X-API-Key': process.env.SYSTEMIO_API_KEY!,
     },
     body: body ? JSON.stringify(body) : undefined,
@@ -15,7 +15,25 @@ async function systemeRequest(path: string, method: string, body?: unknown) {
     throw new Error(`Systeme.io ${method} ${path} failed: ${res.status} ${text}`);
   }
 
-  return res.json();
+  const text = await res.text();
+  if (!text) return {};
+  return JSON.parse(text);
+}
+
+const tagCache = new Map<string, number>();
+
+async function findOrCreateTag(name: string): Promise<number> {
+  if (tagCache.has(name)) return tagCache.get(name)!;
+
+  const search = await systemeRequest(`/tags?limit=100`, 'GET');
+  for (const t of search.items || []) {
+    tagCache.set(t.name, t.id);
+  }
+  if (tagCache.has(name)) return tagCache.get(name)!;
+
+  const created = await systemeRequest('/tags', 'POST', { name });
+  tagCache.set(name, created.id);
+  return created.id;
 }
 
 export async function upsertContact(data: {
@@ -25,21 +43,38 @@ export async function upsertContact(data: {
   tags?: string[];
 }): Promise<{ id: number }> {
   try {
-    const payload: Record<string, unknown> = { email: data.email };
-    if (data.firstName) payload.first_name = data.firstName;
-    if (data.lastName) payload.surname = data.lastName;
-    if (data.tags?.length) payload.tags = data.tags;
+    let contactId: number;
 
-    const result = await systemeRequest('/contacts', 'POST', payload);
-    const contactId = result.id;
+    try {
+      const result = await systemeRequest('/contacts', 'POST', { email: data.email });
+      contactId = result.id;
+    } catch {
+      const search = await systemeRequest(`/contacts?email=${encodeURIComponent(data.email)}&limit=10`, 'GET');
+      const found = search.items?.find((c: { email: string }) => c.email === data.email);
+      if (!found) throw new Error(`Contact not found for ${data.email}`);
+      contactId = found.id;
+    }
 
-    if (contactId && (data.firstName || data.lastName)) {
+    if (data.firstName || data.lastName) {
+      const fields: Array<{ slug: string; value: string }> = [];
+      if (data.firstName) fields.push({ slug: 'first_name', value: data.firstName });
+      if (data.lastName) fields.push({ slug: 'surname', value: data.lastName });
       try {
-        const update: Record<string, unknown> = { email: data.email };
-        if (data.firstName) update.first_name = data.firstName;
-        if (data.lastName) update.surname = data.lastName;
-        await systemeRequest(`/contacts/${contactId}`, 'PUT', update);
-      } catch { /* update failed — name was set on creation */ }
+        await systemeRequest(`/contacts/${contactId}`, 'PATCH', { fields }, 'application/merge-patch+json');
+      } catch (e) {
+        console.error('systeme.io PATCH name error:', e);
+      }
+    }
+
+    if (data.tags?.length) {
+      for (const tagName of data.tags) {
+        try {
+          const tagId = await findOrCreateTag(tagName);
+          await systemeRequest(`/contacts/${contactId}/tags`, 'POST', { tagId });
+        } catch {
+          // tag assignment failed — ignore
+        }
+      }
     }
 
     return { id: contactId };
