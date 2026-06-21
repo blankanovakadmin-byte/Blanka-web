@@ -11,13 +11,11 @@ function initials(name: string) {
 }
 
 export function Testimonials({ testimonials, followerCount = '32 000+' }: { testimonials: Testimonial[]; followerCount?: string }) {
-  if (testimonials.length === 0) return null;
-
   const [page, setPage] = useState(0);
   const [fade, setFade] = useState(true);
+  const [perPage, setPerPage] = useState(3);
 
-  const perPage = typeof window !== 'undefined' && window.innerWidth < 768 ? 1 : 3;
-  const totalPages = Math.ceil(testimonials.length / perPage);
+  const totalPages = Math.max(1, Math.ceil(testimonials.length / perPage));
 
   const goTo = useCallback((p: number) => {
     setFade(false);
@@ -28,12 +26,21 @@ export function Testimonials({ testimonials, followerCount = '32 000+' }: { test
   }, []);
 
   useEffect(() => {
+    const update = () => setPerPage(window.innerWidth < 768 ? 1 : 3);
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, []);
+
+  useEffect(() => {
     if (totalPages <= 1) return;
     const timer = setInterval(() => {
       goTo((page + 1) % totalPages);
     }, 6000);
     return () => clearInterval(timer);
   }, [page, totalPages, goTo]);
+
+  if (testimonials.length === 0) return null;
 
   const visible = testimonials.slice(page * perPage, page * perPage + perPage);
 
