@@ -22,10 +22,10 @@ export async function POST(req: NextRequest) {
 
     let firstName = body.firstName?.trim() || '';
     let lastName = body.lastName?.trim() || '';
-    if (!firstName && body.fullName) {
+    if (!firstName && !lastName && body.fullName) {
       const parts = body.fullName.trim().split(/\s+/);
-      firstName = parts[0] || '';
-      lastName = parts.slice(1).join(' ') || '';
+      lastName = parts[0] || '';
+      firstName = parts.slice(1).join(' ') || '';
     }
 
     const [, , emailResult] = await Promise.allSettled([

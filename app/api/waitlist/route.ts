@@ -14,8 +14,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Érvényes email címet adj meg.' }, { status: 400 });
     }
 
-    const [firstName, ...rest] = (fullName || '').split(' ');
-    const lastName = rest.join(' ');
+    const parts = (fullName || '').split(' ');
+    const lastName = parts[0] || '';
+    const firstName = parts.slice(1).join(' ') || '';
     const tag = `varolista_${program || 'kiscsoportos'}`;
 
     await Promise.allSettled([
