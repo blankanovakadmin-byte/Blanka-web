@@ -111,7 +111,20 @@ export async function addNewsletterSubscriber(email: string, source?: string, fi
     .select({ filterByFormula: `{Email} = '${esc(email)}'`, maxRecords: 1 })
     .firstPage();
 
-  if (existing.length > 0) return;
+  if (existing.length > 0) {
+    const updates: Record<string, string> = {};
+    if (firstName && !existing[0].fields['FirstName']) updates.FirstName = firstName;
+    if (lastName && !existing[0].fields['LastName']) updates.LastName = lastName;
+    if (source) {
+      const tags = String(existing[0].fields['Tags'] || '');
+      const srcTag = `source_${source}`;
+      if (!tags.includes(srcTag)) updates.Tags = [tags, srcTag].filter(Boolean).join(',');
+    }
+    if (Object.keys(updates).length > 0) {
+      await base(TABLES.subscribers()).update(existing[0].id, updates);
+    }
+    return;
+  }
 
   await base(TABLES.subscribers()).create({
     Email: email,
