@@ -8,9 +8,14 @@ export default function SiteLoginPage() {
   const [error, setError] = useState(false);
   const router = useRouter();
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     document.cookie = `site_auth=${password}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
+    const res = await fetch('/', { method: 'HEAD', credentials: 'include' });
+    if (res.redirected || res.url.includes('site-login')) {
+      setError(true);
+      return;
+    }
     router.push('/');
     router.refresh();
   }
@@ -27,6 +32,7 @@ export default function SiteLoginPage() {
           onChange={e => { setPassword(e.target.value); setError(false); }}
           style={{ width: '100%', padding: '0.75rem 1rem', border: `2px solid ${error ? '#F26D6D' : '#E9E5DD'}`, borderRadius: '0.75rem', fontSize: '1rem', outline: 'none', boxSizing: 'border-box', marginBottom: '1rem' }}
         />
+        {error && <p style={{ color: '#F26D6D', fontSize: '0.875rem', marginBottom: '0.75rem' }}>Hibás jelszó.</p>}
         <button type="submit" style={{ width: '100%', padding: '0.75rem', background: '#B06AD9', color: 'white', border: 'none', borderRadius: '0.75rem', fontSize: '1rem', fontWeight: 600, cursor: 'pointer' }}>
           Belépés
         </button>

@@ -24,6 +24,9 @@ export function CourseWelcomeEmail({ email, name, courseTitle, courseUrl }: Prop
         ✅ Ha bármilyen kérdésed van, válaszolj erre az emailre
       </Text>
       {divider()}
+      {paragraph('📋 Segíts, hogy még jobban megismerjelek! Töltsd ki ezt a rövid kérdőívet:')}
+      {ctaButton('Kérdőív kitöltése →', `${process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com'}/kerdoiv?email=${encodeURIComponent(email)}`)}
+      {divider()}
       {paragraph('Ha bármilyen kérdésed van, egyszerűen válaszolj erre az emailre, minden üzenetet elolvasok.', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Örülök, hogy együtt dolgozhatunk!', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Blanka 🤍', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}
