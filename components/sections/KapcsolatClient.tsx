@@ -15,7 +15,7 @@ const socialLinks = [
 export function KapcsolatClient() {
   const [form, setForm] = useState({ name: '', email: '', message: '', _hp: '' });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-  const [nl, setNl] = useState({ email: '', firstName: '', lastName: '', _hp: '' });
+  const [nl, setNl] = useState({ email: '', fullName: '', _hp: '' });
   const [nlStatus, setNlStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
   async function handleContact(e: React.FormEvent) {
@@ -42,7 +42,7 @@ export function KapcsolatClient() {
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: nl.email, firstName: nl.firstName, lastName: nl.lastName, source: 'kapcsolat', _hp: nl._hp }),
+        body: JSON.stringify({ email: nl.email, fullName: nl.fullName, source: 'kapcsolat', _hp: nl._hp }),
       });
       if (!res.ok) throw new Error();
       setNlStatus('success');
@@ -137,7 +137,7 @@ export function KapcsolatClient() {
         <Card>
           <h3 className="font-display text-lg font-bold text-brand-blue mb-2">Hírlevél</h3>
           <p className="font-sans text-sm text-brand-muted mb-4">
-            Heti tippek és ingyenes anyagok egyenesen a postaládádba.
+            Tippek és ingyenes anyagok egyenesen a postaládádba.
           </p>
           {nlStatus === 'success' ? (
             <div className="flex items-center gap-2 text-green-600 text-sm font-sans">
@@ -148,20 +148,11 @@ export function KapcsolatClient() {
               <div style={{ position: 'absolute', left: '-9999px', height: 0, overflow: 'hidden' }} aria-hidden="true">
                 <input tabIndex={-1} autoComplete="off" value={nl._hp} onChange={e => setNl(f => ({ ...f, _hp: e.target.value }))} />
               </div>
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Keresztneved"
-                  value={nl.firstName}
-                  onChange={e => setNl(f => ({ ...f, firstName: e.target.value }))}
-                  className="flex-1"
-                />
-                <Input
-                  placeholder="Vezetékneved"
-                  value={nl.lastName}
-                  onChange={e => setNl(f => ({ ...f, lastName: e.target.value }))}
-                  className="flex-1"
-                />
-              </div>
+              <Input
+                placeholder="Teljes neved (pl. Kiss Anna)"
+                value={nl.fullName}
+                onChange={e => setNl(f => ({ ...f, fullName: e.target.value }))}
+              />
               <div className="flex gap-2">
                 <Input
                   type="email"
