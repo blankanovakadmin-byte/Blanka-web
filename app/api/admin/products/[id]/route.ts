@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { getAdminSession } from '@/lib/auth';
 import { uploadProductPdf, deleteProductPdf } from '@/lib/blob';
 import Airtable, { type FieldSet } from 'airtable';
+import Stripe from 'stripe';
 
 function getBase() {
   return new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID!);
@@ -25,13 +26,25 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
     if (contentType.includes('multipart/form-data')) {
       const data = await req.formData();
+      const title = String(data.get('title') ?? '');
+      const price = Number(data.get('price') ?? 0);
+      const category = String(data.get('category') ?? 'premium');
+      let stripePriceId = data.get('stripePriceId') ? String(data.get('stripePriceId')) : '';
+
+      if (category === 'premium' && price > 0 && !stripePriceId && process.env.STRIPE_SECRET_KEY) {
+        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-05-27.dahlia' });
+        const product = await stripe.products.create({ name: title, metadata: { type: 'digital' } });
+        const sp = await stripe.prices.create({ product: product.id, unit_amount: price * 100, currency: 'huf' });
+        stripePriceId = sp.id;
+      }
+
       fields = {
-        Title: String(data.get('title') ?? ''),
+        Title: title,
         Description: String(data.get('description') ?? ''),
-        Pricing: Number(data.get('price') ?? 0),
-        Category: String(data.get('category') ?? 'premium'),
+        Pricing: price,
+        Category: category,
         Active: data.get('active') === 'true',
-        ...(data.get('stripePriceId') ? { StripePriceId: String(data.get('stripePriceId')) } : {}),
+        ...(stripePriceId ? { StripePriceId: stripePriceId } : {}),
       };
 
       const file = data.get('file') as File | null;

@@ -4,6 +4,7 @@ import { getAdminSession } from '@/lib/auth';
 import { getAllProductsAdmin } from '@/lib/airtable';
 import { uploadProductPdf, getProductBlobMap } from '@/lib/blob';
 import Airtable from 'airtable';
+import Stripe from 'stripe';
 
 function getBase() {
   return new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID!);
@@ -38,13 +39,25 @@ export async function POST(req: NextRequest) {
     const data = await req.formData();
 
     // Step 1: create Airtable record (no BlobKey — field type incompatible)
+    const title = String(data.get('title') ?? '');
+    const price = Number(data.get('price') ?? 0);
+    const category = String(data.get('category') ?? 'premium');
+    let stripePriceId = data.get('stripePriceId') ? String(data.get('stripePriceId')) : '';
+
+    if (category === 'premium' && price > 0 && !stripePriceId && process.env.STRIPE_SECRET_KEY) {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-05-27.dahlia' });
+      const product = await stripe.products.create({ name: title, metadata: { type: 'digital' } });
+      const sp = await stripe.prices.create({ product: product.id, unit_amount: price * 100, currency: 'huf' });
+      stripePriceId = sp.id;
+    }
+
     const record = await getBase()(TABLE()).create({
-      Title: String(data.get('title') ?? ''),
+      Title: title,
       Description: String(data.get('description') ?? ''),
-      Pricing: Number(data.get('price') ?? 0),
-      Category: String(data.get('category') ?? 'premium'),
+      Pricing: price,
+      Category: category,
       Active: data.get('active') === 'true',
-      ...(data.get('stripePriceId') ? { StripePriceId: String(data.get('stripePriceId')) } : {}),
+      ...(stripePriceId ? { StripePriceId: stripePriceId } : {}),
     });
 
     // Step 2: upload PDF using the record ID as the blob path
