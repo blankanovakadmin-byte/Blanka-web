@@ -8,28 +8,29 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, fullName, source, _hp } = await req.json() as {
-      email: string; fullName?: string; source?: string; _hp?: string;
+    const body = await req.json() as {
+      email: string; fullName?: string; firstName?: string; lastName?: string; source?: string; _hp?: string;
     };
 
-    if (_hp) return NextResponse.json({ ok: true }); // honeypot
+    if (body._hp) return NextResponse.json({ ok: true });
 
+    const email = body.email;
     if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 });
     if (!EMAIL_RE.test(email) || email.length > 254) {
       return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
     }
-    if (fullName && fullName.length > 200) {
-      return NextResponse.json({ error: 'Input too long' }, { status: 400 });
+
+    let firstName = body.firstName?.trim() || '';
+    let lastName = body.lastName?.trim() || '';
+    if (!firstName && body.fullName) {
+      const parts = body.fullName.trim().split(/\s+/);
+      firstName = parts[0] || '';
+      lastName = parts.slice(1).join(' ') || '';
     }
 
-    const name = fullName?.trim() || '';
-    const parts = name.split(/\s+/);
-    const firstName = parts[0] || '';
-    const lastName = parts.slice(1).join(' ') || '';
-
     const [, , emailResult] = await Promise.allSettled([
-      addNewsletterContact(email, source, firstName, lastName || undefined),
-      addNewsletterSubscriber(email, source, firstName, lastName || undefined),
+      addNewsletterContact(email, body.source, firstName, lastName || undefined),
+      addNewsletterSubscriber(email, body.source, firstName, lastName || undefined),
       sendEmail({
         to: email,
         subject: 'Üdv a közösségben! 🎉',
