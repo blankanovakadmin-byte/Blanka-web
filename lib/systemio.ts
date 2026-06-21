@@ -34,12 +34,12 @@ export async function upsertContact(data: {
     const contactId = result.id;
 
     if (contactId && (data.firstName || data.lastName)) {
-      const patch: Record<string, string> = {};
-      if (data.firstName) patch.first_name = data.firstName;
-      if (data.lastName) patch.surname = data.lastName;
       try {
-        await systemeRequest(`/contacts/${contactId}`, 'PATCH', patch);
-      } catch { /* PATCH failed — name was set on creation */ }
+        const update: Record<string, unknown> = { email: data.email };
+        if (data.firstName) update.first_name = data.firstName;
+        if (data.lastName) update.surname = data.lastName;
+        await systemeRequest(`/contacts/${contactId}`, 'PUT', update);
+      } catch { /* update failed — name was set on creation */ }
     }
 
     return { id: contactId };
