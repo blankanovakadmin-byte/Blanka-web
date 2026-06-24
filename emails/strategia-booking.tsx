@@ -2,7 +2,7 @@ import { BaseEmail, heading, paragraph, ctaButton, divider } from './_base';
 
 interface Props { email: string; name?: string }
 
-const CAL_STRATEGY_URL = process.env.NEXT_PUBLIC_CAL_STRATEGY_URL || 'https://cal.com/blankanovak/strategia';
+const CAL_STRATEGY_URL = process.env.NEXT_PUBLIC_CAL_STRATEGY_URL || 'https://cal.com/blankanovak/1-1-mentoracio';
 
 export function StrategiaBookingEmail({ name }: Props) {
   const greeting = name ? `Szia, ${name}!` : 'Szia!';

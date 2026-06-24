@@ -257,7 +257,7 @@ export default async function ProgramokPage() {
                 <Button
                   href={process.env.NEXT_PUBLIC_STRIPE_STRATEGY_PRICE_ID
                     ? `/api/checkout?priceId=${process.env.NEXT_PUBLIC_STRIPE_STRATEGY_PRICE_ID}&type=strategy`
-                    : 'https://cal.com/blankanovak/strategia'}
+                    : 'https://cal.com/blankanovak/1-1-mentoracio'}
                   external={!process.env.NEXT_PUBLIC_STRIPE_STRATEGY_PRICE_ID}
                   size="sm"
                 >
