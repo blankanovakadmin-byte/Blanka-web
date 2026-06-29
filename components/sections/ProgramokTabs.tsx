@@ -1,6 +1,5 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Calendar, Clock, Users, Check, ArrowRight } from 'lucide-react';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
@@ -31,13 +30,11 @@ interface Props {
   mentoringPriceId: string;
 }
 
-const TABS = [
+const NAV_ITEMS = [
   { id: 'kurzusok', label: 'Kurzusok' },
   { id: 'mentorprogramok', label: 'Mentorprogramok' },
   { id: 'webinarok', label: 'Webinárok' },
 ] as const;
-
-type TabId = (typeof TABS)[number]['id'];
 
 function FlagRow() {
   return (
@@ -108,107 +105,93 @@ function WebinarCard({ webinar }: { webinar: WebinarData }) {
   );
 }
 
-export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strategyPriceId, mentoringPriceId }: Props) {
-  const [activeTab, setActiveTab] = useState<TabId>('kurzusok');
-
-  useEffect(() => {
-    const hash = window.location.hash.replace('#', '') as TabId;
-    if (TABS.some(t => t.id === hash)) {
-      setActiveTab(hash);
-    }
-  }, []);
-
-  function handleTabChange(tab: TabId) {
-    setActiveTab(tab);
-    window.history.replaceState(null, '', `#${tab}`);
+function scrollTo(id: string) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
+}
 
+export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strategyPriceId, mentoringPriceId }: Props) {
   return (
     <>
-      {/* Tab bar */}
+      {/* Scroll navigation */}
       <SectionWrapper bg="default">
         <div className="flex justify-center gap-2 flex-wrap">
-          {TABS.map(tab => (
+          {NAV_ITEMS.map(item => (
             <button
-              key={tab.id}
-              onClick={() => handleTabChange(tab.id)}
-              className={[
-                'px-5 py-2.5 rounded-full font-sans text-sm font-medium transition-all',
-                activeTab === tab.id
-                  ? 'bg-brand-purple text-white shadow-md'
-                  : 'bg-white text-brand-muted border border-brand-border hover:border-brand-purple hover:text-brand-purple',
-              ].join(' ')}
+              key={item.id}
+              onClick={() => scrollTo(item.id)}
+              className="px-5 py-2.5 rounded-full font-sans text-sm font-medium transition-all bg-white text-brand-muted border border-brand-border hover:bg-brand-purple hover:text-white hover:border-brand-purple"
             >
-              {tab.label}
+              {item.label}
             </button>
           ))}
         </div>
       </SectionWrapper>
 
-      {/* Kurzusok tab */}
-      {activeTab === 'kurzusok' && (
-        <>
-          {courses.length > 0 ? courses.map((course, idx) => (
-            <SectionWrapper key={course.id} bg={idx % 2 === 0 ? 'surface' : 'default'} id={`kurzus-${course.id}`}>
-              <div className="max-w-3xl mx-auto">
-                <Badge variant="blue" className="mb-4">Online kurzus</Badge>
-                <h2 className="font-display text-3xl font-bold text-brand-blue mb-3">
-                  {course.title}
-                </h2>
-                <p className="font-sans text-brand-muted text-lg mb-6 leading-relaxed">
-                  {course.description}
-                </p>
+      {/* Kurzusok */}
+      <div id="kurzusok" className="scroll-mt-24">
+        {courses.length > 0 ? courses.map((course, idx) => (
+          <SectionWrapper key={course.id} bg={idx % 2 === 0 ? 'surface' : 'default'} id={`kurzus-${course.id}`}>
+            <div className="max-w-3xl mx-auto">
+              <Badge variant="blue" className="mb-4">Online kurzus</Badge>
+              <h2 className="font-display text-3xl font-bold text-brand-blue mb-3">
+                {course.title}
+              </h2>
+              <p className="font-sans text-brand-muted text-lg mb-6 leading-relaxed">
+                {course.description}
+              </p>
 
-                {course.features.length > 0 && (
-                  <div className="mb-8">
-                    <h3 className="font-display text-lg font-bold text-brand-blue mb-3">Mit kapsz?</h3>
-                    <ul className="space-y-2">
-                      {course.features.map(f => (
-                        <li key={f} className="flex items-start gap-2 font-sans text-sm text-brand-text">
-                          <Check size={14} className="text-brand-purple shrink-0 mt-0.5" />
-                          {f}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <div className="flex items-center gap-6 pt-6 border-t border-brand-border">
-                  <div>
-                    <p className="font-sans text-xs text-brand-muted uppercase tracking-wide mb-1">Ár</p>
-                    <p className="font-display text-3xl font-bold text-brand-blue">
-                      {course.price.toLocaleString('hu-HU')} Ft
-                    </p>
-                  </div>
-                  {course.status === 'active' && (course.systemeioUrl || course.stripePriceId) ? (
-                    <Button
-                      href={course.systemeioUrl || `/penztar?priceId=${course.stripePriceId}&type=course`}
-                      external={!!course.systemeioUrl}
-                      size="lg"
-                    >
-                      Csatlakozom <ArrowRight size={16} />
-                    </Button>
-                  ) : course.status === 'coming_soon' ? (
-                    <Badge variant="coral">Hamarosan</Badge>
-                  ) : (
-                    <Badge variant="muted">Zárva</Badge>
-                  )}
+              {course.features.length > 0 && (
+                <div className="mb-8">
+                  <h3 className="font-display text-lg font-bold text-brand-blue mb-3">Mit kapsz?</h3>
+                  <ul className="space-y-2">
+                    {course.features.map(f => (
+                      <li key={f} className="flex items-start gap-2 font-sans text-sm text-brand-text">
+                        <Check size={14} className="text-brand-purple shrink-0 mt-0.5" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </div>
-            </SectionWrapper>
-          )) : (
-            <SectionWrapper bg="surface">
-              <div className="text-center py-12 border-2 border-dashed border-brand-border rounded-2xl">
-                <p className="font-display text-lg font-bold text-brand-blue mb-2">Hamarosan érkeznek a kurzusok!</p>
-                <p className="font-sans text-sm text-brand-muted">Iratkozz fel a hírlevélre, hogy elsőként értesülj.</p>
-              </div>
-            </SectionWrapper>
-          )}
-        </>
-      )}
+              )}
 
-      {/* Mentorprogramok tab */}
-      {activeTab === 'mentorprogramok' && (
+              <div className="flex items-center gap-6 pt-6 border-t border-brand-border">
+                <div>
+                  <p className="font-sans text-xs text-brand-muted uppercase tracking-wide mb-1">Ár</p>
+                  <p className="font-display text-3xl font-bold text-brand-blue">
+                    {course.price.toLocaleString('hu-HU')} Ft
+                  </p>
+                </div>
+                {course.status === 'active' && (course.systemeioUrl || course.stripePriceId) ? (
+                  <Button
+                    href={course.systemeioUrl || `/penztar?priceId=${course.stripePriceId}&type=course`}
+                    external={!!course.systemeioUrl}
+                    size="lg"
+                  >
+                    Csatlakozom <ArrowRight size={16} />
+                  </Button>
+                ) : course.status === 'coming_soon' ? (
+                  <Badge variant="coral">Hamarosan</Badge>
+                ) : (
+                  <Badge variant="muted">Zárva</Badge>
+                )}
+              </div>
+            </div>
+          </SectionWrapper>
+        )) : (
+          <SectionWrapper bg="surface">
+            <div className="text-center py-12 border-2 border-dashed border-brand-border rounded-2xl">
+              <p className="font-display text-lg font-bold text-brand-blue mb-2">Hamarosan érkeznek a kurzusok!</p>
+              <p className="font-sans text-sm text-brand-muted">Iratkozz fel a hírlevélre, hogy elsőként értesülj.</p>
+            </div>
+          </SectionWrapper>
+        )}
+      </div>
+
+      {/* Mentorprogramok */}
+      <div id="mentorprogramok" className="scroll-mt-24">
         <SectionWrapper bg="default">
           <div className="grid md:grid-cols-3 gap-6">
 
@@ -348,11 +331,12 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
 
           </div>
         </SectionWrapper>
-      )}
+      </div>
 
-      {/* Webinárok tab */}
-      {activeTab === 'webinarok' && (
-        <SectionWrapper bg="surface" id="webinarok-content">
+      {/* Webinárok */}
+      <div id="webinarok" className="scroll-mt-24">
+        <SectionWrapper bg="surface">
+          <h2 className="font-display text-2xl font-bold text-brand-blue mb-8">Közelgő webinárok</h2>
           {webinars.length > 0 ? (
             <div className="space-y-4">
               {webinars.map((w) => (
@@ -369,7 +353,7 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
             </div>
           )}
         </SectionWrapper>
-      )}
+      </div>
     </>
   );
 }
