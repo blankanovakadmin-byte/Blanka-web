@@ -135,6 +135,15 @@ export async function addNewsletterSubscriber(email: string, source?: string, fi
   });
 }
 
+export async function updateSubscriberField(email: string, field: string, value: string) {
+  const base = getBase();
+  const existing = await base(TABLES.subscribers())
+    .select({ filterByFormula: `{Email} = '${esc(email)}'`, maxRecords: 1 })
+    .firstPage();
+  if (existing.length === 0) return;
+  await base(TABLES.subscribers()).update(existing[0].id, { [field]: value });
+}
+
 export async function airtableUnsubscribe(email: string) {
   const base = getBase();
   const existing = await base(TABLES.subscribers())

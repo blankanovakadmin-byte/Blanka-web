@@ -22,18 +22,27 @@ async function issueInvoice(opts: {
   email: string;
   name?: string;
   address?: Stripe.Address | null;
+  metadata?: Record<string, string>;
   amountHuf: number;
   title: string;
   orderNumber: string;
 }) {
   if (!process.env.SZAMLAZZ_AGENT_KEY) return;
   try {
+    const stripeAddr = opts.address;
+    const hasStripeAddress = stripeAddr?.city || stripeAddr?.postal_code || stripeAddr?.line1;
+    const address = hasStripeAddress
+      ? { postalCode: stripeAddr.postal_code || '', city: stripeAddr.city || '', line: [stripeAddr.line1, stripeAddr.line2].filter(Boolean).join(', ') }
+      : opts.metadata?.billingCity
+        ? { postalCode: opts.metadata.billingPostalCode || '', city: opts.metadata.billingCity || '', line: opts.metadata.billingLine || '' }
+        : undefined;
+
+    const customerName = opts.name || opts.metadata?.billingName || opts.email;
+
     const { invoiceNumber } = await createInvoice({
-      customerName: opts.name || opts.email,
+      customerName,
       customerEmail: opts.email,
-      customerAddress: opts.address
-        ? { postalCode: opts.address.postal_code || '', city: opts.address.city || '', line: [opts.address.line1, opts.address.line2].filter(Boolean).join(', ') }
-        : undefined,
+      customerAddress: address,
       items: [{ name: opts.title, quantity: 1, unitPrice: opts.amountHuf }],
       orderNumber: opts.orderNumber,
     });
@@ -141,6 +150,7 @@ export async function POST(req: NextRequest) {
           email,
           name: customerName,
           address: session.customer_details?.address,
+          metadata: session.metadata as Record<string, string> | undefined,
           amountHuf,
           title: invoiceTitle,
           orderNumber: session.id,

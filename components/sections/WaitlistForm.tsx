@@ -21,7 +21,7 @@ export function WaitlistForm({ program = 'kiscsoportos' }: { program?: string })
         body: JSON.stringify({ ...form, program }),
       });
       if (!res.ok) throw new Error();
-      setStatus('success');
+      window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
     } catch {
       setStatus('error');
     }

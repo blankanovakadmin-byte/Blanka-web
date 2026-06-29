@@ -52,7 +52,7 @@ function RegForm() {
         const data = await res.json();
         throw new Error(data.error || 'Hiba történt.');
       }
-      setStatus('success');
+      window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
     } catch (err) {
       setStatus('error');
       setErrorMsg(err instanceof Error ? err.message : 'Hiba történt. Próbáld újra!');

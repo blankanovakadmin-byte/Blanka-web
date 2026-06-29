@@ -24,7 +24,7 @@ function FreeClaimForm({ productId }: { productId: string }) {
       });
       if (res.status === 503) { setStatus('error'); return; }
       if (!res.ok) throw new Error();
-      setStatus('success');
+      window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
     } catch {
       setStatus('error');
     }
@@ -120,7 +120,7 @@ function ResourceCard({ product }: { product: Product }) {
         <FreeClaimForm productId={product.id} />
       ) : product.stripePriceId ? (
         <Button
-          href={`/api/checkout?priceId=${product.stripePriceId}&type=digital`}
+          href={`/penztar?priceId=${product.stripePriceId}&type=digital`}
           size="sm"
           className="w-full justify-center"
         >

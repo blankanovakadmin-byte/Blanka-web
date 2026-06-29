@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { addNewsletterSubscriber } from '@/lib/airtable';
+import { addNewsletterSubscriber, updateSubscriberField } from '@/lib/airtable';
 import { sendEmail } from '@/lib/resend';
 import { WaitlistConfirmationEmail } from '@/emails/waitlist-confirmation';
 
@@ -18,9 +18,11 @@ export async function POST(req: NextRequest) {
     const lastName = parts[0] || '';
     const firstName = parts.slice(1).join(' ') || '';
     const tag = `varolista_${program || 'kiscsoportos'}`;
+    const subscriberType = `varolista_${program || 'kiscsoportos'}`;
 
     await Promise.allSettled([
       addNewsletterSubscriber(email, tag, firstName, lastName),
+      updateSubscriberField(email, 'SubscriberType', subscriberType),
       sendEmail({
         to: email,
         subject: 'Felkerültél a várólistára! ✨',

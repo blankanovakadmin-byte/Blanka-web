@@ -19,9 +19,6 @@ export function NewsletterWelcomeEmail({ email, firstName }: Props) {
       {paragraph('Addig is nézz körbe, ha van kedved:')}
       {ctaButton('blankanovak.com →', BASE)}
       {divider()}
-      {paragraph('📋 Egy utolsó kérésem: töltsd ki ezt a rövid kérdőívet, hogy személyre szabottabb segítséget tudjak nyújtani:')}
-      {ctaButton('Kérdőív kitöltése →', `${BASE}/kerdoiv?email=${encodeURIComponent(email)}`)}
-      {divider()}
       {paragraph('Hamarosan jelentkezem,', { color: '#7A7A8C', fontSize: '14px' })}
       {paragraph('Blanka 🤍', { color: '#7A7A8C', fontSize: '14px', marginBottom: 0 })}
     </BaseEmail>

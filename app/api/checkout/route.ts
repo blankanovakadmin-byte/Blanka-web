@@ -2,19 +2,35 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createCheckoutSession } from '@/lib/stripe';
 import { getActiveProducts, getActiveCourses, getWebinarById } from '@/lib/airtable';
 
-const BASE = () => process.env.NEXT_PUBLIC_BASE_URL || 'https://blankanovak.com';
+interface BillingData {
+  email: string;
+  name: string;
+  postalCode: string;
+  city: string;
+  line: string;
+}
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const priceId = searchParams.get('priceId');
-  const type = (searchParams.get('type') ?? 'digital') as 'digital' | 'course' | 'mentoring' | 'group-mentoring' | 'strategy' | 'webinar';
-  const webinarId = searchParams.get('webinarId');
-
-  if (!priceId) {
-    return NextResponse.redirect(new URL('/forrasok', req.url));
-  }
-
+export async function POST(req: NextRequest) {
   try {
+    const body = await req.json() as {
+      priceId?: string;
+      type?: string;
+      webinarId?: string;
+      billing?: BillingData;
+    };
+
+    const priceId = body.priceId;
+    const type = (body.type ?? 'digital') as 'digital' | 'course' | 'mentoring' | 'group-mentoring' | 'strategy' | 'webinar';
+    const webinarId = body.webinarId;
+    const billing = body.billing;
+
+    if (!priceId) {
+      return NextResponse.json({ error: 'Hiányzó termék azonosító.' }, { status: 400 });
+    }
+    if (!billing?.email || !billing?.name) {
+      return NextResponse.json({ error: 'Kérlek add meg a számlázási adatokat.' }, { status: 400 });
+    }
+
     const [products, courses] = await Promise.all([
       getActiveProducts(),
       getActiveCourses().catch(() => []),
@@ -24,25 +40,25 @@ export async function GET(req: NextRequest) {
     const course = courses.find(c => c.stripePriceId === priceId);
 
     if (type === 'digital' && !product) {
-      return NextResponse.redirect(new URL('/forrasok', req.url));
+      return NextResponse.json({ error: 'Termék nem található.' }, { status: 404 });
     }
     if (type === 'course' && !course) {
-      return NextResponse.redirect(new URL('/programok', req.url));
+      return NextResponse.json({ error: 'Kurzus nem található.' }, { status: 404 });
     }
     if (type === 'mentoring' && priceId !== process.env.NEXT_PUBLIC_STRIPE_MENTORING_PRICE_ID) {
-      return NextResponse.redirect(new URL('/programok', req.url));
+      return NextResponse.json({ error: 'Érvénytelen mentoring azonosító.' }, { status: 400 });
     }
     if (type === 'strategy' && priceId !== process.env.NEXT_PUBLIC_STRIPE_STRATEGY_PRICE_ID) {
-      return NextResponse.redirect(new URL('/programok', req.url));
+      return NextResponse.json({ error: 'Érvénytelen stratégia azonosító.' }, { status: 400 });
     }
     if (type === 'group-mentoring' && priceId !== process.env.NEXT_PUBLIC_STRIPE_GROUP_MENTORING_PRICE_ID) {
-      return NextResponse.redirect(new URL('/programok', req.url));
+      return NextResponse.json({ error: 'Érvénytelen csoportos mentoring azonosító.' }, { status: 400 });
     }
 
     let webinar = null;
     if (type === 'webinar' && webinarId) {
       webinar = await getWebinarById(webinarId);
-      if (!webinar) return NextResponse.redirect(new URL('/programok', req.url));
+      if (!webinar) return NextResponse.json({ error: 'Webinár nem található.' }, { status: 404 });
     }
 
     const title = product?.title ?? course?.title ?? webinar?.title ?? (
@@ -56,17 +72,21 @@ export async function GET(req: NextRequest) {
     const { url } = await createCheckoutSession({
       priceId,
       productType: stripeType as 'digital' | 'course' | 'subscription',
+      customerEmail: billing.email,
       metadata: {
         productType: type,
         productId: product?.id ?? course?.id ?? webinarId ?? '',
         blobKey: product?.blobKey ?? '',
         productTitle: title,
+        billingName: billing.name,
+        billingPostalCode: billing.postalCode || '',
+        billingCity: billing.city || '',
+        billingLine: billing.line || '',
       },
     });
 
-    return NextResponse.redirect(url);
+    return NextResponse.json({ url });
   } catch {
-    const fallback = type === 'mentoring' || type === 'group-mentoring' || type === 'course' || type === 'strategy' || type === 'webinar' ? '/programok' : '/forrasok';
-    return NextResponse.redirect(new URL(fallback, BASE()));
+    return NextResponse.json({ error: 'Hiba történt, kérlek próbáld újra.' }, { status: 500 });
   }
 }

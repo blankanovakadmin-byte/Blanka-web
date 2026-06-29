@@ -26,8 +26,7 @@ export function NewsletterForm() {
       });
 
       if (!res.ok) throw new Error();
-      setStatus('success');
-      setForm({ email: '', fullName: '', _hp: '' });
+      window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
     } catch {
       setStatus('error');
       setError('Valami hiba történt. Kérlek próbáld újra!');

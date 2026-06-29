@@ -95,7 +95,7 @@ export default function RolamPage() {
                   src="/images/blanka-rolam.png"
                   alt="Novák Blanka – biológus doktorandusz, 7 nyelven beszélő nyelvtanár"
                   fill
-                  className="object-cover object-top"
+                  className="object-cover object-center"
                 />
               </div>
             </div>
