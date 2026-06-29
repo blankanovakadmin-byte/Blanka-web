@@ -52,7 +52,10 @@ function RegForm() {
         const data = await res.json();
         throw new Error(data.error || 'Hiba történt.');
       }
-      window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
+      setStatus('success');
+      setTimeout(() => {
+        window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
+      }, 500);
     } catch (err) {
       setStatus('error');
       setErrorMsg(err instanceof Error ? err.message : 'Hiba történt. Próbáld újra!');
@@ -121,7 +124,7 @@ function RegForm() {
                   </div>
                   <h2 className="font-display text-xl font-bold text-brand-blue mb-2">Sikeres regisztráció!</h2>
                   <p className="font-sans text-brand-muted text-sm">
-                    Visszaigazolót küldtünk a megadott email-címre.
+                    Visszaigazolót küldtünk a megadott email-címre. Átirányítás...
                   </p>
                 </div>
               ) : (

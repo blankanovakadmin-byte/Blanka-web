@@ -24,7 +24,10 @@ function FreeClaimForm({ productId }: { productId: string }) {
       });
       if (res.status === 503) { setStatus('error'); return; }
       if (!res.ok) throw new Error();
-      window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
+      setStatus('success');
+      setTimeout(() => {
+        window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
+      }, 500);
     } catch {
       setStatus('error');
     }
@@ -33,7 +36,7 @@ function FreeClaimForm({ productId }: { productId: string }) {
   if (status === 'success') {
     return (
       <div className="flex items-center gap-2 text-green-600 text-sm font-sans">
-        <Check size={16} /> Elküldtük az emailt! Ellenőrizd a postaládádat.
+        <Check size={16} /> Elküldtük az emailt! Átirányítás...
       </div>
     );
   }

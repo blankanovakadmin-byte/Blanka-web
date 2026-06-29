@@ -21,7 +21,10 @@ export function WaitlistForm({ program = 'kiscsoportos' }: { program?: string })
         body: JSON.stringify({ ...form, program }),
       });
       if (!res.ok) throw new Error();
-      window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
+      setStatus('success');
+      setTimeout(() => {
+        window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
+      }, 500);
     } catch {
       setStatus('error');
     }
@@ -31,7 +34,7 @@ export function WaitlistForm({ program = 'kiscsoportos' }: { program?: string })
     return (
       <div className="flex items-center gap-2 text-green-600 font-sans text-sm bg-green-50 rounded-xl p-3 border border-green-200">
         <Check size={16} />
-        Felkerültél a várólistára!
+        Felkerültél a várólistára! Átirányítás...
       </div>
     );
   }

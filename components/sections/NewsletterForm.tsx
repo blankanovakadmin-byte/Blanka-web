@@ -26,7 +26,10 @@ export function NewsletterForm() {
       });
 
       if (!res.ok) throw new Error();
-      window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
+      setStatus('success');
+      setTimeout(() => {
+        window.location.href = `/kerdoiv?email=${encodeURIComponent(form.email)}`;
+      }, 500);
     } catch {
       setStatus('error');
       setError('Valami hiba történt. Kérlek próbáld újra!');
@@ -52,7 +55,7 @@ export function NewsletterForm() {
         {status === 'success' ? (
           <div className="flex items-center justify-center gap-2 text-green-600 font-sans font-medium bg-green-50 rounded-xl p-4 border border-green-200">
             <Check size={20} />
-            Sikeresen feliratkoztál! Ellenőrizd az emailedet.
+            Sikeresen feliratkoztál! Átirányítás...
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-3">
