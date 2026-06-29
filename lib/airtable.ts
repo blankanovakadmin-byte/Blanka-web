@@ -10,6 +10,7 @@ const TABLES = {
   webinars: () => process.env.AIRTABLE_WEBINARS_TABLE || 'Webinár események',
   courseBuyers: () => process.env.AIRTABLE_COURSE_BUYERS_TABLE || 'Kurzus vásárlók',
   digitalBuyers: () => process.env.AIRTABLE_DIGITAL_BUYERS_TABLE || 'Digitális termék vásárlók',
+  mentoringBuyers: () => process.env.AIRTABLE_MENTORING_BUYERS_TABLE || 'Mentorprogram vásárlók',
   products: () => process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek',
   testimonials: () => process.env.AIRTABLE_TESTIMONIALS_TABLE || 'Vélemények',
   courses: () => process.env.AIRTABLE_COURSES_TABLE || 'Kurzusok',
@@ -176,6 +177,22 @@ export async function addDigitalPurchase(data: {
   await base(TABLES.digitalBuyers()).create({
     Email: data.email,
     ProductId: data.productId,
+    StripeSessionId: data.stripeSessionId,
+    PurchasedAt: new Date().toISOString(),
+  });
+}
+
+export async function addMentoringPurchase(data: {
+  email: string;
+  name?: string;
+  program: 'privat' | 'kiscsoportos';
+  stripeSessionId: string;
+}) {
+  const base = getBase();
+  await base(TABLES.mentoringBuyers()).create({
+    Email: data.email,
+    Name: data.name || '',
+    Program: data.program === 'privat' ? 'Privát Havi Mentorprogram' : 'Kiscsoportos Havi Mentorprogram',
     StripeSessionId: data.stripeSessionId,
     PurchasedAt: new Date().toISOString(),
   });

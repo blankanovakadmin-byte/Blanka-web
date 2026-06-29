@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
     const subscribersTable = process.env.AIRTABLE_SUBSCRIBERS_TABLE || 'Feliratkozók';
     const courseBuyersTable = process.env.AIRTABLE_COURSE_BUYERS_TABLE || 'Kurzus vásárlók';
     const digitalBuyersTable = process.env.AIRTABLE_DIGITAL_BUYERS_TABLE || 'Digitális termék vásárlók';
+    const mentoringBuyersTable = process.env.AIRTABLE_MENTORING_BUYERS_TABLE || 'Mentorprogram vásárlók';
 
     async function updateTable(tableName: string) {
       const existing = await base(tableName)
@@ -56,6 +57,7 @@ export async function POST(req: NextRequest) {
       })(),
       updateTable(courseBuyersTable),
       updateTable(digitalBuyersTable),
+      updateTable(mentoringBuyersTable),
     ]);
 
     return NextResponse.json({ ok: true });

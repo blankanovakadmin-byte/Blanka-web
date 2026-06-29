@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { constructWebhookEvent } from '@/lib/stripe';
 import { addPurchaseTag } from '@/lib/systemio';
-import { addCoursePurchase, addDigitalPurchase, getSettings, getCourseById, getWebinarById, addWebinarSubscriber } from '@/lib/airtable';
+import { addCoursePurchase, addDigitalPurchase, addMentoringPurchase, getSettings, getCourseById, getWebinarById, addWebinarSubscriber } from '@/lib/airtable';
 import { generateSignedUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
 import { createInvoice } from '@/lib/szamlazz';
@@ -103,6 +103,7 @@ export async function POST(req: NextRequest) {
         ]);
       } else if (productType === 'mentoring' && session.mode === 'subscription') {
         await Promise.allSettled([
+          addMentoringPurchase({ email, name: customerName, program: 'privat', stripeSessionId: session.id }),
           sendEmail({
             to: email,
             subject: 'Foglald le a havi két alkalmadat! 📅',
@@ -112,6 +113,7 @@ export async function POST(req: NextRequest) {
       } else if (productType === 'group-mentoring' && session.mode === 'subscription') {
         const s = await getSettings(['group_mentoring_schedule', 'group_mentoring_zoom_url']);
         await Promise.allSettled([
+          addMentoringPurchase({ email, name: customerName, program: 'kiscsoportos', stripeSessionId: session.id }),
           sendEmail({
             to: email,
             subject: 'Üdv a kiscsoportos mentorprogramban! 🎉',
