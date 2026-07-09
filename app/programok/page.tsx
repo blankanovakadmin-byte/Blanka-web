@@ -137,7 +137,7 @@ export default async function ProgramokPage() {
       <main className="pb-20 md:pb-0 pt-20">
 
         {/* Hero */}
-        <SectionWrapper bg="default">
+        <SectionWrapper bg="default" className="!py-8 md:!py-12">
           <div className="text-center max-w-2xl mx-auto animate-fade-in">
             <h1 className="font-display text-4xl md:text-5xl font-bold text-brand-blue mb-4">
               Szolgáltatások
