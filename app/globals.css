@@ -1,0 +1,90 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #F4EFE6;
+  --color-brand-surface: #FFFFFF;
+  --color-brand-text: #2B2B2B;
+  --color-brand-blue: #173A7A;
+  --color-brand-purple: #B06AD9;
+  --color-brand-coral: #F26D6D;
+  --color-brand-teal: #8FD3D6;
+  --color-brand-border: #E9E5DD;
+  --color-brand-muted: #7A7A8C;
+  --color-brand-purple-light: #F3EAFC;
+  --color-brand-blue-dark: #0F2554;
+
+  --font-display: var(--font-playfair), 'Playfair Display', Georgia, serif;
+  --font-sans: var(--font-inter), 'Inter', system-ui, sans-serif;
+  --font-script: var(--font-script), 'Great Vibes', cursive;
+}
+
+:root {
+  --background: #F4EFE6;
+  --foreground: #2B2B2B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #F4EFE6;
+    --foreground: #2B2B2B;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+.animate-fade-in       { animation: fadeIn 0.6s ease both; }
+.animate-fade-in-left  { animation: fadeInLeft 0.6s ease both; }
+.animate-scale-in      { animation: scaleIn 0.5s ease both; }
+.animate-float         { animation: float 3s ease-in-out infinite; }
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+
+/* Decorative blob */
+.blob {
+  border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+}
+
+/* Smooth scroll */
+html { scroll-behavior: smooth; }
+
+/* Focus ring */
+:focus-visible {
+  outline: 2px solid #B06AD9;
+  outline-offset: 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #F4EFE6; }
+::-webkit-scrollbar-thumb { background: #B06AD9; border-radius: 3px; }
