@@ -34,7 +34,7 @@ function checkElofizetesPassword(req: NextRequest): NextResponse | null {
   if (!password) return null;
 
   const { pathname } = req.nextUrl;
-  if (!pathname.startsWith('/elofizetes')) return null;
+  if (pathname !== '/elofizetes' && !pathname.startsWith('/elofizetes/')) return null;
   if (pathname === '/elofizetes/login') return null;
 
   const cookie = req.cookies.get(ELOFIZETES_AUTH_COOKIE);
