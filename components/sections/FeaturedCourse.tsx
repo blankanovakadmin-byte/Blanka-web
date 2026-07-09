@@ -75,7 +75,7 @@ export function FeaturedCourse({ nextStart }: { nextStart?: string }) {
                 {[
                   '8 hetes strukturált program',
                   'Személyre szabott feladatok',
-                  '2 hónapig hozzáférés',
+                  '3 hónapig hozzáférés',
                 ].map((item) => (
                   <li key={item} className="flex items-center gap-3 font-sans text-sm text-white/90">
                     <div className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center shrink-0">

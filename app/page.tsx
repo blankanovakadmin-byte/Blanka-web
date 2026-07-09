@@ -11,6 +11,9 @@ import { Testimonials } from '@/components/sections/Testimonials';
 import { NewsletterForm } from '@/components/sections/NewsletterForm';
 import { Footer } from '@/components/sections/Footer';
 import { getUpcomingWebinars, getActiveProducts, getTestimonials, getSettings } from '@/lib/airtable';
+import { SectionWrapper } from '@/components/ui/SectionWrapper';
+import { Button } from '@/components/ui/Button';
+import { Mail } from 'lucide-react';
 import type { Testimonial } from '@/types';
 
 const faqSchema = {
@@ -74,6 +77,17 @@ export default async function HomePage() {
         {upcomingWebinar && <UpcomingWebinar webinar={upcomingWebinar} />}
         <FeaturedCourse nextStart={featuredCourseNextStart} />
         <ServiceCards />
+        <SectionWrapper bg="surface">
+          <div className="text-center animate-fade-in">
+            <p className="font-sans text-brand-muted mb-4">
+              Tippek, ingyenes anyagok és elsők között értesülsz az új programokról.
+            </p>
+            <Button href="#hirlevel" size="lg">
+              <Mail size={18} />
+              Feliratkozom a hírlevélre
+            </Button>
+          </div>
+        </SectionWrapper>
         <Testimonials testimonials={testimonials} followerCount={followerCount} />
         <NewsletterForm />
       </main>

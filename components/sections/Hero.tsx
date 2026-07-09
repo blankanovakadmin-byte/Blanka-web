@@ -34,7 +34,7 @@ export function Hero() {
               </Button>
               <Button href="/forrasok" variant="secondary" size="lg">
                 <Download size={20} />
-                Ingyenes anyagok
+                Ingyenes és Prémium anyagok
               </Button>
             </div>
           </div>
