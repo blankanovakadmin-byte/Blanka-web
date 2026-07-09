@@ -116,19 +116,21 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
   return (
     <>
       {/* Scroll navigation */}
-      <SectionWrapper bg="default">
-        <div className="flex justify-center gap-2 flex-wrap">
-          {NAV_ITEMS.map(item => (
-            <button
-              key={item.id}
-              onClick={() => scrollTo(item.id)}
-              className="px-5 py-2.5 rounded-full font-sans text-sm font-medium transition-all bg-white text-brand-muted border border-brand-border hover:bg-brand-purple hover:text-white hover:border-brand-purple"
-            >
-              {item.label}
-            </button>
-          ))}
+      <div className="bg-brand-bg py-6 md:py-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-2">
+            {NAV_ITEMS.map(item => (
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className="px-5 py-2.5 rounded-full font-sans text-sm font-medium transition-all bg-brand-purple text-white border border-brand-purple hover:bg-[#9A55C4] hover:border-[#9A55C4] active:scale-[0.98]"
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </SectionWrapper>
+      </div>
 
       {/* Kurzusok */}
       <div id="kurzusok" className="scroll-mt-24">
@@ -275,6 +277,10 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
                 </div>
               )}
               <div className="mt-auto pt-4 border-t border-brand-border">
+                <div className="flex items-baseline gap-1 mb-1">
+                  <p className="font-display text-xl font-bold text-brand-blue">34 990 Ft</p>
+                  <p className="font-sans text-xs text-brand-muted">/ hó · automatikus megújulás</p>
+                </div>
                 <p className="font-sans text-xs text-brand-muted mb-3">Iratkozz fel a várólistára, és elsőként értesítünk, ha indul a következő csoport!</p>
                 <WaitlistForm program="kiscsoportos" />
               </div>
