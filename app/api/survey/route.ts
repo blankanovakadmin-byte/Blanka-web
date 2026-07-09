@@ -43,6 +43,8 @@ export async function POST(req: NextRequest) {
       }
     }
 
+    const surveyResponsesTable = process.env.AIRTABLE_SURVEY_RESPONSES_TABLE || 'Kérdőív válaszok';
+
     await Promise.allSettled([
       (async () => {
         const existing = await base(subscribersTable)
@@ -58,6 +60,11 @@ export async function POST(req: NextRequest) {
       updateTable(courseBuyersTable),
       updateTable(digitalBuyersTable),
       updateTable(mentoringBuyersTable),
+      base(surveyResponsesTable).create({
+        Email: email,
+        ...surveyData,
+        CreatedAt: new Date().toISOString(),
+      }),
     ]);
 
     return NextResponse.json({ ok: true });

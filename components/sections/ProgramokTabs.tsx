@@ -59,8 +59,8 @@ function WebinarCard({ webinar }: { webinar: WebinarData }) {
 
   const isPaid = !!webinar.stripePriceId;
   const href = isPaid
-    ? `/penztar?priceId=${webinar.stripePriceId}&type=webinar&webinarId=${webinar.id}`
-    : `/webinar-regisztracio?id=${webinar.id}`;
+    ? `/kerdoiv?priceId=${webinar.stripePriceId}&type=webinar&webinarId=${webinar.id}`
+    : `/kerdoiv?webinarId=${webinar.id}`;
 
   return (
     <Card id={`webinar-${webinar.id}`} className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -168,7 +168,7 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
                 </div>
                 {course.status === 'active' && (course.systemeioUrl || course.stripePriceId) ? (
                   <Button
-                    href={course.systemeioUrl || `/penztar?priceId=${course.stripePriceId}&type=course`}
+                    href={course.systemeioUrl || `/kerdoiv?priceId=${course.stripePriceId}&type=course`}
                     external={!!course.systemeioUrl}
                     size="lg"
                   >
@@ -232,7 +232,7 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
                 </div>
                 <Button
                   href={strategyPriceId
-                    ? `/penztar?priceId=${strategyPriceId}&type=strategy`
+                    ? `/kerdoiv?priceId=${strategyPriceId}&type=strategy`
                     : 'https://cal.com/blankanovak/strategia-mentoracio'}
                   external={!strategyPriceId}
                   size="sm"
@@ -324,7 +324,7 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
                   <p className="font-sans text-xs text-brand-muted">/ hó · automatikus megújulás</p>
                 </div>
                 {mentoringPriceId ? (
-                  <Button href={`/penztar?priceId=${mentoringPriceId}&type=mentoring`} size="sm">
+                  <Button href={`/kerdoiv?priceId=${mentoringPriceId}&type=mentoring`} size="sm">
                     Feliratkozom <ArrowRight size={14} />
                   </Button>
                 ) : (

@@ -4,6 +4,7 @@ export interface Webinar {
   date: string;
   time: string;
   zoomLink: string;
+  zoomPassword?: string;
   registrationOpen: boolean;
   maxParticipants: number;
   description: string;

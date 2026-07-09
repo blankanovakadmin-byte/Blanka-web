@@ -31,7 +31,8 @@ export function WebinarConfirmationEmail({ email, firstName, webinar }: Props) {
         <strong>Téma:</strong> {webinar.title}<br />
         <strong>Időpont:</strong> {dateFormatted} · {webinar.time}<br />
         <strong>Platform:</strong> Zoom (online, a saját otthonodból 🏡)<br />
-        {webinar.zoomLink && <><strong>Csatlakozási link:</strong> <a href={webinar.zoomLink} style={{ color: '#B06AD9' }}>{webinar.zoomLink}</a></>}
+        {webinar.zoomLink && <><strong>Csatlakozási link:</strong> <a href={webinar.zoomLink} style={{ color: '#B06AD9' }}>{webinar.zoomLink}</a><br /></>}
+        {webinar.zoomPassword && <><strong>Zoom jelszó:</strong> {webinar.zoomPassword}</>}
       </Text>
       {paragraph('Egy gyors tipp addig is: írd be most a naptáradba az eseményt, hogy biztosan ne maradj le. Küldök majd emlékeztetőt is, de a naptár ritkán felejt. 😄')}
       {webinar.zoomLink && ctaButton('Csatlakozási link →', webinar.zoomLink)}

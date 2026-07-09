@@ -16,9 +16,10 @@ function CheckoutForm() {
   const priceId = searchParams.get('priceId') || '';
   const type = searchParams.get('type') || 'digital';
   const webinarId = searchParams.get('webinarId') || '';
+  const emailParam = searchParams.get('email') || '';
 
   const [form, setForm] = useState({
-    email: '',
+    email: emailParam,
     name: '',
     postalCode: '',
     city: '',

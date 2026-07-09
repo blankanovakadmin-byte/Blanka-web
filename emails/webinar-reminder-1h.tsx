@@ -21,7 +21,8 @@ export function WebinarReminder1hEmail({ email, firstName, webinar }: Props) {
       </Text>
       <Text style={{ backgroundColor: '#F3EAFC', borderRadius: '12px', padding: '16px', fontSize: '14px', color: '#173A7A', margin: '0 0 20px', lineHeight: '1.8' }}>
         {webinar.title} · {dateFormatted} · {webinar.time} · Zoom<br />
-        {webinar.zoomLink && <>👉 <a href={webinar.zoomLink} style={{ color: '#B06AD9' }}>{webinar.zoomLink}</a></>}
+        {webinar.zoomLink && <>👉 <a href={webinar.zoomLink} style={{ color: '#B06AD9' }}>{webinar.zoomLink}</a><br /></>}
+        {webinar.zoomPassword && <><strong>Jelszó:</strong> {webinar.zoomPassword}</>}
       </Text>
       {webinar.zoomLink && ctaButton('Csatlakozás most →', webinar.zoomLink)}
       {divider()}

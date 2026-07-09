@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
@@ -14,16 +15,21 @@ const LEVELS = [
   { value: 'C2', label: 'C2 (anyanyelvihez közeli szint)' },
 ];
 
-export default function KerdoivPage() {
+function KerdoivForm() {
+  const searchParams = useSearchParams();
+  const priceId = searchParams.get('priceId') || '';
+  const type = searchParams.get('type') || '';
+  const webinarId = searchParams.get('webinarId') || '';
+  const prefillEmail = searchParams.get('email') || '';
+
   const [form, setForm] = useState({
+    email: prefillEmail,
     languages: [] as string[],
     level: '',
     goal: '',
     notes: '',
   });
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  const email = typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('email') || '' : '';
 
   function toggleLang(lang: string) {
     setForm(f => ({
@@ -34,18 +40,37 @@ export default function KerdoivPage() {
     }));
   }
 
+  function buildRedirectUrl(email: string) {
+    const encoded = encodeURIComponent(email);
+    if (webinarId && priceId) {
+      return `/penztar?priceId=${priceId}&type=webinar&webinarId=${webinarId}&email=${encoded}`;
+    }
+    if (webinarId) {
+      return `/webinar-regisztracio?id=${webinarId}&email=${encoded}`;
+    }
+    if (priceId && type) {
+      return `/penztar?priceId=${priceId}&type=${type}&email=${encoded}`;
+    }
+    return '';
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (form.languages.length === 0 || !form.level || !form.goal) return;
+    if (form.languages.length === 0 || !form.level || !form.goal || !form.email) return;
     setStatus('loading');
     try {
       const res = await fetch('/api/survey', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, ...form }),
+        body: JSON.stringify({ email: form.email, languages: form.languages, level: form.level, goal: form.goal, notes: form.notes }),
       });
       if (!res.ok) throw new Error();
-      setStatus('success');
+      const redirect = buildRedirectUrl(form.email);
+      if (redirect) {
+        window.location.href = redirect;
+      } else {
+        setStatus('success');
+      }
     } catch {
       setStatus('error');
     }
@@ -72,6 +97,21 @@ export default function KerdoivPage() {
         <p className="font-sans text-brand-muted text-sm mb-8">Töltsd ki ezt a rövid kérdőívet, hogy személyre szabottabb segítséget tudjak nyújtani.</p>
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Email */}
+          <div>
+            <label className="font-sans font-semibold text-brand-blue text-sm mb-2 block">
+              Email-cím <span className="text-brand-coral">*</span>
+            </label>
+            <input
+              type="email"
+              value={form.email}
+              onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+              required
+              className="w-full px-4 py-3 rounded-xl border border-brand-border text-sm font-sans text-brand-text focus:outline-none focus:border-brand-purple"
+              placeholder="email@cimed.hu"
+            />
+          </div>
+
           {/* Languages */}
           <fieldset>
             <legend className="font-sans font-semibold text-brand-blue text-sm mb-3">
@@ -154,9 +194,9 @@ export default function KerdoivPage() {
             loading={status === 'loading'}
             size="lg"
             className="w-full justify-center"
-            disabled={form.languages.length === 0 || !form.level || !form.goal}
+            disabled={form.languages.length === 0 || !form.level || !form.goal || !form.email}
           >
-            Elküldöm
+            {(priceId || webinarId) ? 'Tovább a következő lépésre →' : 'Elküldöm'}
           </Button>
           {status === 'error' && (
             <p className="text-brand-coral text-sm font-sans text-center">Hiba történt, kérlek próbáld újra.</p>
@@ -164,5 +204,13 @@ export default function KerdoivPage() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function KerdoivPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-brand-bg" />}>
+      <KerdoivForm />
+    </Suspense>
   );
 }

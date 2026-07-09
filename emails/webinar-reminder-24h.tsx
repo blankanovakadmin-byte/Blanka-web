@@ -21,7 +21,8 @@ export function WebinarReminder24hEmail({ email, firstName, webinar }: Props) {
       </Text>
       <Text style={{ backgroundColor: '#F3EAFC', borderRadius: '12px', padding: '16px', fontSize: '14px', color: '#173A7A', margin: '0 0 20px', lineHeight: '1.8' }}>
         <strong>Mikor:</strong> {dateFormatted}, {webinar.time}<br />
-        {webinar.zoomLink && <><strong>Zoom link:</strong> <a href={webinar.zoomLink} style={{ color: '#B06AD9' }}>{webinar.zoomLink}</a></>}
+        {webinar.zoomLink && <><strong>Zoom link:</strong> <a href={webinar.zoomLink} style={{ color: '#B06AD9' }}>{webinar.zoomLink}</a><br /></>}
+        {webinar.zoomPassword && <><strong>Zoom jelszó:</strong> {webinar.zoomPassword}</>}
       </Text>
       {webinar.zoomLink && ctaButton('Csatlakozás a Zoom linkkel →', webinar.zoomLink)}
       {divider()}
