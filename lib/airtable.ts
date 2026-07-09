@@ -99,12 +99,30 @@ export async function addWebinarSubscriber(data: {
   webinarId: string;
 }) {
   const base = getBase();
-  await base(TABLES.subscribers()).create({
-    Email: data.email,
-    FirstName: data.firstName,
-    Tags: `webinar_${data.webinarId}`,
-    CreatedAt: new Date().toISOString(),
-  });
+  const tag = `webinar_${data.webinarId}`;
+
+  const existing = await base(TABLES.subscribers())
+    .select({ filterByFormula: `{Email} = '${esc(data.email)}'`, maxRecords: 1 })
+    .firstPage();
+
+  if (existing.length > 0) {
+    const currentTags = String(existing[0].fields['Tags'] || '');
+    const newTags = currentTags.includes(tag)
+      ? currentTags
+      : [currentTags, tag].filter(Boolean).join(',');
+    const updates: Record<string, string> = { Tags: newTags };
+    if (data.firstName && !existing[0].fields['FirstName']) {
+      updates.FirstName = data.firstName;
+    }
+    await base(TABLES.subscribers()).update(existing[0].id, updates);
+  } else {
+    await base(TABLES.subscribers()).create({
+      Email: data.email,
+      FirstName: data.firstName,
+      Tags: tag,
+      CreatedAt: new Date().toISOString(),
+    });
+  }
 }
 
 export async function addNewsletterSubscriber(email: string, source?: string, firstName?: string, lastName?: string) {

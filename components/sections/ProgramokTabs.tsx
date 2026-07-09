@@ -59,8 +59,8 @@ function WebinarCard({ webinar }: { webinar: WebinarData }) {
 
   const isPaid = !!webinar.stripePriceId;
   const href = isPaid
-    ? `/kerdoiv?priceId=${webinar.stripePriceId}&type=webinar&webinarId=${webinar.id}`
-    : `/kerdoiv?webinarId=${webinar.id}`;
+    ? `/kerdoiv-webinar?priceId=${webinar.stripePriceId}&type=webinar&webinarId=${webinar.id}`
+    : `/kerdoiv-webinar?webinarId=${webinar.id}`;
 
   return (
     <Card id={`webinar-${webinar.id}`} className="flex flex-col md:flex-row md:items-center justify-between gap-4">
