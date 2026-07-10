@@ -131,14 +131,12 @@ export async function addFreebieContact(email: string, productId: string, firstN
 }
 
 export async function addPurchaseTag(email: string, productType: 'course' | 'digital', id: string, systemeioId?: string) {
-  const contact = await upsertContact({
-    email,
-    tags: [`purchased_${productType}_${id}`],
-  });
-
+  const tags = [`purchased_${productType}_${id}`];
   if (productType === 'course' && systemeioId) {
-    await enrollInCourse(contact.id, systemeioId);
+    tags.push(`purchased_course_${systemeioId}`);
   }
+
+  const contact = await upsertContact({ email, tags });
 
   return contact;
 }
