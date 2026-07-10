@@ -1,4 +1,4 @@
-import { ArrowRight, BookOpen, Download } from 'lucide-react';
+import { ArrowRight, BookOpen, Download, Mail } from 'lucide-react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/Button';
 
@@ -35,6 +35,10 @@ export function Hero() {
               <Button href="/forrasok" variant="secondary" size="lg">
                 <Download size={20} />
                 Ingyenes és Prémium anyagok
+              </Button>
+              <Button href="#hirlevel" variant="secondary" size="lg">
+                <Mail size={20} />
+                Feliratkozom a hírlevélre
               </Button>
             </div>
           </div>

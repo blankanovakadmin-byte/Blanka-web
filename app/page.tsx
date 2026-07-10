@@ -10,6 +10,7 @@ import { ServiceCards } from '@/components/sections/ServiceCards';
 import { Testimonials } from '@/components/sections/Testimonials';
 import { NewsletterForm } from '@/components/sections/NewsletterForm';
 import { Footer } from '@/components/sections/Footer';
+import { NewsletterPopup } from '@/components/sections/NewsletterPopup';
 import { getUpcomingWebinars, getActiveProducts, getTestimonials, getSettings } from '@/lib/airtable';
 import { SectionWrapper } from '@/components/ui/SectionWrapper';
 import { Button } from '@/components/ui/Button';
@@ -93,6 +94,7 @@ export default async function HomePage() {
       </main>
       <Footer />
       <MobileNav />
+      <NewsletterPopup />
     </>
   );
 }
