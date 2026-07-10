@@ -19,27 +19,38 @@ export async function POST(req: NextRequest) {
   }
 
   const contact = await upsertContact({ email });
+  const apiKey = process.env.SYSTEMIO_API_KEY!;
+  const courseIdNum = Number(course.systemeioId);
 
-  // Call Systeme.io memberships API directly to see the raw response
-  const res = await fetch('https://api.systeme.io/api/memberships', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-API-Key': process.env.SYSTEMIO_API_KEY!,
-    },
-    body: JSON.stringify({ contact_id: contact.id, course_id: Number(course.systemeioId) }),
-  });
-  const responseText = await res.text();
-  let responseBody: unknown;
-  try { responseBody = JSON.parse(responseText); } catch { responseBody = responseText; }
+  async function tryEndpoint(path: string, body: unknown) {
+    const r = await fetch(`https://api.systeme.io/api${path}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-API-Key': apiKey },
+      body: JSON.stringify(body),
+    });
+    const text = await r.text();
+    let json: unknown;
+    try { json = JSON.parse(text); } catch { json = text.slice(0, 200); }
+    return { status: r.status, ok: r.ok, body: json };
+  }
+
+  const results = await Promise.all([
+    tryEndpoint('/memberships', { contact_id: contact.id, course_id: courseIdNum }),
+    tryEndpoint('/course_student_enrollments', { contactId: contact.id, courseId: courseIdNum }),
+    tryEndpoint(`/courses/${courseIdNum}/enrollments`, { contactId: contact.id }),
+    tryEndpoint('/enrollments', { contact_id: contact.id, course_id: courseIdNum }),
+  ]);
 
   return NextResponse.json({
-    ok: res.ok,
-    status: res.status,
     email,
     contactId: contact.id,
     course: course.title,
     systemeioId: course.systemeioId,
-    systemeioResponse: responseBody,
+    endpoints: {
+      '/memberships (snake)': results[0],
+      '/course_student_enrollments (camel)': results[1],
+      '/courses/{id}/enrollments': results[2],
+      '/enrollments (snake)': results[3],
+    },
   });
 }
