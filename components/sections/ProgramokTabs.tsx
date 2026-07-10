@@ -31,9 +31,9 @@ interface Props {
 }
 
 const NAV_ITEMS = [
-  { id: 'kurzusok', label: 'Kurzusok' },
-  { id: 'mentorprogramok', label: 'Mentorprogramok' },
-  { id: 'webinarok', label: 'Webinárok' },
+  { id: 'kurzusok', label: 'Kurzus' },
+  { id: 'mentorprogramok', label: 'Mentorprogram' },
+  { id: 'webinarok', label: 'Webinár' },
 ] as const;
 
 function FlagRow() {

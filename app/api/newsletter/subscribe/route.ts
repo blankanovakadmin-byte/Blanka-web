@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       firstName = parts.slice(1).join(' ') || '';
     }
 
-    const [, , emailResult] = await Promise.allSettled([
+    const [systemeResult, , emailResult] = await Promise.allSettled([
       addNewsletterContact(email, body.source, firstName, lastName || undefined),
       addNewsletterSubscriber(email, body.source, firstName, lastName || undefined),
       sendEmail({
@@ -38,6 +38,9 @@ export async function POST(req: NextRequest) {
       }),
     ]);
 
+    if (systemeResult.status === 'rejected') {
+      console.error('[newsletter] systeme.io failed:', systemeResult.reason);
+    }
     if (emailResult.status === 'rejected') {
       console.error('[newsletter] email send failed:', emailResult.reason);
     }
