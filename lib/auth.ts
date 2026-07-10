@@ -6,7 +6,7 @@ const SESSION_DURATION = 60 * 60 * 24 * 7; // 7 days
 
 export function verifyAdminToken(token: string): boolean {
   const adminToken = process.env.ADMIN_TOKEN;
-  if (!adminToken || adminToken.length < 32) return false;
+  if (!adminToken) return false;
   const a = Buffer.from(token);
   const b = Buffer.from(adminToken);
   if (a.length !== b.length) return false;
