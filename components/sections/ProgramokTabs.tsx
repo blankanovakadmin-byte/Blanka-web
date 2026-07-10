@@ -31,9 +31,9 @@ interface Props {
 }
 
 const NAV_ITEMS = [
-  { id: 'kurzusok', label: 'Kurzus' },
-  { id: 'mentorprogramok', label: 'Mentorprogram' },
-  { id: 'webinarok', label: 'Webinár' },
+  { id: 'kurzusok', label: 'Kurzusok' },
+  { id: 'mentorprogramok', label: 'Mentorprogramok' },
+  { id: 'webinarok', label: 'Webinárok' },
 ] as const;
 
 function FlagRow() {
@@ -118,7 +118,7 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
       {/* Scroll navigation */}
       <div className="bg-brand-bg py-6 md:py-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-center gap-2">
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-2">
             {NAV_ITEMS.map(item => (
               <button
                 key={item.id}
