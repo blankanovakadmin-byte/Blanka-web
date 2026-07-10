@@ -123,7 +123,7 @@ export function ProgramokTabs({ courses, webinars, groupMentoringSchedule, strat
               <button
                 key={item.id}
                 onClick={() => scrollTo(item.id)}
-                className="px-5 py-2.5 rounded-full font-sans text-sm font-medium transition-all bg-brand-purple text-white border border-brand-purple hover:bg-[#9A55C4] hover:border-[#9A55C4] active:scale-[0.98]"
+                className="px-5 py-2.5 rounded-full font-sans text-sm font-medium transition-all bg-brand-purple text-white border border-brand-purple hover:bg-[#9A55C4] hover:border-[#9A55C4] active:scale-[0.98] w-3/4 sm:w-auto"
               >
                 {item.label}
               </button>
