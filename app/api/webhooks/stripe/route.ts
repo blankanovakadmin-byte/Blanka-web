@@ -79,7 +79,7 @@ export async function POST(req: NextRequest) {
         const courseTitle = productTitle || 'Kurzus';
         const course = productId ? await getCourseById(productId) : null;
         await Promise.allSettled([
-          addPurchaseTag(email, 'course', productId),
+          addPurchaseTag(email, 'course', productId, course?.systemeioId),
           addCoursePurchase({ email, courseId: productId, stripeSessionId: session.id }),
           sendEmail({
             to: email,

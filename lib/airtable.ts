@@ -324,6 +324,7 @@ function mapCourse(r: { id: string; fields: Record<string, unknown> }): Course {
     status: (r.fields['Status'] as Course['status']) ?? 'coming_soon',
     active: Boolean(r.fields['Active']),
     systemeioUrl: r.fields['SystemeioUrl'] ? String(r.fields['SystemeioUrl']) : undefined,
+    systemeioId: r.fields['SystemeioId'] ? String(r.fields['SystemeioId']) : undefined,
     stripePriceId: r.fields['StripePriceId'] ? String(r.fields['StripePriceId']) : undefined,
     features: r.fields['Features']
       ? String(r.fields['Features']).split('\n').map(s => s.trim()).filter(Boolean)

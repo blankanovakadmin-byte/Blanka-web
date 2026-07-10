@@ -35,6 +35,7 @@ export interface Course {
   status: 'active' | 'coming_soon' | 'closed';
   active: boolean;
   systemeioUrl?: string;
+  systemeioId?: string;
   stripePriceId?: string;
   features: string[];
 }
