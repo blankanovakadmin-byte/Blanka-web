@@ -19,13 +19,27 @@ export async function POST(req: NextRequest) {
   }
 
   const contact = await upsertContact({ email });
-  await enrollInCourse(contact.id, course.systemeioId);
+
+  // Call Systeme.io memberships API directly to see the raw response
+  const res = await fetch('https://api.systeme.io/api/memberships', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-API-Key': process.env.SYSTEMIO_API_KEY!,
+    },
+    body: JSON.stringify({ contact_id: contact.id, course_id: Number(course.systemeioId) }),
+  });
+  const responseText = await res.text();
+  let responseBody: unknown;
+  try { responseBody = JSON.parse(responseText); } catch { responseBody = responseText; }
 
   return NextResponse.json({
-    ok: true,
+    ok: res.ok,
+    status: res.status,
     email,
     contactId: contact.id,
     course: course.title,
     systemeioId: course.systemeioId,
+    systemeioResponse: responseBody,
   });
 }
