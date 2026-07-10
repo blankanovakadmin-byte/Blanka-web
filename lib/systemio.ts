@@ -45,14 +45,15 @@ export async function upsertContact(data: {
   try {
     let contactId: number;
 
-    try {
-      const result = await systemeRequest('/contacts', 'POST', { email: data.email });
-      contactId = result.id;
-    } catch {
-      const search = await systemeRequest(`/contacts?email=${encodeURIComponent(data.email)}&limit=10`, 'GET');
-      const found = search.items?.find((c: { email: string }) => c.email === data.email);
-      if (!found) throw new Error(`Contact not found for ${data.email}`);
+    // Search first to avoid duplicate creation errors
+    const search = await systemeRequest(`/contacts?email=${encodeURIComponent(data.email)}&limit=10`, 'GET');
+    const found = search.items?.find((c: { email: string }) => c.email === data.email);
+
+    if (found) {
       contactId = found.id;
+    } else {
+      const result = await systemeRequest('/contacts', 'POST', { email: data.email, fields: [] });
+      contactId = result.id;
     }
 
     if (data.firstName || data.lastName) {
