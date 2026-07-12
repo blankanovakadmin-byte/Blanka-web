@@ -4,10 +4,14 @@ import { getAdminSession } from '@/lib/auth';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const ok = await getAdminSession();
-    if (!ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
     const body = (await req.json()) as HandleUploadBody;
+
+    // Token generation comes from the browser (has admin session).
+    // Upload-completion callbacks come from Vercel's servers (no session).
+    if ((body as Record<string, unknown>).type === 'blob.generate-client-token') {
+      const ok = await getAdminSession();
+      if (!ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     const jsonResponse = await handleUpload({
       body,
