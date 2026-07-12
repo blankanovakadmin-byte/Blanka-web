@@ -14,7 +14,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "img-src 'self' data: https:",
       "font-src 'self' https://fonts.gstatic.com",
-      "connect-src 'self' https://api.stripe.com https://vitals.vercel-insights.com https://*.vercel-storage.com https://*.blob.vercel-storage.com",
+      "connect-src 'self' https://api.stripe.com https://vitals.vercel-insights.com https://*.vercel-storage.com https://*.blob.vercel-storage.com https://*.public.blob.vercel-storage.com",
       "frame-src https://js.stripe.com",
       "object-src 'none'",
       "base-uri 'self'",
