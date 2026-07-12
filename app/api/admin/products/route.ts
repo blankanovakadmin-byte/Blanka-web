@@ -36,10 +36,11 @@ export async function GET() {
 }
 
 export async function POST(req: NextRequest) {
-  const ok = await getAdminSession();
-  if (!ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
+  console.log('[products/create] handler reached');
   try {
+    const ok = await getAdminSession();
+    if (!ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
     const data = await req.formData();
 
     // Step 1: create Airtable record (no BlobKey — field type incompatible)
