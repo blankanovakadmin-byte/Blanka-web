@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { getAdminSession } from '@/lib/auth';
-import { uploadProductPdf, deleteProductPdf } from '@/lib/blob';
+import { deleteProductPdf } from '@/lib/blob';
 import Airtable, { type FieldSet } from 'airtable';
 import Stripe from 'stripe';
 
@@ -21,54 +21,26 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
   const { id } = await params;
 
   try {
-    const contentType = req.headers.get('content-type') ?? '';
     let fields: Record<string, unknown> = {};
 
-    if (contentType.includes('multipart/form-data')) {
-      const data = await req.formData();
-      const title = String(data.get('title') ?? '');
-      const price = Number(data.get('price') ?? 0);
-      const category = String(data.get('category') ?? 'premium');
-      let stripePriceId = data.get('stripePriceId') ? String(data.get('stripePriceId')) : '';
+    const body = await req.json();
+    let stripePriceId: string = body.stripePriceId || '';
 
-      if (category === 'premium' && price > 0 && !stripePriceId && process.env.STRIPE_SECRET_KEY) {
-        const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-05-27.dahlia' });
-        const product = await stripe.products.create({ name: title, metadata: { type: 'digital' } });
-        const sp = await stripe.prices.create({ product: product.id, unit_amount: price * 100, currency: 'huf' });
-        stripePriceId = sp.id;
-      }
-
-      fields = {
-        Title: title,
-        Description: String(data.get('description') ?? ''),
-        Pricing: price,
-        Category: category,
-        Active: data.get('active') === 'true',
-        ...(stripePriceId ? { StripePriceId: stripePriceId } : {}),
-      };
-
-      const file = data.get('file') as File | null;
-      if (file && file.size > 0) {
-        if (!['application/pdf'].includes(file.type)) {
-          return NextResponse.json({ error: 'Only PDF files are allowed' }, { status: 400 });
-        }
-        if (file.size > 50 * 1024 * 1024) {
-          return NextResponse.json({ error: 'File too large (max 50MB)' }, { status: 400 });
-        }
-        const buffer = Buffer.from(await file.arrayBuffer());
-        await uploadProductPdf(id, buffer, 'application/pdf');
-      }
-    } else {
-      const body = await req.json();
-      fields = {
-        Title: body.title,
-        Description: body.description,
-        Pricing: body.price,
-        Category: body.category,
-        Active: body.active,
-        ...(body.stripePriceId !== undefined ? { StripePriceId: body.stripePriceId } : {}),
-      };
+    if (body.category === 'premium' && body.price > 0 && !stripePriceId && process.env.STRIPE_SECRET_KEY) {
+      const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2026-05-27.dahlia' });
+      const product = await stripe.products.create({ name: body.title, metadata: { type: 'digital' } });
+      const sp = await stripe.prices.create({ product: product.id, unit_amount: body.price * 100, currency: 'huf' });
+      stripePriceId = sp.id;
     }
+
+    fields = {
+      Title: body.title,
+      Description: body.description,
+      Pricing: body.price,
+      Category: body.category,
+      Active: body.active,
+      ...(stripePriceId ? { StripePriceId: stripePriceId } : {}),
+    };
 
     await getBase()(TABLE()).update(id, fields as Partial<FieldSet>);
     revalidatePath('/forrasok');

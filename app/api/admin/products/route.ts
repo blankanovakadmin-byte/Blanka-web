@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { getAdminSession } from '@/lib/auth';
 import { getAllProductsAdmin } from '@/lib/airtable';
-import { uploadProductPdf, getProductBlobMap } from '@/lib/blob';
+import { getProductBlobMap } from '@/lib/blob';
 import Airtable from 'airtable';
 import Stripe from 'stripe';
 
@@ -65,28 +65,8 @@ export async function POST(req: NextRequest) {
       ...(stripePriceId ? { StripePriceId: stripePriceId } : {}),
     });
 
-    // Step 2: upload PDF using the record ID as the blob path
-    const file = data.get('file') as File | null;
-    if (file && file.size > 0) {
-      if (!['application/pdf'].includes(file.type)) {
-        await getBase()(TABLE()).destroy(record.id);
-        return NextResponse.json({ error: 'Only PDF files are allowed' }, { status: 400 });
-      }
-      if (file.size > 50 * 1024 * 1024) {
-        await getBase()(TABLE()).destroy(record.id);
-        return NextResponse.json({ error: 'File too large (max 50MB)' }, { status: 400 });
-      }
-      const buffer = Buffer.from(await file.arrayBuffer());
-      try {
-        await uploadProductPdf(record.id, buffer, 'application/pdf');
-      } catch (blobErr) {
-        console.error('[products/create] blob upload failed:', blobErr);
-        throw blobErr;
-      }
-    }
-
     revalidatePath('/forrasok');
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, id: record.id });
   } catch (e: unknown) {
     console.error('[products/create]', e);
     return NextResponse.json({ error: errMsg(e, 'Failed to create product') }, { status: 500 });

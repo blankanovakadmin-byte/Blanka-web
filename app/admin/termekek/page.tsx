@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { upload } from '@vercel/blob/client';
 import Link from 'next/link';
 import { Plus, Edit, Trash2, Eye, EyeOff, Upload, ArrowLeft } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
@@ -73,22 +74,43 @@ export default function AdminTermekekPage() {
     setSaving(true);
     setSaveError('');
     try {
-      const data = new FormData();
-      Object.entries(form).forEach(([k, v]) => { if (v !== undefined) data.append(k, String(v)); });
-      if (file) data.append('file', file);
-
-      const url = editing ? `/api/admin/products/${editing.id}` : '/api/admin/products';
-      const method = editing ? 'PUT' : 'POST';
-      const res = await fetch(url, { method, body: data });
-      if (res.ok) {
-        await fetchProducts();
-        setFormOpen(false);
+      // Step 1: save text fields (no file – PDF uploaded separately to avoid 4.5MB function limit)
+      let recordId: string | undefined;
+      if (editing) {
+        const res = await fetch(`/api/admin/products/${editing.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(form),
+        });
+        if (!res.ok) {
+          const j = await res.json().catch(() => ({})) as { error?: string };
+          setSaveError(j.error || `HTTP ${res.status}`);
+          return;
+        }
+        recordId = editing.id;
       } else {
-        const text = await res.text().catch(() => '');
-        let j: { error?: string } = {};
-        try { j = JSON.parse(text); } catch { /* ignore */ }
-        setSaveError(j.error || `[HTTP ${res.status}] ${text.slice(0, 200) || 'Mentés sikertelen'}`);
+        const data = new FormData();
+        Object.entries(form).forEach(([k, v]) => { if (v !== undefined) data.append(k, String(v)); });
+        const res = await fetch('/api/admin/products', { method: 'POST', body: data });
+        if (!res.ok) {
+          const j = await res.json().catch(() => ({})) as { error?: string };
+          setSaveError(j.error || `HTTP ${res.status}`);
+          return;
+        }
+        const j = await res.json() as { id?: string };
+        recordId = j.id;
       }
+
+      // Step 2: upload PDF directly to Vercel Blob (bypasses function payload limit)
+      if (file && recordId) {
+        await upload(`products/${recordId}.pdf`, file, {
+          access: 'private',
+          handleUploadUrl: '/api/admin/blob-upload',
+        });
+      }
+
+      await fetchProducts();
+      setFormOpen(false);
     } catch (e: unknown) {
       setSaveError(e instanceof Error ? e.message : 'Hálózati hiba');
     } finally {
