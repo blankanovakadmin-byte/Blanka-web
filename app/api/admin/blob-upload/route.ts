@@ -8,7 +8,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
     // Token generation comes from the browser (has admin session).
     // Upload-completion callbacks come from Vercel's servers (no session).
-    if ((body as Record<string, unknown>).type === 'blob.generate-client-token') {
+    if ((body as unknown as Record<string, unknown>).type === 'blob.generate-client-token') {
       const ok = await getAdminSession();
       if (!ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
