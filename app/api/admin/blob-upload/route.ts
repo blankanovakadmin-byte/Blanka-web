@@ -4,6 +4,7 @@ import { getAdminSession } from '@/lib/auth';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
+    console.log('[blob-upload] BLOB_READ_WRITE_TOKEN set:', !!process.env.BLOB_READ_WRITE_TOKEN);
     const body = (await req.json()) as HandleUploadBody;
 
     // Token generation comes from the browser (has admin session).
