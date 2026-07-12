@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { upload } from '@vercel/blob/client';
 import Link from 'next/link';
 import { Plus, Edit, Trash2, Eye, EyeOff, Upload, ArrowLeft } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
@@ -100,16 +101,12 @@ export default function AdminTermekekPage() {
         recordId = j.id;
       }
 
-      // Step 2: upload PDF via Edge Function (no 4.5MB limit, no CORS issues)
+      // Step 2: upload PDF directly to Vercel Blob from browser (bypasses 4.5MB function limit)
       if (file && recordId) {
-        const uploadForm = new FormData();
-        uploadForm.append('file', file);
-        uploadForm.append('recordId', recordId);
-        const uploadRes = await fetch('/api/admin/upload-pdf', { method: 'POST', body: uploadForm });
-        if (!uploadRes.ok) {
-          const j = await uploadRes.json().catch(() => ({})) as { error?: string };
-          throw new Error(j.error || `Feltöltés sikertelen: HTTP ${uploadRes.status}`);
-        }
+        await upload(`products/${recordId}.pdf`, file, {
+          access: 'public',
+          handleUploadUrl: '/api/admin/blob-upload',
+        });
       }
 
       await fetchProducts();
