@@ -1,35 +1,41 @@
-import { handleUpload, type HandleUploadBody } from '@vercel/blob/client';
+import { handleUploadPresigned, type HandleUploadPresignedBody } from '@vercel/blob/client';
+import { issueSignedToken } from '@vercel/blob';
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/auth';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
-    const tok = process.env.BLOB_READ_WRITE_TOKEN ?? '';
-    console.log('[blob-upload] token set:', !!tok, 'len:', tok.length, 'prefix:', tok.slice(0, 18));
-    const body = (await req.json()) as HandleUploadBody;
+    const body = (await req.json()) as HandleUploadPresignedBody;
 
     // Token generation comes from the browser (has admin session).
     // Upload-completion callbacks come from Vercel's servers (no session).
-    if ((body as unknown as Record<string, unknown>).type === 'blob.generate-client-token') {
+    if ((body as unknown as Record<string, unknown>).type === 'blob.generate-presigned-url') {
       const ok = await getAdminSession();
       if (!ok) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const jsonResponse = await handleUpload({
+    const jsonResponse = await handleUploadPresigned({
       body,
       request: req,
-      onBeforeGenerateToken: async (pathname: string) => {
+      getSignedToken: async (pathname: string) => {
         if (!pathname.startsWith('products/') || !pathname.endsWith('.pdf')) {
           throw new Error('Invalid upload path');
         }
-        return {
+        const token = await issueSignedToken({
+          operations: ['put'],
+          pathname,
           allowedContentTypes: ['application/pdf'],
           maximumSizeInBytes: 50 * 1024 * 1024,
+        });
+        return {
+          token,
+          urlOptions: {
+            access: 'public' as const,
+            addRandomSuffix: false,
+          },
         };
       },
-      onUploadCompleted: async () => {
-        // no server-side action needed after upload
-      },
+      onUploadCompleted: async () => {},
     });
 
     return NextResponse.json(jsonResponse);

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { upload } from '@vercel/blob/client';
+import { uploadPresigned } from '@vercel/blob/client';
 import Link from 'next/link';
 import { Plus, Edit, Trash2, Eye, EyeOff, Upload, ArrowLeft } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
@@ -103,7 +103,7 @@ export default function AdminTermekekPage() {
 
       // Step 2: upload PDF directly to Vercel Blob from browser (bypasses 4.5MB function limit)
       if (file && recordId) {
-        await upload(`products/${recordId}.pdf`, file, {
+        await uploadPresigned(`products/${recordId}.pdf`, file, {
           access: 'public',
           handleUploadUrl: '/api/admin/blob-upload',
         });
