@@ -104,7 +104,7 @@ export default function AdminTermekekPage() {
       // Step 2: upload PDF directly to Vercel Blob (bypasses function payload limit)
       if (file && recordId) {
         await upload(`products/${recordId}.pdf`, file, {
-          access: 'private',
+          access: 'public',
           handleUploadUrl: '/api/admin/blob-upload',
         });
       }
