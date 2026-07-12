@@ -12,7 +12,11 @@ function getBase() {
 const TABLE = () => process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek';
 
 function errMsg(e: unknown, fallback: string) {
-  return e && typeof e === 'object' && 'message' in e ? String((e as {message: unknown}).message) : fallback;
+  if (e && typeof e === 'object' && 'message' in e) {
+    const msg = String((e as { message: unknown }).message).trim();
+    if (msg) return msg;
+  }
+  return fallback;
 }
 
 export async function GET() {
@@ -72,12 +76,18 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({ error: 'File too large (max 50MB)' }, { status: 400 });
       }
       const buffer = Buffer.from(await file.arrayBuffer());
-      await uploadProductPdf(record.id, buffer, 'application/pdf');
+      try {
+        await uploadProductPdf(record.id, buffer, 'application/pdf');
+      } catch (blobErr) {
+        console.error('[products/create] blob upload failed:', blobErr);
+        throw blobErr;
+      }
     }
 
     revalidatePath('/forrasok');
     return NextResponse.json({ ok: true });
   } catch (e: unknown) {
+    console.error('[products/create]', e);
     return NextResponse.json({ error: errMsg(e, 'Failed to create product') }, { status: 500 });
   }
 }
