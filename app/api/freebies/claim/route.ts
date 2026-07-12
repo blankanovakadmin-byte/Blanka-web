@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { addFreebieContact } from '@/lib/systemio';
-import { getProductPdfUrl } from '@/lib/blob';
+import { generateSignedUrl, getProductPdfUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
 import { FreebieDeliveryEmail } from '@/emails/freebie-delivery';
 import { getActiveProducts } from '@/lib/airtable';
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Download not available yet' }, { status: 503 });
     }
 
-    const downloadUrl = blobUrl;
+    const downloadUrl = await generateSignedUrl(blobUrl);
 
     await Promise.allSettled([
       addFreebieContact(email, productId, fullName),

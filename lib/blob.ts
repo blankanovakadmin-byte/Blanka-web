@@ -49,6 +49,11 @@ export async function deleteProductPdf(recordId: string): Promise<void> {
 }
 
 export async function generateSignedUrl(blobUrl: string): Promise<string> {
+  // Public blobs are directly accessible — no signing needed
+  if (blobUrl.includes('.public.blob.vercel-storage.com')) {
+    return blobUrl;
+  }
+
   const validUntil = Date.now() + TTL_MS;
   const pathname = new URL(blobUrl).pathname.slice(1);
 
