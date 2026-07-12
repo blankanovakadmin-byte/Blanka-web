@@ -84,8 +84,10 @@ export default function AdminTermekekPage() {
         await fetchProducts();
         setFormOpen(false);
       } else {
-        const j = await res.json().catch(() => ({}));
-        setSaveError(j.error || 'Mentés sikertelen');
+        const text = await res.text().catch(() => '');
+        let j: { error?: string } = {};
+        try { j = JSON.parse(text); } catch { /* ignore */ }
+        setSaveError(j.error || `[HTTP ${res.status}] ${text.slice(0, 200) || 'Mentés sikertelen'}`);
       }
     } catch (e: unknown) {
       setSaveError(e instanceof Error ? e.message : 'Hálózati hiba');
