@@ -111,7 +111,7 @@ function ResourceCard({ product }: { product: Product }) {
 
       <div className="flex-1 flex flex-col">
         <h3 className="font-display text-lg font-bold text-brand-blue mb-1">{product.title}</h3>
-        <p className={`font-sans text-sm text-brand-muted leading-relaxed ${expanded ? '' : 'line-clamp-2'}`}>
+        <p className={`font-sans text-sm text-brand-muted leading-relaxed whitespace-pre-wrap ${expanded ? '' : 'line-clamp-2'}`}>
           {product.description}
         </p>
         {product.description && (
