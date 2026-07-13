@@ -96,6 +96,8 @@ function ProductIcon({ product }: { product: Product }) {
 }
 
 function ResourceCard({ product }: { product: Product }) {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <Card className="flex flex-col gap-4">
       <div className="flex items-start justify-between">
@@ -109,7 +111,17 @@ function ResourceCard({ product }: { product: Product }) {
 
       <div className="flex-1 flex flex-col">
         <h3 className="font-display text-lg font-bold text-brand-blue mb-1">{product.title}</h3>
-        <p className="font-sans text-sm text-brand-muted leading-relaxed">{product.description}</p>
+        <p className={`font-sans text-sm text-brand-muted leading-relaxed ${expanded ? '' : 'line-clamp-2'}`}>
+          {product.description}
+        </p>
+        {product.description && (
+          <button
+            onClick={() => setExpanded(e => !e)}
+            className="font-sans text-xs text-brand-purple hover:underline mt-1 text-left"
+          >
+            {expanded ? 'Kevesebb' : 'Részletek'}
+          </button>
+        )}
         {product.tags && product.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-3 mt-auto pt-3">
             {product.tags.map(t => (
