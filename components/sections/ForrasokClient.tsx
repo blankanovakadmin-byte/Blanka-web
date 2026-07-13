@@ -109,7 +109,7 @@ function ResourceCard({ product }: { product: Product }) {
 
       <div className="flex-1 flex flex-col">
         <h3 className="font-display text-lg font-bold text-brand-blue mb-1">{product.title}</h3>
-        <p className="font-sans text-sm text-brand-muted leading-relaxed line-clamp-2">{product.description}</p>
+        <p className="font-sans text-sm text-brand-muted leading-relaxed">{product.description}</p>
         {product.tags && product.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-3 mt-auto pt-3">
             {product.tags.map(t => (
