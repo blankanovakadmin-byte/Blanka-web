@@ -90,8 +90,13 @@ export async function POST(req: NextRequest) {
       } else if (productType === 'digital') {
         const blobKey = session.metadata?.blobKey ?? '';
         const digitalTitle = productTitle || 'Digitális termék';
-        const rawBlobUrl = blobKey || (productId ? await getProductPdfUrl(productId) : undefined);
-        const downloadUrl = rawBlobUrl ? await generateSignedUrl(rawBlobUrl) : '';
+        let downloadUrl = '';
+        try {
+          const rawBlobUrl = blobKey || (productId ? await getProductPdfUrl(productId) : undefined);
+          if (rawBlobUrl) downloadUrl = await generateSignedUrl(rawBlobUrl);
+        } catch (blobErr) {
+          console.error('[stripe/webhook] blob lookup failed:', blobErr);
+        }
 
         await Promise.allSettled([
           addPurchaseTag(email, 'digital', productId),
