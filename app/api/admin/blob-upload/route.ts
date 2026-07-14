@@ -2,6 +2,7 @@ import { handleUploadPresigned, type HandleUploadPresignedBody } from '@vercel/b
 import { issueSignedToken } from '@vercel/blob';
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminSession } from '@/lib/auth';
+import Airtable from 'airtable';
 
 export async function POST(req: NextRequest): Promise<NextResponse> {
   try {
@@ -35,7 +36,18 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
           },
         };
       },
-      onUploadCompleted: async () => {},
+      onUploadCompleted: async ({ blob }) => {
+        try {
+          const match = blob.pathname.match(/^products\/([^/]+)\.pdf$/);
+          if (match) {
+            const recordId = match[1];
+            const base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY }).base(process.env.AIRTABLE_BASE_ID!);
+            await base(process.env.AIRTABLE_PRODUCTS_TABLE || 'Termékek').update(recordId, { BlobKey: blob.url });
+          }
+        } catch (e) {
+          console.error('[blob-upload] BlobKey save failed:', e);
+        }
+      },
     });
 
     return NextResponse.json(jsonResponse);

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { constructWebhookEvent } from '@/lib/stripe';
 import { addPurchaseTag } from '@/lib/systemio';
 import { addCoursePurchase, addDigitalPurchase, addMentoringPurchase, getSettings, getCourseById, getWebinarById, addWebinarSubscriber } from '@/lib/airtable';
-import { generateSignedUrl } from '@/lib/blob';
+import { generateSignedUrl, getProductPdfUrl } from '@/lib/blob';
 import { sendEmail } from '@/lib/resend';
 import { createInvoice } from '@/lib/szamlazz';
 import { CourseWelcomeEmail } from '@/emails/course-welcome';
@@ -90,7 +90,8 @@ export async function POST(req: NextRequest) {
       } else if (productType === 'digital') {
         const blobKey = session.metadata?.blobKey ?? '';
         const digitalTitle = productTitle || 'Digitális termék';
-        const downloadUrl = blobKey ? await generateSignedUrl(blobKey) : '';
+        const rawBlobUrl = blobKey || (productId ? await getProductPdfUrl(productId) : undefined);
+        const downloadUrl = rawBlobUrl ? await generateSignedUrl(rawBlobUrl) : '';
 
         await Promise.allSettled([
           addPurchaseTag(email, 'digital', productId),
