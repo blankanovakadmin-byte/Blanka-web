@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { sendEmail } from '@/lib/resend';
 import { MentoringBookingEmail } from '@/emails/mentoring-booking';
 import { CourseWelcomeEmail } from '@/emails/course-welcome';
-import { getActiveCourses } from '@/lib/airtable';
+import { DigitalProductDeliveryEmail } from '@/emails/digital-product-delivery';
+import { getActiveCourses, getActiveProducts } from '@/lib/airtable';
+import { getProductPdfUrl, generateSignedUrl } from '@/lib/blob';
 
 export async function POST(req: NextRequest) {
   const adminToken = process.env.ADMIN_TOKEN;
@@ -11,8 +13,25 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { to, name, type } = await req.json() as { to: string; name?: string; type?: string };
+  const { to, name, type, productId } = await req.json() as { to: string; name?: string; type?: string; productId?: string };
   if (!to) return NextResponse.json({ error: 'Hiányzó email cím.' }, { status: 400 });
+
+  if (type === 'digital') {
+    const products = await getActiveProducts();
+    const product = productId
+      ? products.find(p => p.id === productId)
+      : products.find(p => p.category === 'premium');
+    if (!product) return NextResponse.json({ error: 'Product not found' }, { status: 404 });
+    const rawBlobUrl = product.blobKey || await getProductPdfUrl(product.id);
+    if (!rawBlobUrl) return NextResponse.json({ error: `No PDF for product: ${product.title}` }, { status: 404 });
+    const downloadUrl = await generateSignedUrl(rawBlobUrl);
+    await sendEmail({
+      to,
+      subject: `[TEST] A letöltésed: ${product.title}`,
+      template: DigitalProductDeliveryEmail({ email: to, productTitle: product.title, downloadUrl }),
+    });
+    return NextResponse.json({ ok: true, sent_to: to, type: 'digital', productTitle: product.title });
+  }
 
   if (type === 'course') {
     const courses = await getActiveCourses();
