@@ -4,12 +4,14 @@ import { MentoringBookingEmail } from '@/emails/mentoring-booking';
 import { CourseWelcomeEmail } from '@/emails/course-welcome';
 import { DigitalProductDeliveryEmail } from '@/emails/digital-product-delivery';
 import { getActiveCourses, getActiveProducts } from '@/lib/airtable';
+import { getAdminSession } from '@/lib/auth';
 import { getProductPdfUrl, generateSignedUrl } from '@/lib/blob';
 
 export async function POST(req: NextRequest) {
   const adminToken = process.env.ADMIN_TOKEN;
-  const auth = req.headers.get('x-admin-token');
-  if (!adminToken || auth !== adminToken) {
+  const headerToken = req.headers.get('x-admin-token');
+  const sessionOk = await getAdminSession();
+  if (!sessionOk && (!adminToken || headerToken !== adminToken)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
