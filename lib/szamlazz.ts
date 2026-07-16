@@ -37,16 +37,19 @@ function buildInvoiceXml(data: InvoiceData): string {
 
   const itemsXml = data.items
     .map((item) => {
-      const net = item.unitPrice * item.quantity;
+      const brutto = Math.round(item.unitPrice * item.quantity);
+      const nettoEgysegar = Math.round(item.unitPrice / 1.27);
+      const netto = Math.round(nettoEgysegar * item.quantity);
+      const afa = brutto - netto;
       return `    <tetel>
       <megnevezes>${escXml(item.name)}</megnevezes>
       <mennyiseg>${item.quantity}</mennyiseg>
       <mennyisegiEgyseg>${escXml(item.unit || 'db')}</mennyisegiEgyseg>
-      <nettoEgysegar>${item.unitPrice}</nettoEgysegar>
-      <afakulcs>AAM</afakulcs>
-      <nettoErtek>${net}</nettoErtek>
-      <afaErtek>0</afaErtek>
-      <bruttoErtek>${net}</bruttoErtek>
+      <nettoEgysegar>${nettoEgysegar}</nettoEgysegar>
+      <afakulcs>27</afakulcs>
+      <nettoErtek>${netto}</nettoErtek>
+      <afaErtek>${afa}</afaErtek>
+      <bruttoErtek>${brutto}</bruttoErtek>
     </tetel>`;
     })
     .join('\n');
