@@ -112,16 +112,20 @@ export async function createInvoice(data: InvoiceData): Promise<{ invoiceNumber:
     throw new Error(`Számlázz.hu HTTP ${res.status}: ${responseText.substring(0, 300)}`);
   }
 
-  const invoiceMatch = responseText.match(/<szlahu_szamlaszam>(.*?)<\/szlahu_szamlaszam>/);
-  if (invoiceMatch) {
-    return { invoiceNumber: invoiceMatch[1] };
-  }
-
-  const errorCode = responseText.match(/<hibakod>(.*?)<\/hibakod>/)?.[1];
-  const errorMsg = responseText.match(/<hibauzenet>(.*?)<\/hibauzenet>/)?.[1];
+  const errorCode = responseText.match(/<hibakod>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/hibakod>/)?.[1];
+  const errorMsg = responseText.match(/<hibauzenet>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/hibauzenet>/)?.[1];
   if (errorCode || errorMsg) {
     throw new Error(`Számlázz.hu error ${errorCode}: ${errorMsg}`);
   }
+
+  const invoiceNumber =
+    responseText.match(/<szamlaszam>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/szamlaszam>/)?.[1] ||
+    responseText.match(/<szlahu_szamlaszam>(?:<!\[CDATA\[)?(.*?)(?:\]\]>)?<\/szlahu_szamlaszam>/)?.[1];
+
+  if (invoiceNumber) return { invoiceNumber };
+
+  // Response contains invoice data but no invoice number tag — treat as success
+  if (responseText.includes('<szamlabrutto>')) return { invoiceNumber: 'OK' };
 
   throw new Error(`Számlázz.hu unexpected response: ${responseText.substring(0, 300)}`);
 }
